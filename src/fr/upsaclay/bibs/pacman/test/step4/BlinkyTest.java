@@ -1,7 +1,6 @@
 package fr.upsaclay.bibs.pacman.test.step4;
 
 import fr.upsaclay.bibs.pacman.GameType;
-import fr.upsaclay.bibs.pacman.PacMan;
 import fr.upsaclay.bibs.pacman.PacManException;
 import fr.upsaclay.bibs.pacman.model.Direction;
 import fr.upsaclay.bibs.pacman.model.actors.*;

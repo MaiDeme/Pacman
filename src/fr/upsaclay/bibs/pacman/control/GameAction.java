@@ -22,12 +22,16 @@ public enum GameAction {
     NEXT_FRAME,
 
     /** Step 2 actions **/
+
+    /** Ask the controller to load the next level **/
     NEXT_LEVEL,
 
+    /** Ask the controller to load a new game **/
     NEW_GAME,
 
     /** Step 3 actions **/
 
+    /** Ask  the controller to load the board after pac man has lost a life **/
     NEW_LIFE;
 
 }

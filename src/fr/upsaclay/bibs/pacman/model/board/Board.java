@@ -34,7 +34,7 @@ public interface Board {
 
     /**
      * Start the actors
-     * called at the beginning of the game
+     * Perform all necessary actions to start actors at the beginning of the game
      */
     void startActors();
 
@@ -150,7 +150,7 @@ public interface Board {
 
     /**
      * Return a pseudo-random direction
-     * The random generator is initialized once at the begining of the game
+     * The random generator is initialized once at the beginning of the game
      * @return a pseudo-random direction
      */
     Direction getRandomDirection();

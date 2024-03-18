@@ -4,6 +4,8 @@ import fr.upsaclay.bibs.pacman.model.maze.TilePosition;
 
 /**
  * Represent an event happening on the board
+ *
+ * (Not used before step 4)
  */
 public class BoardEvent {
 

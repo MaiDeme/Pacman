@@ -2,7 +2,7 @@ package fr.upsaclay.bibs.pacman.model;
 
 /**
  * A direction in the maze
- * The direction store the differences to apply to the x / y  axes
+ * The direction stores the differences to apply to the x / y  axes
  */
 public enum Direction {
     UP(0,-1), LEFT(-1,0), DOWN(0,1), RIGHT(1,0);

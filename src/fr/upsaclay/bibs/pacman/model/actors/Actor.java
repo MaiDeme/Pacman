@@ -55,8 +55,9 @@ public interface Actor {
     TilePosition getCurrentTile();
 
     /**
-     * Start the actor
-     * (at the beginning of the game)
+     * Start the actor at the beginning of the game
+     * Perform all necessary action to start the actor at the beginning of the game
+     * (this often require to initialize some internal paramaters of the actor)
      */
     void start();
 
