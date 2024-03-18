@@ -41,8 +41,8 @@ Notre premier objectif est d'obtenir un plateau de jeu fonctionnel avec un labyr
 
 En résumé, à faire dans l'ordre pour cette étape :
 
-* La classe `Maze` du labyrinthe
-* une première implantation simples des plateaux de jeux (test et classique) sans PAcMan
+* La classe implantant le labyrinthe `Maze` 
+* une première implantation simples des plateaux de jeux (test et classique) sans PacMan
 * une première interface graphique / contrôleur 
 * PacMan et son interaction avec le plateau
 * le reste de l'interface graphique pour le contrôle de PacMan
@@ -152,7 +152,7 @@ Le rôle de la vue est aussi d'envoyer les actions au contrôleur, en particulie
 
 Une fois que vous avez réalisé l'étape 1. L'évolution du graphisme de votre jeu peut se faire de façon indépendante du reste du développement et donc à son propre rythme. 
 
-Si vous souhaitez vous rapprocher du graphisme original (ce n'est pas obligatoire), nous vous proposons dans le répertoire `resources` des codages en texte pixel par pixel des différents éléments graphiques du jeu, en particulier des tuiles du labyrinthe. Le code 0 représente toujours le noir, les autres chiffres représentent des couleurs différentes en fonction de la pièce dessinée), la taille est aussi variable.
+Si vous souhaitez vous rapprocher du graphisme original (ce n'est pas obligatoire), nous vous proposons dans le répertoire `resources` des codages en texte pixel par pixel des différents éléments graphiques du jeu, en particulier des tuiles du labyrinthe. Le code 0 représente toujours le noir, les autres chiffres représentent des couleurs différentes en fonction de la pièce dessinée, la taille est aussi variable.
 
 Dans **mon** implantation du jeu : je transforme ces fichiers en tableau de pixels à afficher à l'aide d'une classe spécifique qui prend en paramètre le nom du fichier et une liste de couleurs. Ce traitement se fait à l'initialisation de la vue avant le début du jeu. 
 
@@ -221,7 +221,7 @@ Dans le jeu final, on aura 4 fantômes avec des comportements différents. Cepen
 
 Pour comprendre comment fonctionne les fantômes, on vous invite à lire les paragraphes à partir de [Target Tiles](https://pacman.holenet.info/#CH3_Target_Tiles) du dossier PacMan.
 
-L'idée générale est que l'algorithme des fantômes suit le principe d'ne "tuile cible" qui ne sera pas la même à différents moments du jeu et en fonction des fantômes. Pour l'instant, on ne s'occupe pas du mode de jeu du fantôme (chase, target, etc) qu'on verra à l'étape 3. On va simplement programmer le système de cible et le mouvement du fantôme en conséquence.
+L'idée générale est que l'algorithme des fantômes suit le principe d'une "tuile cible" qui ne sera pas la même à différents moments du jeu et en fonction des fantômes. Pour l'instant, on ne s'occupe pas du mode de jeu du fantôme (chase, scatter, etc) qu'on verra à l'étape 3. On va simplement programmer le système de cible et le mouvement du fantôme en conséquence.
 
 A tout moment du jeu, un fantôme est en mouvement suivant une *direction* et possède aussi une *intention* qui est sa prochaine direction. Quand il rejoint le centre d'une tuile :
 
@@ -270,7 +270,7 @@ Pour des raisons de tests, on permet aussi de désactiver le comptage du temps e
 
 #### Frightened
 
-De même, on ajoute le mode les modes `FRIGHTENED` et `FRIGHTENED_END` qui correspondent aux fantômes "effrayés" quand PacMan a mangé un "gros point". Le comportement des fantômes est décrit dans [Frightening behavior](https://pacman.holenet.info/#CH2_Frightening_Behavior) : leur nouvelle intention est alors aléatoire (mais ne peut jamais retourner en arrière). 
+De même, on ajoute les modes `FRIGHTENED` et `FRIGHTENED_END` qui correspondent aux fantômes "effrayés" quand PacMan a mangé un "gros point". Le comportement des fantômes est décrit dans [Frightening behavior](https://pacman.holenet.info/#CH2_Frightening_Behavior) : leur nouvelle intention est alors aléatoire (mais ne peut jamais retourner en arrière). 
 
 On utilise le mode `FRIGHTENED_END` pour le moment où les fantômes "clignotent". Dans [cette table](https://pacman.holenet.info/#LvlSpecs) on trouve le temps du mode frightened en fonction du niveau et le nombre de flash. On considère qu'un flash noir / blanc dure 30 ms (15ms en blanc, 15 ms en couleur normale)
 
