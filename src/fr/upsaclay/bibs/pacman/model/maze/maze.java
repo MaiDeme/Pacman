@@ -2,9 +2,13 @@ package fr.upsaclay.bibs.pacman.model.maze;
 
 import fr.upsaclay.bibs.pacman.model.Direction;
 
+import javax.swing.*;
 import java.io.File;
 import java.io.FileNotFoundException;
+import java.util.NavigableSet;
 import java.util.Scanner;
+
+import static java.lang.Math.floor;
 
 public class maze implements Maze {
     private int width;
@@ -12,6 +16,18 @@ public class maze implements Maze {
 
     private static Tile[][] plateau;
 
+    public maze(int height, int width) {
+        this.height = height;
+        this.width = width;
+        this.plateau = new Tile[height][width];
+
+        for (int i =0; i< width; i++){
+            for (int j = 0; j < width; j++){
+                plateau[i][j] = Tile.EE;
+            }
+        }
+
+    }
 
     @Override
     public int getWidth() {
@@ -47,26 +63,33 @@ public class maze implements Maze {
     public TilePosition getNeighbourTilePosition(int line, int col, Direction dir) {
         switch (dir) {
             case UP :
-                return new TilePosition(line, col-1);
+                col = col -1;
                 break;
+
         }
         switch (dir) {
             case LEFT:
-                return new TilePosition(line-1, col);
+                line = line -1;
                 break;
+
         }
         switch (dir) {
 
-            case RIGHT ->  :
-            return new TilePosition(line +1, col);
+            case RIGHT :
+                line = line +1;
                 break;
+
         }
         switch (dir) {
 
             case DOWN:
-                return new TilePosition(line, col+1);
+                col = col +1;
                 break;
+
         }
+
+        TilePosition pos = new TilePosition(line, col);
+        return pos;
     }
 
     @Override
@@ -88,46 +111,23 @@ public class maze implements Maze {
     @Override
     public void setTile(int line, int col, Tile tile) {
 
+        plateau[line][col] = tile;
+
     }
 
     @Override
     public void setTile(TilePosition pos, Tile tile) {
+        setTile(pos.getLine(), pos.getCol(), tile);
 
     }
 
     @Override
     public TilePosition getTilePosition(int x, int y) {
-        return null;
+
+        return new TilePosition((int) floor(y/8), (int) floor(x/8));
     }
 
 
-
-    static Maze loadFromFile(String fileName) throws FileNotFoundException {
-
-        File f = new File(fileName);
-        Scanner scan = new Scanner(f);
-        String line = scan.nextLine();
-
-        int width = Integer.parseInt(line.split("/t")[1]);
-        int height = Integer.parseInt(line.split("/t")[2]);
-
-        Maze lab = emptyMaze(width, height);
-
-        for (int i = 0; i < height; i++) {
-
-            line = scan.nextLine();
-            String ligne[] = line.split("\t");
-
-            for (int j = 0; j < width; j++) {
-
-                //plateau[i][j] = Tile(ligne[j]);
-
-            }
-
-
-        }
-        return lab;
-    }
 
     public int getNumberOfDots(){
         return 0;

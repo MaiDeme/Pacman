@@ -137,8 +137,7 @@ public interface Maze {
      * @return an empty PacMan Maze
      */
     static Maze emptyMaze(int width, int height) {
-        Maze maze[width][height];
-
+        return new maze(height, width);
     }
 
     /**
@@ -147,7 +146,30 @@ public interface Maze {
      * @return a PacMan Maze
      */
     static Maze loadFromFile(String fileName) throws FileNotFoundException {
-		throw new UnsupportedOperationException("Not implemented");
+
+        File f = new File(fileName);
+        Scanner scan = new Scanner(f);
+        String line = scan.nextLine();
+
+        int width = Integer.parseInt(line.split("/t")[1]);
+        int height = Integer.parseInt(line.split("/t")[2]);
+
+        Maze lab = Maze.emptyMaze(width, height);
+
+        for (int i = 0; i < height; i++) {
+
+            line = scan.nextLine();
+            String ligne[] = line.split("\t");
+
+            for (int j = 0; j < width; j++) {
+
+                //plateau[i][j] = Tile(ligne[j]);
+
+            }
+
+
+        }
+        return lab;
 
     }
 
