@@ -3,6 +3,7 @@
 ## Membres du groupe
 
 Camille De Amorim
+Anne Beigeaud
 
 ## Introduction
 
