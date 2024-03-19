@@ -2,19 +2,13 @@ package fr.upsaclay.bibs.pacman.model.maze;
 
 import fr.upsaclay.bibs.pacman.model.Direction;
 
-import javax.swing.*;
-import java.io.File;
-import java.io.FileNotFoundException;
-import java.util.NavigableSet;
-import java.util.Scanner;
-
 import static java.lang.Math.floor;
 
 public class maze implements Maze {
     private int width;
     private int height;
 
-    private static Tile[][] plateau;
+    static Tile[][] plateau;
 
     public maze(int height, int width) {
         this.height = height;
@@ -63,29 +57,41 @@ public class maze implements Maze {
     public TilePosition getNeighbourTilePosition(int line, int col, Direction dir) {
         switch (dir) {
             case UP :
-                col = col -1;
+                line = line -1;
                 break;
 
         }
         switch (dir) {
             case LEFT:
-                line = line -1;
+                col = col -1;
                 break;
 
         }
         switch (dir) {
 
             case RIGHT :
-                line = line +1;
+                col = col +1;
                 break;
 
         }
         switch (dir) {
 
             case DOWN:
-                col = col +1;
+                line = line +1;
                 break;
 
+        }
+
+        if (col< 0){
+            col = this.getWidth() -1 ;
+        }else if (col > this.getWidth()-1){
+            col = 0;
+        }
+
+        if (line< 0){
+            line = this.getHeight() -1 ;
+        }else if (line > this.getHeight() -1){
+            line = 0;
         }
 
         TilePosition pos = new TilePosition(line, col);

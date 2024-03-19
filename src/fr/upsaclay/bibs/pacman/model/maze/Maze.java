@@ -151,24 +151,27 @@ public interface Maze {
         Scanner scan = new Scanner(f);
         String line = scan.nextLine();
 
-        int width = Integer.parseInt(line.split("/t")[1]);
-        int height = Integer.parseInt(line.split("/t")[2]);
+        int width = Integer.parseInt(line.split(" ")[0]);
 
-        Maze lab = Maze.emptyMaze(width, height);
+        int height = Integer.parseInt(line.split(" ")[1]);
+
+        maze lab = new maze(height, width);
+
+
 
         for (int i = 0; i < height; i++) {
 
             line = scan.nextLine();
-            String ligne[] = line.split("\t");
+            String ligne[] = line.split(" ");
 
             for (int j = 0; j < width; j++) {
 
-                //plateau[i][j] = Tile(ligne[j]);
+                lab.plateau[i][j] =  Tile.valueOf(ligne[j]);
+
 
             }
-
-
         }
+        scan.close();
         return lab;
 
     }
