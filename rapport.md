@@ -2,7 +2,7 @@
 
 ## Membres du groupe
 
-*Ecrire vos noms*
+Camille De Amorim
 
 ## Introduction
 
