@@ -137,7 +137,8 @@ public interface Maze {
      * @return an empty PacMan Maze
      */
     static Maze emptyMaze(int width, int height) {
-		throw new UnsupportedOperationException("Not implemented");
+        Maze maze[width][height];
+
     }
 
     /**
