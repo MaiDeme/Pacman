@@ -41,9 +41,7 @@ public interface Board {
     /** Return the maze
      * @return the maze
      */
-    Maze getMaze(){
-      return this.maze;
-    }
+    Maze getMaze();
 
     /**
      * Return PacMan
