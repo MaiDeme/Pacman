@@ -40,12 +40,9 @@ public abstract class AbstractBoard implements Board {
         return gameType;
     }
 
-    @Override
-    public Maze getMaze() {
-        return maze;
-    }
 
-    @Override
+
+
     public Actor getPacMan() {
         return pacMan;
     }
@@ -68,14 +65,18 @@ public abstract class AbstractBoard implements Board {
      *
      * @return the maze
      */
-    Maze getMaze();
+    public Maze getMaze() {
+        return maze;
+    }
 
     /**
      * Return PacMan
      *
      * @return the PacMan actor
      */
-    Actor getPacMan();
+    Actor getPacMan(){
+        return pacMan;
+    }
 
     /**
      * Perform all necessary actions for the next game frame
