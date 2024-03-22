@@ -12,6 +12,15 @@ import java.util.List;
 public abstract class AbstractBoard implements Board {
 
 
+
+    // Pour les étapes 2 à 4 :
+    private Bonus bonus;
+    private int extraLifeScore;
+    private int extraLives;
+    private int level;
+    private List<Ghost> ghosts;
+    private int score;
+
     /**
      * Return the type of game of the board
      * Depending on the type, the maze or other initializations might be different
@@ -73,7 +82,9 @@ public abstract class AbstractBoard implements Board {
      *
      * @return the score
      */
-    int getScore();
+    public int getScore(){
+        return this.score;
+    }
 
     /**
      * Return the current state of the board
@@ -81,7 +92,9 @@ public abstract class AbstractBoard implements Board {
      *
      * @return the board state
      */
-    BoardState getBoardState();
+    public BoardState getBoardState(){
+        return null;
+    }
 
     /**
      * Return the ghost of a given type
@@ -90,14 +103,23 @@ public abstract class AbstractBoard implements Board {
      * @param ghostType, the type of ghost
      * @return a ghost or null
      */
-    Ghost getGhost(GhostType ghostType);
+    public Ghost getGhost(GhostType ghostType){
+        for(Ghost g : this.ghosts){
+            if (g.getGhostType() == ghostType){
+                return g;
+            }
+        }
+        return null;
+    }
 
     /**
      * Return the list of ghosts present on the board
      *
      * @return a list of ghost (might be empty)
      */
-    List<Ghost> getGhosts();
+    public List<Ghost> getGhosts(){
+        return this.ghosts;
+    }
 
     // Step 3
     // The methods below won't be used / tested before step 3
@@ -107,7 +129,9 @@ public abstract class AbstractBoard implements Board {
      *
      * @return a positive integer
      */
-    int getLevel();
+    public int getLevel(){
+        return this.level;
+    }
 
     /**
      * Perfom all necessary actions to initiliaze a new level
@@ -116,27 +140,35 @@ public abstract class AbstractBoard implements Board {
      * @param level, a positive integer
      * @throws PacManException if anything goes wrong
      */
-    void initializeNewLevel(int level) throws PacManException;
+    public void initializeNewLevel(int level) throws PacManException{
+
+    }
 
     /**
      * Sets the number of extra lives that pacman has
      *
      * @param nbLives, a non negative integer
      */
-    void setNumberOfLives(int nbLives);
+    public void setNumberOfLives(int nbLives){
+        this.extraLives = nbLives;
+    }
 
     /**
      * Return the current number of extra lives
      *
      * @return a non negative integer
      */
-    int getNumberOfLives();
+    public int getNumberOfLives(){
+        return this.extraLives;
+    }
 
     /**
      * Perform all necessary actions to initialize the game after a life has been lost
      * (reduce the nb of lives, replace the actors, re-initialize certain values)
      */
-    void initializeNewLife();
+    public void initializeNewLife(){
+
+    }
 
     /**
      * Return whether the board contain a certain type of ghost
@@ -144,19 +176,25 @@ public abstract class AbstractBoard implements Board {
      * @param ghostType the type of ghost
      * @return true if this ghost is on the board
      */
-    boolean hasGhost(GhostType ghostType);
+    public boolean hasGhost(GhostType ghostType){
+        return false;
+    }
 
     /**
      * Disables a certain ghost before game initialization
      *
      * @param ghostType the type of ghost to disable
      */
-    void disableGhost(GhostType ghostType);
+    public void disableGhost(GhostType ghostType){
+
+    }
 
     /**
      * Disable the use of state time before game initialization
      */
-    void disableStateTime();
+    public void disableStateTime() {
+
+    }
 
     /**
      * Return a pseudo-random direction
@@ -164,7 +202,9 @@ public abstract class AbstractBoard implements Board {
      *
      * @return a pseudo-random direction
      */
-    Direction getRandomDirection();
+    public Direction getRandomDirection(){
+        return null;
+    }
 
     /**
      * Re turn the tile position of the pen entry
@@ -172,21 +212,27 @@ public abstract class AbstractBoard implements Board {
      *
      * @return a tile position
      */
-    TilePosition penEntry();
+    public TilePosition penEntry(){
+        return null;
+    }
 
     /**
      * Return the minimum y value a ghost can take when inside the pen
      *
      * @return a positive integer
      */
-    int minYPen();
+    public int minYPen(){
+        return 0;
+    }
 
     /**
      * Return the maximal y value a ghost can take when inside the pen
      *
      * @return a positive integer
      */
-    int maxYPen();
+    public int maxYPen(){
+        return 0;
+    }
 
     /**
      * Return the x position of given ghost type inside the pen
@@ -194,7 +240,9 @@ public abstract class AbstractBoard implements Board {
      * @param type, a ghost type
      * @return a positive integer
      */
-    int penGhostXPosition(GhostType type);
+    public int penGhostXPosition(GhostType type){
+        return 0;
+    }
 
     /**
      * Return the y position of given ghost type inside the pen
@@ -202,21 +250,27 @@ public abstract class AbstractBoard implements Board {
      * @param type, a ghost type
      * @return a positive integer
      */
-    int penGhostYPosition(GhostType type);
+    public int penGhostYPosition(GhostType type){
+        return 0;
+    }
 
     /**
      * Return the x position used by ghost to enter / leave the ghost pen
      *
      * @return a positive integer
      */
-    int outPenXPosition();
+    public int outPenXPosition(){
+        return 0;
+    }
 
     /**
      * Return the y position used by ghost to enter / leave the ghost pen
      *
      * @return a positive integer
      */
-    int outPenYPosition();
+    public int outPenYPosition(){
+        return 0;
+    }
 
     /**
      * Return the counter used to count the number of successive frames without eating dots
@@ -224,56 +278,72 @@ public abstract class AbstractBoard implements Board {
      *
      * @return a counter
      */
-    Counter noDotCounter();
+    public Counter noDotCounter(){
+        return null;
+    }
 
     /**
      * Return the board "special counter" used for allowing ghosts out of the pen
      *
      * @return a counter
      */
-    Counter specialDotCounter();
+    public Counter specialDotCounter(){
+        return null;
+    }
 
     /**
      * Return the normal speed of pacman at the board current level
      *
      * @return a speed as a decimal
      */
-    double getLevelPacManSpeed();
+    public double getLevelPacManSpeed(){
+        return 0;
+    }
 
     /**
      * Return the speed of pacman in "fright" mode at the board current level
      *
      * @return a speed as a decimal
      */
-    double getFrightPacManSpeed();
+    public double getFrightPacManSpeed(){
+        return 0;
+    }
 
     /**
      * Return the normal speed of ghost at the board current level
      *
      * @return a speed as a decimal
      */
-    double getLevelGhostSpeed();
+    public double getLevelGhostSpeed(){
+        return 0;
+    }
 
     /**
      * Return the slow speed of ghosts at current level (inside the tunnel)
      *
      * @return a speed as a decimal
      */
-    double getTunnelGhostSpeed();
+    public double getTunnelGhostSpeed(){
+        return 0;
+    }
 
     /**
      * return the speed of ghosts in "fright" mode at current level
      *
      * @return a speed as a decimal
      */
-    double getFrightGhostSpeed();
+    public double getFrightGhostSpeed(){
+        return 0;
+    }
 
     /**
      * return the speed of ghosts when dead at current level
      *
      * @return a speed as a decimal
      */
-    double getDeadGhostSpeed();
+    public double getDeadGhostSpeed(){
+        return 0;
+    }
 
     // Step 4
     // The methods below won't be used / tested before step 4
@@ -283,21 +353,27 @@ public abstract class AbstractBoard implements Board {
      *
      * @param score, a positive integer
      */
-    void setExtraLifeScore(int score);
+    public void setExtraLifeScore(int score) {
+        this.extraLifeScore = score;
+    }
 
     /**
-     * Return the score value at chich pacman gains a new life
+     * Return the score value at which pacman gains a new life
      *
      * @return a positive integer
      */
-    int getExtraLifeScore();
+    public int getExtraLifeScore() {
+        return this.extraLifeScore;
+    }
 
     /**
-     * Return the current bonus n the board if existing, null otherwise
+     * Return the current bonus in the board if existing, null otherwise
      *
      * @return a Bonus or null
      */
-    Bonus getCurrentBonus();
+    public Bonus getCurrentBonus(){
+        return this.bonus;
+    }
 
     /**
      * Return the bonus type associated with given level
@@ -305,17 +381,15 @@ public abstract class AbstractBoard implements Board {
      * @param level, a positive integer
      * @return the bonus type of this level
      */
-    BonusType getLevelBonusType(int level);
+    public BonusType getLevelBonusType(int level){
+        return this.bonus.getBonusType();
+    }
 
     /**
      * Place the bonus associated with current level on board at its intended position
      */
-    void setBonusOnBoard();
-    /**
-     * The interface corresponding to the game board
-     * It contains the maze and the actors (pacman and
-     * the ghosts)
-     *
-     * @author Viviane Pons
-     * */
+    public void setBonusOnBoard(){
+
+    }
+
 }
