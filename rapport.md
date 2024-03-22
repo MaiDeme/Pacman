@@ -2,8 +2,9 @@
 
 ## Membres du groupe
 
-Camille De Amorim
-Anne Beigeaud
+Camille De Amorim  
+Anne Beigeaud  
+Antoine Loth
 
 ## Introduction
 
