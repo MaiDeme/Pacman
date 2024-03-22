@@ -60,21 +60,13 @@ public class Grid implements Maze {
                 line = line -1;
                 break;
 
-        }
-        switch (dir) {
             case LEFT:
                 col = col -1;
                 break;
 
-        }
-        switch (dir) {
-
             case RIGHT :
                 col = col +1;
                 break;
-
-        }
-        switch (dir) {
 
             case DOWN:
                 line = line +1;
