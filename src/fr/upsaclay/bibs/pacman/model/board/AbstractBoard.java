@@ -13,11 +13,13 @@ public abstract class AbstractBoard implements Board {
 
 
 
-    // Pour l'étape 4 :
+    // Pour les étapes 2 à 4 :
     private Bonus bonus;
     private int extraLifeScore;
     private int extraLives;
     private int level;
+    private List<Ghost> ghosts;
+    private int score;
 
     /**
      * Return the type of game of the board
@@ -80,7 +82,9 @@ public abstract class AbstractBoard implements Board {
      *
      * @return the score
      */
-    int getScore();
+    public int getScore(){
+        return this.score;
+    }
 
     /**
      * Return the current state of the board
@@ -88,7 +92,9 @@ public abstract class AbstractBoard implements Board {
      *
      * @return the board state
      */
-    BoardState getBoardState();
+    public BoardState getBoardState(){
+        return null;
+    }
 
     /**
      * Return the ghost of a given type
@@ -97,14 +103,23 @@ public abstract class AbstractBoard implements Board {
      * @param ghostType, the type of ghost
      * @return a ghost or null
      */
-    Ghost getGhost(GhostType ghostType);
+    public Ghost getGhost(GhostType ghostType){
+        for(Ghost g : this.ghosts){
+            if (g.getGhostType() == ghostType){
+                return g;
+            }
+        }
+        return null;
+    }
 
     /**
      * Return the list of ghosts present on the board
      *
      * @return a list of ghost (might be empty)
      */
-    List<Ghost> getGhosts();
+    public List<Ghost> getGhosts(){
+        return this.ghosts;
+    }
 
     // Step 3
     // The methods below won't be used / tested before step 3
