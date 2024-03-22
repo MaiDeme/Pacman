@@ -14,7 +14,7 @@ public class TestBoard implements Board {
 
     @Override
     public void initialize() throws PacManException {
-
+        this.getMaze().
 
     }
 
