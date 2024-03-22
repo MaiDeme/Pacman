@@ -14,7 +14,7 @@ public abstract class AbstractBoard implements Board {
     // Etape 1
     private final GameType gameType;
     private Maze maze;
-    private Actor pacMan;
+    public Actor pacMan;
     //
 
     // Pour les étapes 2 à 4 :
@@ -37,11 +37,13 @@ public abstract class AbstractBoard implements Board {
      * @return the game type
      */
     public GameType getGameType() {
+
         return gameType;
     }
 
     @Override
     public Actor getPacMan() {
+
         return pacMan;
     }
     /**
@@ -50,13 +52,17 @@ public abstract class AbstractBoard implements Board {
      *
      * @throws PacManException in case something went wrong
      */
-    public void initialize() throws PacManException;
+    public void initialize() throws PacManException{
+        //initialize qui doit à la fois charger le labyrinthe et créer les acteurs.
+    }
 
     /**
      * Start the actors
      * Perform all necessary actions to start actors at the beginning of the game
      */
-    public void startActors();
+    public void startActors(){
+
+    }
 
     /**
      * Return the maze
@@ -68,30 +74,19 @@ public abstract class AbstractBoard implements Board {
     }
 
     /**
-     * Return PacMan
-     *
-     * @return the PacMan actor
-     */
-    public Actor getPacMan(){
-        return pacMan;
-    }
-
-    /**
      * Perform all necessary actions for the next game frame
      * This might require to move the actors,
      * perform some checks, etc.
      */
-    void nextFrame();
+    /*void nextFrame(){
 
-    /**
-     * Create a board depending on the game type
-     *
-     * @param type a game type
-     * @return the board
-     */
-    static Board createBoard(GameType type) {
-        throw new UnsupportedOperationException("Not implemented");
-    }
+        Direction dir = pacMan.getDirection();
+        pacMan.setPosition(pacMan.getX(), pacMan.getY());
+
+        // La fonction d'évolution est ici nextFrame ce qui signifie "prochaine image". Côté modèle, le plateau doit réaliser l'ensemble des actions nécessaires à chaque nouvelle image,
+        //en particulier faire évoluer les acteurs.
+    }*/
+
 
 
     // Step 2

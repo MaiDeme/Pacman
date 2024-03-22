@@ -20,6 +20,7 @@ public interface Controller {
      * example initialize a new game by default
      * This would also create and launch the view and user
      * interface
+     *
      * @throws PacManException if the initialization fails
      */
     void initialize() throws PacManException;
@@ -29,18 +30,21 @@ public interface Controller {
      * The initialization should do necessary steps on the model
      * and the view :
      * for example, creating a new board, update the view etc.
+     *
      * @throws PacManException if the initialization fails
      */
     void initializeNewGame() throws PacManException;
 
     /**
      * Setting the game type
+     *
      * @param gameType a game type to be played
      */
     void setGameType(GameType gameType);
 
     /**
      * Getting the game type
+     *
      * @return the current game type of the controller
      */
     GameType getGameType();
@@ -48,6 +52,7 @@ public interface Controller {
     /**
      * Receives an action order (typically from the view)
      * and perform necessary actions on model and view
+     *
      * @param action a game action
      * @throws ForbiddenActionException if the action is not permitted at this step
      */
@@ -55,6 +60,7 @@ public interface Controller {
 
     /**
      * Return the current board
+     *
      * @return the board
      */
     Board getBoard();
@@ -62,18 +68,25 @@ public interface Controller {
     /**
      * Get the appropriate controller depending on desired interface type
      * Different types correspond to different possible views or game interfaces
+     *
      * @param mode the controller mode
      * @return the Controller
      */
     static Controller getController(InterfaceMode mode) {
 
         //throw new UnsupportedOperationException("Not implemented");
-       switch (mode){
-           case SIMPLE :
-               return new SimpleController(gameType);
-       }
-       switch (mode){
-           case VISUAL :
-       }
+        switch (mode) {
+            case SIMPLE:
+                return new SimpleController(GameType.TEST);
+
+
+
+        }
+        switch (mode) {
+            case VISUAL:
+                return new SimpleController(GameType.TEST);
+
+        }
+        return null;
     }
 }
