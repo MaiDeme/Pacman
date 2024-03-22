@@ -2,9 +2,18 @@ package fr.upsaclay.bibs.pacman.model.actors;
 
 import fr.upsaclay.bibs.pacman.model.Direction;
 import fr.upsaclay.bibs.pacman.model.board.Board;
+import fr.upsaclay.bibs.pacman.model.maze.Tile;
 import fr.upsaclay.bibs.pacman.model.maze.TilePosition;
 
 public abstract class AbstractActor implements Actor{
+
+    protected int x;
+    protected int y;
+    protected Board board;
+    protected Direction currentDirection;
+    protected Direction intention;
+
+
     @Override
     public ActorType getType() {
         return null;
@@ -12,69 +21,69 @@ public abstract class AbstractActor implements Actor{
 
     @Override
     public Board getBoard() {
-        return null;
+        return this.board;
     }
 
     @Override
     public int getX() {
-        return 0;
+        return this.x;
     }
 
     @Override
     public int getY() {
-        return 0;
+        return this.y;
     }
 
     @Override
     public void setPosition(int x, int y) {
-
+        this.x = x;
+        this.y = y;
     }
 
     @Override
     public TilePosition getCurrentTile() {
-        return null;
+        return board.getMaze().getTilePosition(this.x, this.y);
     }
 
     @Override
-    public void start() {
-
-    }
+    public abstract void start();
 
     @Override
     public Direction getDirection() {
-        return null;
+        return this.currentDirection;
     }
 
     @Override
     public void setDirection(Direction direction) {
-
+        this.currentDirection = direction;
     }
 
     @Override
     public void setIntention(Direction direction) {
-
+        this.intention = direction;
     }
 
     @Override
     public Direction getIntention() {
-        return null;
+        return this.intention;
     }
 
     @Override
     public boolean isBlocked() {
-        return false;
+        Tile nextTile = this.board.getMaze().getNeighbourTile(this.getCurrentTile(), this.currentDirection);
+        return nextTile.isWall();
     }
 
     @Override
-    public void nextMove() {
-
-    }
+    public abstract void nextMove() ;
 
     @Override
     public void nextFrame() {
-
+        this.nextMove();
     }
 
+
+    // Step 2
     @Override
     public void setSpeed(double speed) {
 

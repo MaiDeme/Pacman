@@ -12,18 +12,18 @@ import java.util.List;
 public abstract class AbstractBoard implements Board {
 
     // Etape 1
-    private final GameType gameType;
-    private Maze maze;
-    public Actor pacMan;
+    protected final GameType gameType;
+    protected Maze maze;
+    protected Actor pacman;
     //
 
     // Pour les étapes 2 à 4 :
-    private Bonus bonus;
-    private int extraLifeScore;
-    private int extraLives;
-    private int level;
-    private List<Ghost> ghosts;
-    private int score;
+    protected Bonus bonus;
+    protected int extraLifeScore;
+    protected int extraLives;
+    protected int level;
+    protected List<Ghost> ghosts;
+    protected int score;
 
 
     public AbstractBoard(GameType gameType) {
@@ -36,15 +36,13 @@ public abstract class AbstractBoard implements Board {
      *
      * @return the game type
      */
+    @Override
     public GameType getGameType() {
-
         return gameType;
     }
 
-    @Override
     public Actor getPacMan() {
-
-        return pacMan;
+        return pacman;
     }
     /**
      * Initialization of the board
@@ -52,16 +50,16 @@ public abstract class AbstractBoard implements Board {
      *
      * @throws PacManException in case something went wrong
      */
-    public void initialize() throws PacManException{
-        //initialize qui doit à la fois charger le labyrinthe et créer les acteurs.
-    }
+    @Override
+    public abstract void initialize() throws PacManException;
 
     /**
      * Start the actors
      * Perform all necessary actions to start actors at the beginning of the game
      */
-    public void startActors(){
-
+    public void startActors() {
+        pacman.start();
+       
     }
 
     /**
@@ -73,20 +71,41 @@ public abstract class AbstractBoard implements Board {
         return maze;
     }
 
+
+
+    /**
+     * Return PacMan
+     *
+     * @return the PacMan actor
+     */
     /**
      * Perform all necessary actions for the next game frame
      * This might require to move the actors,
      * perform some checks, etc.
      */
-    /*void nextFrame(){
+    @Override
+    public void nextFrame() {
+        pacman.nextFrame();
+    }
 
-        Direction dir = pacMan.getDirection();
-        pacMan.setPosition(pacMan.getX(), pacMan.getY());
-
-        // La fonction d'évolution est ici nextFrame ce qui signifie "prochaine image". Côté modèle, le plateau doit réaliser l'ensemble des actions nécessaires à chaque nouvelle image,
-        //en particulier faire évoluer les acteurs.
-    }*/
-
+    /**
+     * Create a board depending on the game type
+     *
+     * @param type a game type
+     * @return the board
+     */
+    static Board createBoard(GameType type) throws PacManException {
+        Board board = null;
+        switch (type) {
+            case CLASSIC:
+                board = new ClassicBoard();
+                board.initialize();
+            case TEST:
+                board = new TestBoard();
+                board.initialize();
+        }
+        return board;
+    }
 
 
     // Step 2
