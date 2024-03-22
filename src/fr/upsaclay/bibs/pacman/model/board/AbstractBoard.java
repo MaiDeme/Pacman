@@ -36,11 +36,11 @@ public abstract class AbstractBoard implements Board {
      *
      * @return the game type
      */
+    @Override
     public GameType getGameType() {
         return gameType;
     }
 
-    @Override
     public Actor getPacMan() {
         return pacMan;
     }
@@ -50,13 +50,18 @@ public abstract class AbstractBoard implements Board {
      *
      * @throws PacManException in case something went wrong
      */
-    public void initialize() throws PacManException;
+    @Override
+    public void initialize() throws PacManException {
+        // Add initialization logic here
+    }
 
     /**
      * Start the actors
      * Perform all necessary actions to start actors at the beginning of the game
      */
-    public void startActors();
+    public void startActors() {
+       
+    }
 
     /**
      * Return the maze
@@ -67,21 +72,22 @@ public abstract class AbstractBoard implements Board {
         return maze;
     }
 
+
+
     /**
      * Return PacMan
      *
      * @return the PacMan actor
      */
-    public Actor getPacMan(){
-        return pacMan;
-    }
-
     /**
      * Perform all necessary actions for the next game frame
      * This might require to move the actors,
      * perform some checks, etc.
      */
-    void nextFrame();
+    @Override
+    public void nextFrame() {
+        // 
+    }
 
     /**
      * Create a board depending on the game type
@@ -90,7 +96,15 @@ public abstract class AbstractBoard implements Board {
      * @return the board
      */
     static Board createBoard(GameType type) {
-        throw new UnsupportedOperationException("Not implemented");
+        switch (type) {
+            case GameType.CLASSIC;
+                Board board = new ClassicBoard();
+                return board.initialize();
+            case GameType.TEST;
+                Board board = new TestBoard();
+                return board.initialize();
+                return;
+        }
     }
 
 
