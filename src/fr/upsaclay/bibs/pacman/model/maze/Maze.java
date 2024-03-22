@@ -137,7 +137,7 @@ public interface Maze {
      * @return an empty PacMan Maze
      */
     static Maze emptyMaze(int width, int height) {
-        return new Greed(height, width);
+        return new Grid(height, width);
     }
 
     /**
@@ -155,7 +155,7 @@ public interface Maze {
 
         int height = Integer.parseInt(line.split(" ")[1]);
 
-        Greed lab = new Greed(height, width);
+        Grid lab = new Grid(height, width);
 
 
 
