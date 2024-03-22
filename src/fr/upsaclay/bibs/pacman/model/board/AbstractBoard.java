@@ -14,7 +14,7 @@ public abstract class AbstractBoard implements Board {
     // Etape 1
     private final GameType gameType;
     private Maze maze;
-    private Actor pacMan;
+    private Actor pacman;
     //
 
     // Pour les étapes 2 à 4 :
@@ -42,7 +42,7 @@ public abstract class AbstractBoard implements Board {
     }
 
     public Actor getPacMan() {
-        return pacMan;
+        return pacman;
     }
     /**
      * Initialization of the board
@@ -51,15 +51,14 @@ public abstract class AbstractBoard implements Board {
      * @throws PacManException in case something went wrong
      */
     @Override
-    public void initialize() throws PacManException {
-        // Add initialization logic here
-    }
+    public abstract void initialize() throws PacManException;
 
     /**
      * Start the actors
      * Perform all necessary actions to start actors at the beginning of the game
      */
     public void startActors() {
+        pacman.start();
        
     }
 
@@ -86,7 +85,7 @@ public abstract class AbstractBoard implements Board {
      */
     @Override
     public void nextFrame() {
-        // 
+        pacman.nextFrame();
     }
 
     /**
@@ -95,16 +94,17 @@ public abstract class AbstractBoard implements Board {
      * @param type a game type
      * @return the board
      */
-    static Board createBoard(GameType type) {
+    static Board createBoard(GameType type) throws PacManException {
+        Board board = null;
         switch (type) {
-            case GameType.CLASSIC;
-                Board board = new ClassicBoard();
-                return board.initialize();
-            case GameType.TEST;
-                Board board = new TestBoard();
-                return board.initialize();
-                return;
+            case GameType.CLASSIC:
+                board = new ClassicBoard();
+                board.initialize();
+            case GameType.TEST:
+                board = new TestBoard();
+                board.initialize();
         }
+        return board;
     }
 
 
