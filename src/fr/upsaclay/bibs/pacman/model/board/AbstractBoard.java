@@ -36,10 +36,11 @@ public abstract class AbstractBoard implements Board {
      *
      * @return the game type
      */
-    GameType getGameType() {
+    public GameType getGameType() {
         return gameType;
     }
 
+    @Override
     public Actor getPacMan() {
         return pacMan;
     }
