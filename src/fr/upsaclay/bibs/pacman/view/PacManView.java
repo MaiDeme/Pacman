@@ -2,13 +2,11 @@ package fr.upsaclay.bibs.pacman.view;
 
 import fr.upsaclay.bibs.pacman.control.Controller;
 import fr.upsaclay.bibs.pacman.model.board.Board;
-import fr.upsaclay.bibs.pacman.model.maze.Maze;
 
 /**
  * The Interface of a PacMan visual user interface
  */
 public interface PacManView {
-
 
     /**
      * Sets the current board
