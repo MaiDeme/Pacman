@@ -3,6 +3,7 @@ package fr.upsaclay.bibs.pacman.model.actors;
 import fr.upsaclay.bibs.pacman.GameType;
 import fr.upsaclay.bibs.pacman.model.Direction;
 import fr.upsaclay.bibs.pacman.model.board.Board;
+import fr.upsaclay.bibs.pacman.model.maze.Grid;
 import fr.upsaclay.bibs.pacman.model.maze.Maze;
 import fr.upsaclay.bibs.pacman.model.maze.Tile;
 import fr.upsaclay.bibs.pacman.model.maze.TilePosition;
@@ -31,15 +32,17 @@ public class Pacman extends AbstractActor{
             this.x = 35;
             this.y = 75;
         }
-        this.currentDirection = Direction.LEFT;
-        this.intention = null;
+        this.Direction = Direction.LEFT;
 
     }
 
     @Override
     public void setIntention(Direction direction) {
-        if(this.currentDirection.reverse() == direction){
-            this.currentDirection = direction;
+        if(this.Direction.reverse() == direction) {
+            this.Direction = direction;
+            this.intention = null;
+        } else if (this.isBlocked() && !this.getBoard().getMaze().getNeighbourTile(this.getCurrentTile(), direction).isWall()) {
+            this.Direction = direction;
             this.intention = null;
         } else {
             this.intention = direction;
@@ -48,22 +51,36 @@ public class Pacman extends AbstractActor{
     @Override
     public void nextMove() {
 
+        TilePosition depart = this.getCurrentTile();
 
-        // Au milieu d'une case : verifie s'il a l'intention de tourner et s'il peut le faire il tourne
-        TilePosition tile = this.getCurrentTile();
-        if(tile.getLine() == Maze.TITLE_CENTER_Y && tile.getCol() == Maze.TITLE_CENTER_X){
-            Tile nextTileFromIntention = this.getBoard().getMaze().getNeighbourTile(tile, this.intention);
-            if(! nextTileFromIntention.isWall()){
-                this.currentDirection = this.intention;
-                this.intention = null;
+        // Cas ou l intention nest pas nulle.
+        if (this.intention != null) {
+            Tile nextTileFromIntention = this.getBoard().getMaze().getNeighbourTile(depart, this.intention);
+
+            //Verifie en milieu de tuile
+            if ((this.getX()+1)%3 == 1 && (this.getY()+1)%3 ==1 ){
+
+                //Cas où a le droit de tourner
+                if (!nextTileFromIntention.isWall()){
+
+                    this.intention.getDx();
+
+                    this.intention.getDy();
+
+                }else{
+                    this.intention = null;
+                }
+
             }
+        }else{
+            this.x += this.Direction.getDx();
+
+            this.y += this.Direction.getDy();
+
         }
 
-        // Pacman pas blocké : il avance
-        if(! this.isBlocked()) {
-            this.x += this.currentDirection.getDx();
-            this.y += this.currentDirection.getDy();
-        }
+
+
 
     }
 }

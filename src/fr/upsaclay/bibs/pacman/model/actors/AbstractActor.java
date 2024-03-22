@@ -10,7 +10,7 @@ public abstract class AbstractActor implements Actor{
     protected int x;
     protected int y;
     protected Board board;
-    protected Direction currentDirection;
+    protected Direction Direction;
     protected Direction intention;
 
     public ActorType type;
@@ -57,13 +57,13 @@ public abstract class AbstractActor implements Actor{
 
     @Override
     public Direction getDirection() {
-        return this.currentDirection;
+        return this.Direction;
     }
 
     @Override
     public void setDirection(Direction direction) {
 
-        this.currentDirection = direction;
+        this.Direction = direction;
     }
 
     @Override
@@ -78,7 +78,7 @@ public abstract class AbstractActor implements Actor{
 
     @Override
     public boolean isBlocked() {
-        Tile nextTile = this.board.getMaze().getNeighbourTile(this.getCurrentTile(), this.currentDirection);
+        Tile nextTile = this.board.getMaze().getNeighbourTile(this.getCurrentTile(), this.Direction);
         return nextTile.isWall();
     }
 
