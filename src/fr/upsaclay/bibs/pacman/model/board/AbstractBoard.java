@@ -18,8 +18,7 @@ public abstract class AbstractBoard implements Board {
      *
      * @return the game type
      */
-    GameType getGameType(){
-    }
+    GameType getGameType();
 
     /**
      * Initialization of the board
