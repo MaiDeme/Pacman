@@ -13,6 +13,13 @@ public abstract class AbstractActor implements Actor{
     protected Direction currentDirection;
     protected Direction intention;
 
+    public ActorType type;
+
+    public AbstractActor(Board board,  ActorType type){
+        this.type = type;
+        this.board = board;
+    }
+
 
     @Override
     public ActorType getType() {

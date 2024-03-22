@@ -11,9 +11,7 @@ import fr.upsaclay.bibs.pacman.view.PacManView;
 
 import javax.swing.*;
 
-import static java.lang.Boolean.FALSE;
-import static java.lang.Boolean.TRUE;
-import static java.lang.Math.max;
+
 
 public class SimpleController implements Controller{
 
@@ -33,7 +31,7 @@ public class SimpleController implements Controller{
 
         Maze maze = board.getMaze();
 
-        BoardView view = new BoardView("Plateau de jeu ", maze.getPixelWidth(), maze.getPixelHeight());*
+        BoardView view = new BoardView("Plateau de jeu ", board);
         view.setLoopDelay(INITIAL_DELAY);
 
     }
@@ -43,7 +41,7 @@ public class SimpleController implements Controller{
 
         view.update();
 
-        board = new AbstractBoard(T);
+        board = Board.createBoard(this.getGameType());
 
         view.setBoard(board);
 

@@ -1,5 +1,6 @@
 package fr.upsaclay.bibs.pacman.view;
 
+import fr.upsaclay.bibs.pacman.PacManException;
 import fr.upsaclay.bibs.pacman.control.Controller;
 import fr.upsaclay.bibs.pacman.control.GameAction;
 
@@ -24,6 +25,10 @@ public class ButtonListener implements ActionListener {
 
     @Override
     public void actionPerformed(ActionEvent actionEvent) {
-        controller.Controller.receiveAction(action);
+        try {
+            controller.receiveAction(action);
+        } catch (PacManException e) {
+            throw new RuntimeException(e);
+        }
     }
 }

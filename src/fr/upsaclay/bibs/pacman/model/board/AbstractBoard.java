@@ -42,7 +42,7 @@ public abstract class AbstractBoard implements Board {
     }
 
     public Actor getPacMan() {
-        return pacman;
+        return this.pacman;
     }
     /**
      * Initialization of the board
@@ -59,7 +59,6 @@ public abstract class AbstractBoard implements Board {
      */
     public void startActors() {
         pacman.start();
-       
     }
 
     /**
@@ -74,11 +73,6 @@ public abstract class AbstractBoard implements Board {
 
 
     /**
-     * Return PacMan
-     *
-     * @return the PacMan actor
-     */
-    /**
      * Perform all necessary actions for the next game frame
      * This might require to move the actors,
      * perform some checks, etc.
@@ -88,24 +82,7 @@ public abstract class AbstractBoard implements Board {
         pacman.nextFrame();
     }
 
-    /**
-     * Create a board depending on the game type
-     *
-     * @param type a game type
-     * @return the board
-     */
-    static Board createBoard(GameType type) throws PacManException {
-        Board board = null;
-        switch (type) {
-            case CLASSIC:
-                board = new ClassicBoard();
-                board.initialize();
-            case TEST:
-                board = new TestBoard();
-                board.initialize();
-        }
-        return board;
-    }
+
 
 
     // Step 2

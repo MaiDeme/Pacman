@@ -2,6 +2,7 @@ package fr.upsaclay.bibs.pacman.model.actors;
 
 import fr.upsaclay.bibs.pacman.GameType;
 import fr.upsaclay.bibs.pacman.model.Direction;
+import fr.upsaclay.bibs.pacman.model.board.Board;
 import fr.upsaclay.bibs.pacman.model.maze.Maze;
 import fr.upsaclay.bibs.pacman.model.maze.Tile;
 import fr.upsaclay.bibs.pacman.model.maze.TilePosition;
@@ -9,9 +10,12 @@ import fr.upsaclay.bibs.pacman.model.maze.TilePosition;
 public class Pacman extends AbstractActor{
 
 
-    public void Pacman(){
-        this.start();
+    public Pacman(Board board){
+        super(board, ActorType.PACMAN);
+        start();
     }
+
+
 
     /**
      * Start the actor at the beginning of the game
@@ -31,6 +35,7 @@ public class Pacman extends AbstractActor{
         this.intention = null;
 
     }
+
     @Override
     public void setIntention(Direction direction) {
         if(this.currentDirection.reverse() == direction){

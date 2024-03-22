@@ -2,6 +2,8 @@ package fr.upsaclay.bibs.pacman.model.board;
 
 import fr.upsaclay.bibs.pacman.GameType;
 import fr.upsaclay.bibs.pacman.PacManException;
+import fr.upsaclay.bibs.pacman.model.actors.ActorType;
+import fr.upsaclay.bibs.pacman.model.actors.Pacman;
 import fr.upsaclay.bibs.pacman.model.maze.Grid;
 import fr.upsaclay.bibs.pacman.model.maze.Maze;
 
@@ -17,11 +19,14 @@ public class TestBoard extends AbstractBoard {
 
     @Override
     public void initialize() throws PacManException {
+
+
         try {
-            this.maze = Maze.loadFromFile("test.txt");
+            this.maze = Maze.loadFromFile("/home/mxb/Master BIBS/M1S2/POO/Projet_Pacman/resources/test.txt");
         } catch (FileNotFoundException e) {
             throw new RuntimeException(e);
         }
+        this.pacman = new Pacman(this);
     }
 
 }

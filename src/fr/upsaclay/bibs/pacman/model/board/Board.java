@@ -68,8 +68,23 @@ public interface Board {
      * @return the board
      */
     static Board createBoard(GameType type) {
-        throw new UnsupportedOperationException("Not implemented");
+        //throw new UnsupportedOperationException("Not implemented");
+
+        switch (type) {
+            case CLASSIC:
+                return new ClassicBoard();
+            case TEST:
+                return new TestBoard();
+            default:
+                try {
+                    throw new PacManException("Unknown game type: " + type);
+                } catch (PacManException e) {
+                    throw new RuntimeException(e);
+                }
+        }
+
     }
+
 
     // Step 2
     // The methods below won't be used / tested before step 2
@@ -324,4 +339,5 @@ public interface Board {
      *
      * @author Viviane Pons
      * */
+
 }

@@ -7,13 +7,17 @@ import fr.upsaclay.bibs.pacman.model.board.Board;
 import javax.swing.*;
 import java.awt.*;
 
+import javax.swing.JFrame;
+import javax.swing.Timer;
+
+
 public class BoardView extends JFrame implements PacManView{
 
     private Controller controller;
 
     public static final int PIXELS_PER_CELLS = 2;
     DrawBoard drawBoard ;
-    public final Timer timer = new Timer(1, null);
+    private Timer timer;
 
     public JPanel initialPanel;
     public JPanel playPanel;
@@ -24,6 +28,8 @@ public class BoardView extends JFrame implements PacManView{
 
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         this.setResizable(false);
+
+        this.timer = new Timer(1, null);
 
         // Create the drawBoard
         drawBoard = new DrawBoard(board);
@@ -88,10 +94,12 @@ public class BoardView extends JFrame implements PacManView{
 
     }
 
-    @Override
+    //@Override
     public void setLoopDelay(int ms) {
         timer.setDelay(ms);
     }
+
+    //
 
     @Override
     public void setLayout(PacManLayout layout) {
