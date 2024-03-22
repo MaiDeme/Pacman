@@ -7,11 +7,11 @@ import fr.upsaclay.bibs.pacman.model.maze.TilePosition;
 
 public abstract class AbstractActor implements Actor{
 
-    private int x;
-    private int y;
-    private Board board;
-    private Direction currentDirection;
-    private Direction intention;
+    protected int x;
+    protected int y;
+    protected Board board;
+    protected Direction currentDirection;
+    protected Direction intention;
 
 
     @Override
@@ -75,9 +75,7 @@ public abstract class AbstractActor implements Actor{
     }
 
     @Override
-    public void nextMove() {
-
-    }
+    public abstract void nextMove() ;
 
     @Override
     public void nextFrame() {
