@@ -15,6 +15,7 @@ public abstract class AbstractBoard implements Board {
     private final GameType gameType;
     private Maze maze;
     private Actor pacMan;
+    //
 
     // Pour les étapes 2 à 4 :
     private Bonus bonus;
@@ -38,7 +39,7 @@ public abstract class AbstractBoard implements Board {
     GameType getGameType() {
         return gameType;
     }
-    
+
     @Override
     public Maze getMaze() {
         return maze;
