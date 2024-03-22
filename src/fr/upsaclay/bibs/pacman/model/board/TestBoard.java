@@ -6,6 +6,7 @@ import fr.upsaclay.bibs.pacman.PacManException;
 public class TestBoard implements Board {
 
 
+
     @Override
     public GameType getGameType() {
         return GameType.TEST;
@@ -16,4 +17,5 @@ public class TestBoard implements Board {
         this.getMaze().
 
     }
+
 }
