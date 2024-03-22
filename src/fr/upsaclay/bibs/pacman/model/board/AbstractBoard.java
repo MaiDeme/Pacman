@@ -40,9 +40,6 @@ public abstract class AbstractBoard implements Board {
         return gameType;
     }
 
-
-
-
     public Actor getPacMan() {
         return pacMan;
     }
@@ -52,13 +49,13 @@ public abstract class AbstractBoard implements Board {
      *
      * @throws PacManException in case something went wrong
      */
-    void initialize() throws PacManException;
+    public void initialize() throws PacManException;
 
     /**
      * Start the actors
      * Perform all necessary actions to start actors at the beginning of the game
      */
-    void startActors();
+    public void startActors();
 
     /**
      * Return the maze
@@ -74,7 +71,7 @@ public abstract class AbstractBoard implements Board {
      *
      * @return the PacMan actor
      */
-    Actor getPacMan(){
+    public Actor getPacMan(){
         return pacMan;
     }
 
