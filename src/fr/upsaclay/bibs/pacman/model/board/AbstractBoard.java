@@ -12,18 +12,18 @@ import java.util.List;
 public abstract class AbstractBoard implements Board {
 
     // Etape 1
-    private final GameType gameType;
-    private Maze maze;
-    private Actor pacman;
+    protected final GameType gameType;
+    protected Maze maze;
+    protected Actor pacman;
     //
 
     // Pour les étapes 2 à 4 :
-    private Bonus bonus;
-    private int extraLifeScore;
-    private int extraLives;
-    private int level;
-    private List<Ghost> ghosts;
-    private int score;
+    protected Bonus bonus;
+    protected int extraLifeScore;
+    protected int extraLives;
+    protected int level;
+    protected List<Ghost> ghosts;
+    protected int score;
 
 
     public AbstractBoard(GameType gameType) {
@@ -97,10 +97,10 @@ public abstract class AbstractBoard implements Board {
     static Board createBoard(GameType type) throws PacManException {
         Board board = null;
         switch (type) {
-            case GameType.CLASSIC:
+            case CLASSIC:
                 board = new ClassicBoard();
                 board.initialize();
-            case GameType.TEST:
+            case TEST:
                 board = new TestBoard();
                 board.initialize();
         }
