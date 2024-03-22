@@ -4,13 +4,13 @@ import fr.upsaclay.bibs.pacman.model.Direction;
 
 import static java.lang.Math.floor;
 
-public class Greed implements Maze {
+public class Grid implements Maze {
     private int width;
     private int height;
 
     static Tile[][] plateau;
 
-    public Greed(int height, int width) {
+    public Grid(int height, int width) {
         this.height = height;
         this.width = width;
         this.plateau = new Tile[height][width];
