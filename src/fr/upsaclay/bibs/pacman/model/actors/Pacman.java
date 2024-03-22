@@ -58,9 +58,6 @@ public class Pacman extends AbstractActor {
         // est bloqué
         TilePosition depart = this.getCurrentTile();
 
-        // si l'intention = reverse direction peut importe ou il est
-        // on update la direction
-
         //Pacman est avant le milieu de la tuile
         if (this.getX() % Maze.TILE_WIDTH < Maze.TITLE_CENTER_X && this.getY() % Maze.TILE_HEIGHT < Maze.TITLE_CENTER_Y){
             setPosition(x+this.getDirection().getDx(), y+this.getDirection().getDy());
@@ -86,7 +83,6 @@ public class Pacman extends AbstractActor {
             return;
 
         } else { // Pacman est après le milieu de la tuile
-                // si il peut continuer dans la direction
             if (!this.getBoard().getMaze().getNeighbourTile(depart, this.Direction).isWall()) {
                 setPosition(this.x + getDirection().getDx(), this.y + getDirection().getDy());
             }
