@@ -62,7 +62,7 @@ public class Pacman extends AbstractActor {
         // on update la direction
 
         //Pacman est avant le milieu de la tuile
-        if (this.getX() % 8 <3 && this.getY() %8 < 3){
+        if (this.getX() % Maze.TILE_WIDTH < Maze.TITLE_CENTER_X && this.getY() % Maze.TILE_HEIGHT < Maze.TITLE_CENTER_Y){
             setPosition(x+this.getDirection().getDx(), y+this.getDirection().getDy());
             return;
 
