@@ -11,7 +11,10 @@ import java.util.List;
 
 public abstract class AbstractBoard implements Board {
 
-
+    // Etape 1
+    private final GameType gameType;
+    private Maze maze;
+    private Actor pacMan;
 
     // Pour les étapes 2 à 4 :
     private Bonus bonus;
@@ -21,14 +24,30 @@ public abstract class AbstractBoard implements Board {
     private List<Ghost> ghosts;
     private int score;
 
+
+    public AbstractBoard(GameType gameType) {
+        this.gameType = gameType;
+    }
+
     /**
      * Return the type of game of the board
      * Depending on the type, the maze or other initializations might be different
      *
      * @return the game type
      */
-    GameType getGameType();
+    GameType getGameType() {
+        return gameType;
+    }
+    
+    @Override
+    public Maze getMaze() {
+        return maze;
+    }
 
+    @Override
+    public Actor getPacMan() {
+        return pacMan;
+    }
     /**
      * Initialization of the board
      * (loads the maze, create and place the actors, etc.)
