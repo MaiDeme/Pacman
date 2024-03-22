@@ -66,6 +66,14 @@ public interface Controller {
      * @return the Controller
      */
     static Controller getController(InterfaceMode mode) {
-		throw new UnsupportedOperationException("Not implemented");
+
+        //throw new UnsupportedOperationException("Not implemented");
+       switch (mode){
+           case SIMPLE :
+               return new SimpleController(gameType);
+       }
+       switch (mode){
+           case VISUAL :
+       }
     }
 }
