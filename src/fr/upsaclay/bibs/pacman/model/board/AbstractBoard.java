@@ -11,7 +11,11 @@ import java.util.List;
 
 public abstract class AbstractBoard implements Board {
 
-
+    // Etape 1
+    private final GameType gameType;
+    private Maze maze;
+    private Actor pacMan;
+    //
 
     // Pour les étapes 2 à 4 :
     private Bonus bonus;
@@ -21,41 +25,55 @@ public abstract class AbstractBoard implements Board {
     private List<Ghost> ghosts;
     private int score;
 
+
+    public AbstractBoard(GameType gameType) {
+        this.gameType = gameType;
+    }
+
     /**
      * Return the type of game of the board
      * Depending on the type, the maze or other initializations might be different
      *
      * @return the game type
      */
-    GameType getGameType();
+    GameType getGameType() {
+        return gameType;
+    }
 
+    public Actor getPacMan() {
+        return pacMan;
+    }
     /**
      * Initialization of the board
      * (loads the maze, create and place the actors, etc.)
      *
      * @throws PacManException in case something went wrong
      */
-    void initialize() throws PacManException;
+    public void initialize() throws PacManException;
 
     /**
      * Start the actors
      * Perform all necessary actions to start actors at the beginning of the game
      */
-    void startActors();
+    public void startActors();
 
     /**
      * Return the maze
      *
      * @return the maze
      */
-    Maze getMaze();
+    public Maze getMaze() {
+        return maze;
+    }
 
     /**
      * Return PacMan
      *
      * @return the PacMan actor
      */
-    Actor getPacMan();
+    public Actor getPacMan(){
+        return pacMan;
+    }
 
     /**
      * Perform all necessary actions for the next game frame
@@ -73,6 +91,7 @@ public abstract class AbstractBoard implements Board {
     static Board createBoard(GameType type) {
         throw new UnsupportedOperationException("Not implemented");
     }
+
 
     // Step 2
     // The methods below won't be used / tested before step 2
