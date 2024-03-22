@@ -23,7 +23,8 @@ public class DrawBoard extends JPanel {
 
     public DrawBoard(Board board) {
         super();
-        setPreferredSize(new Dimension(board.getMaze().getWidth() * BoardView.PIXELS_PER_CELLS, board.getMaze().getHeight() * BoardView.PIXELS_PER_CELLS));
+        this.board = board;
+        setPreferredSize(new Dimension(this.board.getMaze().getWidth() * BoardView.PIXELS_PER_CELLS, this.board.getMaze().getHeight() * BoardView.PIXELS_PER_CELLS));
 
     }
 

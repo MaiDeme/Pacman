@@ -77,14 +77,14 @@ public interface Controller {
         //throw new UnsupportedOperationException("Not implemented");
         switch (mode) {
             case SIMPLE:
-                return new SimpleController(GameType.TEST);
+                return new simple(GameType.TEST);
 
 
 
         }
         switch (mode) {
             case VISUAL:
-                return new SimpleController(GameType.TEST);
+                return new simple(GameType.TEST);
 
         }
         return null;

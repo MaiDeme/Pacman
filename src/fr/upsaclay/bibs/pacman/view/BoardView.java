@@ -17,6 +17,7 @@ public class BoardView extends JFrame implements PacManView{
 
     public static final int PIXELS_PER_CELLS = 2;
     DrawBoard drawBoard ;
+
     private Timer timer;
 
     public JPanel initialPanel;

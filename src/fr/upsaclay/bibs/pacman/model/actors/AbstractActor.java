@@ -23,7 +23,7 @@ public abstract class AbstractActor implements Actor{
 
     @Override
     public ActorType getType() {
-        return null;
+        return this.type;
     }
 
     @Override
@@ -62,6 +62,7 @@ public abstract class AbstractActor implements Actor{
 
     @Override
     public void setDirection(Direction direction) {
+
         this.currentDirection = direction;
     }
 
@@ -89,7 +90,7 @@ public abstract class AbstractActor implements Actor{
         this.nextMove();
     }
 
-
+//----------------------------------------------------------------------------------------------------------------------
     // Step 2
     @Override
     public void setSpeed(double speed) {
@@ -113,6 +114,5 @@ public abstract class AbstractActor implements Actor{
 
     @Override
     public void setStopTime(int nbFrames) {
-
     }
 }

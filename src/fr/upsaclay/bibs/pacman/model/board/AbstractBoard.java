@@ -7,6 +7,7 @@ import fr.upsaclay.bibs.pacman.model.actors.*;
 import fr.upsaclay.bibs.pacman.model.maze.Maze;
 import fr.upsaclay.bibs.pacman.model.maze.TilePosition;
 
+import java.io.FileNotFoundException;
 import java.util.List;
 
 public abstract class AbstractBoard implements Board {
@@ -28,6 +29,7 @@ public abstract class AbstractBoard implements Board {
 
     public AbstractBoard(GameType gameType) {
         this.gameType = gameType;
+
     }
 
     /**

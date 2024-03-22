@@ -48,6 +48,7 @@ public class Pacman extends AbstractActor{
     @Override
     public void nextMove() {
 
+
         // Au milieu d'une case : verifie s'il a l'intention de tourner et s'il peut le faire il tourne
         TilePosition tile = this.getCurrentTile();
         if(tile.getLine() == Maze.TITLE_CENTER_Y && tile.getCol() == Maze.TITLE_CENTER_X){

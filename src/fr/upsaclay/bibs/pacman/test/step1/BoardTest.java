@@ -48,12 +48,16 @@ public class BoardTest {
         Board classicBoard = Board.createBoard(GameType.CLASSIC);
         classicBoard.initialize();
         /** test that PacMan is not null after initialization **/
+
         assertNotNull(classicBoard.getPacMan());
         assertEquals(classicBoard.getPacMan().getType(), ActorType.PACMAN);
+
         /** test that PacMan is an initial position **/
         assertEquals(classicBoard.getPacMan().getX(), 112);
         assertEquals(classicBoard.getPacMan().getY(), 211);
         assertEquals(classicBoard.getPacMan().getCurrentTile(), new TilePosition(26, 14));
+
+
         /** test that the maze is not null after initialization **/
         assertNotNull(classicBoard.getMaze());
         assertEquals(classicBoard.getMaze().getWidth(),28);

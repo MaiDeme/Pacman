@@ -2,18 +2,13 @@ package fr.upsaclay.bibs.pacman.control;
 
 import fr.upsaclay.bibs.pacman.GameType;
 import fr.upsaclay.bibs.pacman.PacManException;
-import fr.upsaclay.bibs.pacman.model.board.AbstractBoard;
 import fr.upsaclay.bibs.pacman.model.board.Board;
-import fr.upsaclay.bibs.pacman.model.maze.Maze;
 import fr.upsaclay.bibs.pacman.view.BoardView;
 import fr.upsaclay.bibs.pacman.view.PacManLayout;
 import fr.upsaclay.bibs.pacman.view.PacManView;
 
-import javax.swing.*;
 
-
-
-public class SimpleController implements Controller{
+public class simple implements Controller{
 
 
     public GameType gameType;
@@ -21,17 +16,17 @@ public class SimpleController implements Controller{
     public PacManView view;
     public static final int INITIAL_DELAY = 17;
 
-    public SimpleController(GameType gameType) {
+    public simple(GameType gameType) {
         this.gameType = gameType;
+        this.board = Board.createBoard(gameType);
+        ;
 
     }
 
     @Override
     public void initialize() throws PacManException {
 
-        Maze maze = board.getMaze();
-
-        BoardView view = new BoardView("Plateau de jeu ", board);
+        BoardView view = new BoardView("Plateau de jeu ", this.board);
         view.setLoopDelay(INITIAL_DELAY);
 
     }

@@ -1,24 +1,25 @@
 package fr.upsaclay.bibs.pacman.model.board;
-import fr.upsaclay.bibs.pacman.GameType;
-import fr.upsaclay.bibs.pacman.PacManException;
-import fr.upsaclay.bibs.pacman.model.actors.ActorType;
-import fr.upsaclay.bibs.pacman.model.actors.Pacman;
-import fr.upsaclay.bibs.pacman.model.maze.Maze;
 
-import java.io.FileNotFoundException;
+        import fr.upsaclay.bibs.pacman.GameType;
+        import fr.upsaclay.bibs.pacman.PacManException;
+        import fr.upsaclay.bibs.pacman.model.actors.ActorType;
+        import fr.upsaclay.bibs.pacman.model.actors.Pacman;
+        import fr.upsaclay.bibs.pacman.model.maze.Grid;
+        import fr.upsaclay.bibs.pacman.model.maze.Maze;
+
+        import java.io.FileNotFoundException;
 
 public class ClassicBoard extends AbstractBoard {
+
+
     public ClassicBoard() {
         super(GameType.CLASSIC);
     }
 
-    @Override
-    public GameType getGameType(){
-        return GameType.CLASSIC;
-    }
 
     @Override
     public void initialize() throws PacManException {
+
 
         try {
             this.maze = Maze.loadFromFile("/home/mxb/Master BIBS/M1S2/POO/Projet_Pacman/resources/maze.txt");
@@ -26,8 +27,7 @@ public class ClassicBoard extends AbstractBoard {
             throw new RuntimeException(e);
         }
         this.pacman = new Pacman(this);
-
     }
 
-
 }
+

@@ -23,7 +23,7 @@ public class PacManCorneringTurnTest {
     @Test
     public void testCorneringSetIntentionTurnUp() throws PacManException {
         Board testBoard = Board.createBoard(GameType.TEST);
-        testBoard.initialize();
+        //testBoard.initialize();
         testBoard.startActors();
         Actor pacman = testBoard.getPacMan();
         pacman.setSpeed(1);
