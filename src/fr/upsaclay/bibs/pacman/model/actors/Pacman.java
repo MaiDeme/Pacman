@@ -12,8 +12,8 @@ public class Pacman extends AbstractActor {
 
     public Pacman(Board board) {
         super(board, ActorType.PACMAN);
-        setDirection(fr.upsaclay.bibs.pacman.model.Direction.LEFT);
         start();
+        setDirection(Direction.LEFT);
     }
 
     /**
@@ -23,6 +23,7 @@ public class Pacman extends AbstractActor {
      */
     @Override
     public void start() {
+        
         if (this.getBoard().getGameType() == GameType.CLASSIC) {
             this.x = 112;
             this.y = 211;
@@ -35,6 +36,9 @@ public class Pacman extends AbstractActor {
 
     @Override
     public void setIntention(Direction direction) {
+        if (direction == null) {
+            return;
+        }
         if (this.Direction.reverse() == direction) {
             this.Direction = direction;
             this.intention = null;
@@ -58,23 +62,37 @@ public class Pacman extends AbstractActor {
         // est bloqué
         TilePosition depart = this.getCurrentTile();
 
+        // d'abord on met a jour la direction dans les cas particuliers ou c'est immmédiat
+        // si c'est pas possible rien ne change
         setIntention(this.intention);
 
-        // si Pacman n'est pas bloqué il avance dans sa direction
+        // si Pacman n'est pas bloqué il avance dans sa direction qu'il soit avant ou après le milieu de la tuile
         if (!this.getBoard().getMaze().getNeighbourTile(depart, this.Direction).isWall()) {
-            setPosition(this.x + this.getDirection().getDx(), this.y + this.getDirection().getDy());
+            if (Direction == Direction.UP && this.y==0){
+                this.y = getBoard().getMaze().getPixelHeight()-1;
+            }else if (Direction == Direction.DOWN && this.y==getBoard().getMaze().getPixelHeight()-1){
+                this.y = 0;
+            }else if (Direction == Direction.LEFT && this.x==0){
+                this.x = getBoard().getMaze().getPixelWidth()-1;
+            }else if (Direction == Direction.RIGHT && this.x==getBoard().getMaze().getPixelWidth()-1){
+                this.x = 0;
+            }else{
+                setPosition(this.x + this.getDirection().getDx(), this.y + this.getDirection().getDy());
+            }
         }
 
         // si il arrive au milieu d'une tuile
         if (this.getX() % Maze.TILE_WIDTH == Maze.TITLE_CENTER_X
                 && this.getY() % Maze.TILE_HEIGHT == Maze.TITLE_CENTER_Y) {
+                    //si intention n'est pas null
             if (this.intention != null) {
-                // Cas où a le droit de tourner
+                // si on a le droit de tourner
                 if (!this.getBoard().getMaze().getNeighbourTile(depart, this.intention).isWall()) {
                     // on met à jour la direction
                     this.setDirection(intention);
                     this.intention = null;
                 } else {
+                    //sinon intention = null
                     this.intention = null;
                 }
 
