@@ -7,6 +7,8 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.util.Scanner;
 
+import static org.junit.jupiter.api.Assertions.assertEquals;
+
 /**
  * The interface corresponding to the maze where PacMan evolves
  * It is made by a grid of tiles,
@@ -165,10 +167,7 @@ public interface Maze {
             String ligne[] = line.split(" ");
 
             for (int j = 0; j < width; j++) {
-
-                lab.plateau[i][j] =  Tile.valueOf(ligne[j]);
-
-
+                lab.setTile(i,j,Tile.valueOf(ligne[j]));
             }
         }
         scan.close();
@@ -184,4 +183,5 @@ public interface Maze {
      * @return the number of dots
      */
     int getNumberOfDots();
+
 }

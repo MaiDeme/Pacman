@@ -6,11 +6,10 @@ import fr.upsaclay.bibs.pacman.model.board.Board;
 import fr.upsaclay.bibs.pacman.view.BoardView;
 import fr.upsaclay.bibs.pacman.view.PacManLayout;
 import fr.upsaclay.bibs.pacman.model.Direction;
-import fr.upsaclay.bibs.pacman.view.PacManView;
 
-public class VisualController extends SimpleController {
+public class visual extends simple {
 
-    VisualController(GameType gameType) {
+    visual(GameType gameType) {
         super(gameType);
         this.view = new BoardView("Plateau de jeu ", this.board);
     }

@@ -4,19 +4,17 @@ import fr.upsaclay.bibs.pacman.GameType;
 import fr.upsaclay.bibs.pacman.PacManException;
 import fr.upsaclay.bibs.pacman.model.board.Board;
 import fr.upsaclay.bibs.pacman.model.board.BoardState;
-import fr.upsaclay.bibs.pacman.view.BoardView;
-import fr.upsaclay.bibs.pacman.view.PacManLayout;
 import fr.upsaclay.bibs.pacman.view.PacManView;
 import fr.upsaclay.bibs.pacman.model.Direction;
 
-public class SimpleController implements Controller {
+public class simple implements Controller {
 
     public GameType gameType;
     public Board board;
     public PacManView view;
     public static final int INITIAL_DELAY = 17;
 
-    public SimpleController(GameType gameType) {
+    public simple(GameType gameType) {
         this.gameType = gameType;
         this.board = Board.createBoard(gameType);
 

@@ -8,9 +8,12 @@ public class Grid implements Maze {
     private int width;
     private int height;
 
+    private int number_of_dots;
+
     static Tile[][] plateau;
 
     public Grid(int height, int width) {
+        this.number_of_dots = 0;
         this.height = height;
         this.width = width;
         this.plateau = new Tile[height][width];
@@ -108,8 +111,37 @@ public class Grid implements Maze {
 
     @Override
     public void setTile(int line, int col, Tile tile) {
+        if (plateau[line][col] != null){
+            Tile prev_tile = plateau[line][col];
+            //S'il y a quelque chose sur la case il faut vérifier si elle contient des dots ou pas
+
+            if(prev_tile == Tile.BD || prev_tile == Tile.SD || prev_tile == Tile.ND){
+                //cas ou elle contient des dots.
+
+                // Ne peut que enlever des dots si la nouvelle case n'en n'a pas
+                if(!(tile == Tile.BD || tile == Tile.SD || tile == Tile.ND)) {
+                    this.number_of_dots -= 1;
+                }
+
+            }else{
+                //Cas ou la case precedente ne contient pas de dots, ne peut que en rajouter
+                if(tile == Tile.BD || tile == Tile.SD || tile == Tile.ND){
+                    this.number_of_dots += 1;
+                }
+            }
+
+
+        }else{
+            //Si la case était vide on ne peut que rajouter des dots
+            if(tile == Tile.BD || tile == Tile.SD || tile == Tile.ND){
+                this.number_of_dots += 1;
+            }
+
+
+        }
 
         plateau[line][col] = tile;
+
 
     }
 
@@ -127,9 +159,9 @@ public class Grid implements Maze {
 
 
 
-    public int getNumberOfDots(){
-        return 0;
-
+    public int getNumberOfDots() {
+        return this.number_of_dots;
     }
+
 
 }
