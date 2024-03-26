@@ -5,6 +5,7 @@
 Camille De Amorim  
 Anne Beigeaud  
 Antoine Loth
+Maïwen Demeulle
 
 ## Introduction
 
