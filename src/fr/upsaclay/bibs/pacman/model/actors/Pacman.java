@@ -74,10 +74,17 @@ public class Pacman extends AbstractActor {
         setIntention(this.intention);
         Tile arrivee_tuile = this.getBoard().getMaze().getNeighbourTile(depart, this.Direction);
 
-        this.blocked = false;
+
 
         // si Pacman n'est pas bloqué il avance dans sa direction qu'il soit avant ou après le milieu de la tuile
-        if (!arrivee_tuile.isWall()) {
+        if (!arrivee_tuile.isWall() || (!(this.getDirection() == fr.upsaclay.bibs.pacman.model.Direction.RIGHT && this.getX() % Maze.TILE_WIDTH == 7)
+                    && !(this.getDirection() == fr.upsaclay.bibs.pacman.model.Direction.LEFT && (1+ this.getX()) % Maze.TILE_WIDTH == 0)
+                    && !(this.getDirection() == fr.upsaclay.bibs.pacman.model.Direction.DOWN && this.getY() % Maze.TILE_WIDTH == 7)
+                    && !(this.getDirection() == fr.upsaclay.bibs.pacman.model.Direction.UP && (this.getY()+1) % Maze.TILE_WIDTH == 0)
+
+        )) {
+            this.blocked = false;
+
             if (Direction == Direction.UP && this.y==0){
                 this.y = getBoard().getMaze().getPixelHeight()-1;
             }else if (Direction == Direction.DOWN && this.y==getBoard().getMaze().getPixelHeight()-1){
@@ -115,11 +122,15 @@ public class Pacman extends AbstractActor {
         }
 
         if(x_depart == this.getX() && this.getY() == y_depart && arrivee_tuile.isWall() == true){
-            if(this.getX() % Maze.TILE_WIDTH == Maze.TITLE_CENTER_X || this.getY() % Maze.TILE_HEIGHT == Maze.TITLE_CENTER_Y){
-                this.blocked = true;
+            if(this.getDirection() == fr.upsaclay.bibs.pacman.model.Direction.RIGHT && this.getX() % Maze.TILE_WIDTH == 7
+                || this.getDirection() == fr.upsaclay.bibs.pacman.model.Direction.LEFT && (1+ this.getX()) % Maze.TILE_WIDTH == 0
+                ||this.getDirection() == fr.upsaclay.bibs.pacman.model.Direction.DOWN && this.getY() % Maze.TILE_WIDTH == 7
+                ||this.getDirection() == fr.upsaclay.bibs.pacman.model.Direction.UP && (this.getY()+1) % Maze.TILE_WIDTH == 0){
+
+                    this.blocked = true;
+                }
             }
 
-        }
 
     }
 }

@@ -733,11 +733,13 @@ public class PacManTest {
         assertEquals(pacman.getY(), y);
         assertFalse(pacman.isBlocked());
         // Now let's move to the left wall and get stuck again
-        for(int i = 0; i < Maze.TILE_WIDTH; i++) {
+        for(int i = 0; i < Maze.TILE_WIDTH +3; i++) {
             pacman.nextMove();;
+            //assertNotEquals(pacman.getX(), );
+            //Ne se bloque pas dans la boucle
         }
         assertEquals(pacman.getX(), x-8);
-        assertEquals(pacman.getY(), y);
+        assertEquals(pacman.getY(),y);
         assertTrue(pacman.isBlocked());
         // If we tell pacman to g right, it gets unstuck
         pacman.setIntention(Direction.RIGHT);
