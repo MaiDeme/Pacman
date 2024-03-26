@@ -10,17 +10,15 @@ import fr.upsaclay.bibs.pacman.view.PacManView;
 
 public class VisualController extends SimpleController {
 
-    VisualController(GameType gameType) {
-        super(gameType);
+    VisualController() {
+        super();
         this.view = new BoardView("Plateau de jeu ", this.board);
     }
 
     @Override
     public void initialize() throws PacManException {
         // TODO
-
-        // view.setLoopDelay(INITIAL_DELAY);
-        initializeNewGame();
+        //view.setLoopDelay(INITIAL_DELAY);
 
         view.setBoard(board);
         view.setController(this);
@@ -32,7 +30,6 @@ public class VisualController extends SimpleController {
     @Override
     public void initializeNewGame() throws PacManException {
         view.update();
-
         board = Board.createBoard(this.getGameType());
 
     }

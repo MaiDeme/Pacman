@@ -16,18 +16,5 @@ public class ClassicBoard extends AbstractBoard {
         super(GameType.CLASSIC);
     }
 
-
-    @Override
-    public void initialize() throws PacManException {
-
-
-        try {
-            this.maze = Maze.loadFromFile("resources/maze.txt");
-        } catch (FileNotFoundException e) {
-            throw new RuntimeException(e);
-        }
-        this.pacman = new Pacman(this);
-    }
-
 }
 

@@ -16,25 +16,17 @@ public class SimpleController implements Controller {
     public PacManView view;
     public static final int INITIAL_DELAY = 17;
 
-    public SimpleController(GameType gameType) {
-        this.gameType = gameType;
-        this.board = Board.createBoard(gameType);
-
+    public SimpleController() {
+        super();
     }
 
     @Override
     public void initialize() throws PacManException {
-
-        // BoardView view = new BoardView("Plateau de jeu ", this.board);
-        // view.setLoopDelay(INITIAL_DELAY);
         initializeNewGame();
-
     }
 
     @Override
     public void initializeNewGame() throws PacManException {
-
-        // view.update();
 
         board = Board.createBoard(this.getGameType());
 
@@ -49,40 +41,53 @@ public class SimpleController implements Controller {
     public GameType getGameType() {
         return this.gameType;
     }
-
     @Override
-    public void receiveAction(GameAction action) throws PacManException {
-        if (board.getBoardState()!=BoardState.STARTED){
+    public void receiveAction(GameAction action) throws PacManException{
+
+        //si le jeu n'est pas started
+        if (board.getBoardState()== BoardState.INITIAL){
+            //si on appuie sur start
             if (action==GameAction.START){
                 board.initialize();
             }else{
+                //sinon impossible de faire autre chose
                 throw new ForbiddenActionException(action);
             }
-        }else if (action==GameAction.START){
-            throw new ForbiddenActionException(action);
+        }else {
+            switch (action) {
+                case START:
+                    throw new ForbiddenActionException(action);
+                case UP:
+                    board.getPacMan().setDirection(Direction.UP);
+                    break;
+                case DOWN:
+                    board.getPacMan().setDirection(Direction.DOWN);
+                    break;
+                case LEFT:
+                    board.getPacMan().setDirection(Direction.LEFT);
+                    break;
+                case RIGHT:
+                    board.getPacMan().setDirection(Direction.RIGHT);
+                    break;
+                case PAUSE:
+                    break;
+                case NEXT_FRAME:
+                    board.nextFrame();
+                    break;
+                case NEXT_LEVEL:
+                    break;
+                case NEW_GAME:
+                    break;
+                case NEW_LIFE:
+                    break;
+                case RESUME:
+                default:
+                    break;
+            }
         }
 
-        switch (action) {
-            case UP:
-                board.getPacMan().setIntention(Direction.UP);
-                break;
-            case DOWN:
-                board.getPacMan().setIntention(Direction.DOWN);
-                break;
-            case LEFT:
-                board.getPacMan().setIntention(Direction.LEFT);
-                break;
-            case RIGHT:
-                board.getPacMan().setIntention(Direction.RIGHT);
-                break;
-            case PAUSE:
-                break;
-            case RESUME:
-                break;
-            case NEXT_FRAME:
-                break;
-        }
     }
+
 
     @Override
     public Board getBoard() {
