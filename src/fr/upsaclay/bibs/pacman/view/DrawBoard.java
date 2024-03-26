@@ -9,7 +9,6 @@ import javax.swing.*;
 import java.awt.*;
 
 
-
 /**
  * A customized implementation of JPanel to draw the ongoing simulation
  *
@@ -21,10 +20,9 @@ public class DrawBoard extends JPanel {
     private Board board;
     
 
-    public DrawBoard(Board board) {
+    public DrawBoard(int width, int height) {   
         super();
-        this.board = board;
-        setPreferredSize(new Dimension(this.board.getMaze().getWidth() * BoardView.PIXELS_PER_CELLS, this.board.getMaze().getHeight() * BoardView.PIXELS_PER_CELLS));
+        setPreferredSize(new Dimension( width* BoardView.PIXELS_PER_CELLS, height* BoardView.PIXELS_PER_CELLS));
 
     }
 

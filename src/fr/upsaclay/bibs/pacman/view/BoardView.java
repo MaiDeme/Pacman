@@ -16,6 +16,7 @@ public class BoardView extends JFrame implements PacManView{
     private Controller controller;
 
     public static final int PIXELS_PER_CELLS = 2;
+
     DrawBoard drawBoard ;
 
     private Timer timer;
@@ -24,24 +25,23 @@ public class BoardView extends JFrame implements PacManView{
     public JPanel playPanel;
     public JPanel pausePanel;
 
-    public BoardView(String name, Board board) {
+    public BoardView(String name, int width, int height) {
         super(name);
 
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        this.setResizable(false);
+        this.setResizable(true);
 
         this.timer = new Timer(1, null);
 
         // Create the drawBoard
-        drawBoard = new DrawBoard(board);
+        
+        drawBoard = new DrawBoard(width, height);
     }
 
     @Override
     public void setBoard(Board board) {
         drawBoard.setBoard(board);
     }
-
-
 
     @Override
     public void setController(Controller controller) {
@@ -51,7 +51,6 @@ public class BoardView extends JFrame implements PacManView{
     @Override
     public void initialize() {
         // General initialization
-
         drawBoard.initialize();
         add( drawBoard );
 
@@ -65,6 +64,7 @@ public class BoardView extends JFrame implements PacManView{
         initialStartButton.addActionListener(new ButtonListener(controller, GameAction.START));
         initialPanel.add(initialStartButton);
         drawBoard.add(initialPanel);
+        initialPanel.setBackground(new Color(0, 0, 0, 0));
 
 
         // Timer initialization
@@ -100,24 +100,26 @@ public class BoardView extends JFrame implements PacManView{
         timer.setDelay(ms);
     }
 
-    //
+    
+    public void pause() {
+        //controller.receiveAction(GameAction.PAUSE);
+    }
 
     @Override
     public void setLayout(PacManLayout layout) {
 
         switch (layout) {
-            case INIT : drawInitView();break;
+            case INIT :
+                drawInitView();
+                break;
+            case GAME_ON :
+                drawPlayView();
+                break;
+            case PAUSE :
+                drawPauseView();
+                break;
         }
-        switch (layout) {
-            case GAME_ON  : drawPlayView();break;
-        }
-        switch (layout) {
-
-            case PAUSE  : drawPauseView();break;
-        }
-
-
-
+        
     }
 
     @Override
