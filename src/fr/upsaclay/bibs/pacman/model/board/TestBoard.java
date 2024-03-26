@@ -22,7 +22,7 @@ public class TestBoard extends AbstractBoard {
 
 
         try {
-            this.maze = Maze.loadFromFile("/home/mxb/Master BIBS/M1S2/POO/Projet_Pacman/resources/test.txt");
+            this.maze = Maze.loadFromFile("resources/test.txt");
         } catch (FileNotFoundException e) {
             throw new RuntimeException(e);
         }
