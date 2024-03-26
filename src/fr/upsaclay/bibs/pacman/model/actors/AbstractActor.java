@@ -15,14 +15,13 @@ public abstract class AbstractActor implements Actor{
     protected Direction Direction;
     protected Direction intention;
     protected boolean blocked;
-    protected boolean next_blocked;
+
 
     public ActorType type;
 
     public AbstractActor(Board board,  ActorType type){
         this.type = type;
         this.board = board;
-        this.next_blocked = false;
         this.blocked = false;
     }
 
@@ -85,7 +84,7 @@ public abstract class AbstractActor implements Actor{
 
     @Override
     public boolean isBlocked() {
-       return this.blocked;
+        return this.blocked;
     }
 
     @Override

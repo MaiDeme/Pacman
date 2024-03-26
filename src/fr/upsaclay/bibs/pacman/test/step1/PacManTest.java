@@ -698,6 +698,7 @@ public class PacManTest {
         pacman.nextMove();;
         assertEquals(pacman.getX(), x);
         assertEquals(pacman.getY(), y);
+        //assertEquals(pacman.blocked, true);
         assertTrue(pacman.isBlocked());
         // still stuck
         pacman.nextMove();;
@@ -744,7 +745,7 @@ public class PacManTest {
         // If we tell pacman to g right, it gets unstuck
         pacman.setIntention(Direction.RIGHT);
         pacman.nextMove();;
-        assertEquals(pacman.getX(), x-7);
+       assertEquals(pacman.getX(), x-7);
         assertEquals(pacman.getY(), y);
         assertFalse(pacman.isBlocked());
     }
