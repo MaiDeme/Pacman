@@ -5,6 +5,8 @@ import fr.upsaclay.bibs.pacman.model.board.Board;
 import fr.upsaclay.bibs.pacman.model.maze.Tile;
 import fr.upsaclay.bibs.pacman.model.maze.TilePosition;
 
+
+
 public abstract class AbstractActor implements Actor{
 
     protected int x;
@@ -12,12 +14,16 @@ public abstract class AbstractActor implements Actor{
     protected Board board;
     protected Direction Direction;
     protected Direction intention;
+    protected boolean blocked;
+    protected boolean next_blocked;
 
     public ActorType type;
 
     public AbstractActor(Board board,  ActorType type){
         this.type = type;
         this.board = board;
+        this.next_blocked = false;
+        this.blocked = false;
     }
 
 
@@ -62,12 +68,13 @@ public abstract class AbstractActor implements Actor{
 
     @Override
     public void setDirection(Direction direction) {
-
         this.Direction = direction;
+
     }
 
     @Override
     public void setIntention(Direction direction) {
+
         this.intention = direction;
     }
 
@@ -78,8 +85,7 @@ public abstract class AbstractActor implements Actor{
 
     @Override
     public boolean isBlocked() {
-        Tile nextTile = this.board.getMaze().getNeighbourTile(this.getCurrentTile(), this.Direction);
-        return nextTile.isWall();
+       return this.blocked;
     }
 
     @Override

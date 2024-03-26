@@ -22,5 +22,6 @@ public class PacManApp {
                 throw new RuntimeException(e);
             }
         });
+
     }
 }
