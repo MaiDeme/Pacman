@@ -8,13 +8,18 @@ import fr.upsaclay.bibs.pacman.model.maze.Maze;
 import fr.upsaclay.bibs.pacman.model.maze.Tile;
 import fr.upsaclay.bibs.pacman.model.maze.TilePosition;
 
+
+
 public class Pacman extends AbstractActor {
+    boolean blocked ;
 
     public Pacman(Board board) {
         super(board, ActorType.PACMAN);
         start();
         setDirection(Direction.LEFT);
     }
+
+
 
     /**
      * Start the actor at the beginning of the game
@@ -49,6 +54,7 @@ public class Pacman extends AbstractActor {
         } else {
             this.intention = direction;
         }
+
     }
 
     @Override
@@ -60,11 +66,15 @@ public class Pacman extends AbstractActor {
         // si PacMan a dépassé le milieu de la tuile, il vérifie qu'il peut continuer
         // d'avancer dans sa direction. Si ce n'est pas le cas, il arrête d'avancer, il
         // est bloqué
-        TilePosition depart = this.getCurrentTile();
 
+        int x_depart = this.getX();
+        int y_depart = this.getY();
+        TilePosition depart = this.getCurrentTile();
         // d'abord on met a jour la direction dans les cas particuliers ou c'est immmédiat
         // si c'est pas possible rien ne change
         setIntention(this.intention);
+
+
 
         // si Pacman n'est pas bloqué il avance dans sa direction qu'il soit avant ou après le milieu de la tuile
         if (!this.getBoard().getMaze().getNeighbourTile(depart, this.Direction).isWall()) {
@@ -79,6 +89,8 @@ public class Pacman extends AbstractActor {
             }else{
                 setPosition(this.x + this.getDirection().getDx(), this.y + this.getDirection().getDy());
             }
+        }else{
+
         }
 
         // si il arrive au milieu d'une tuile
@@ -98,6 +110,11 @@ public class Pacman extends AbstractActor {
 
             }
 
+        }
+        if(this.getX() == x_depart && this.getY() == y_depart){
+            this.blocked = true;
+        }else{
+            this.blocked = false;
         }
     }
 }
