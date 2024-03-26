@@ -14,8 +14,8 @@ import fr.upsaclay.bibs.pacman.model.board.BoardState;
 
 public class VisualController extends SimpleController {
 
-    public static final int WIDTH = 160;
-    public static final int HEIGHT = 140;
+    public static final int WIDTH = 300;
+    public static final int HEIGHT = 300;
     private BoardView view;
 
     VisualController() {
@@ -40,6 +40,8 @@ public class VisualController extends SimpleController {
         view.setLoopDelay(INITIAL_DELAY);
         view.setBoard(board);
         view.setLayout(PacManLayout.INIT);
+        view.setVisible(true);
+
         view.update();
 
 
@@ -52,7 +54,7 @@ public class VisualController extends SimpleController {
         if (board.getBoardState()== BoardState.INITIAL){
             //si on appuie sur start
             if (action==GameAction.START){
-                board.initialize();
+                board.initialize();                
             }else{
                 //sinon impossible de faire autre chose
                 throw new ForbiddenActionException(action);

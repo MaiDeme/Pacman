@@ -23,7 +23,6 @@ public class DrawBoard extends JPanel {
     public DrawBoard(int width, int height) {   
         super();
         setPreferredSize(new Dimension( width* BoardView.PIXELS_PER_CELLS, height* BoardView.PIXELS_PER_CELLS));
-
     }
 
     public void initialize() {

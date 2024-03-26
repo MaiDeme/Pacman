@@ -79,6 +79,7 @@ public abstract class AbstractBoard implements Board {
      */
     public void startActors() {
         this.pacman = new Pacman(this);
+        pacman.start();
     }
 
     /**

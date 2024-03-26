@@ -9,15 +9,15 @@ import java.awt.*;
 
 import javax.swing.JFrame;
 import javax.swing.Timer;
+import javax.swing.border.Border;
 
-
-public class BoardView extends JFrame implements PacManView{
+public class BoardView extends JFrame implements PacManView {
 
     private Controller controller;
 
     public static final int PIXELS_PER_CELLS = 2;
 
-    DrawBoard drawBoard ;
+    DrawBoard drawBoard;
 
     private Timer timer;
 
@@ -34,7 +34,7 @@ public class BoardView extends JFrame implements PacManView{
         this.timer = new Timer(1, null);
 
         // Create the drawBoard
-        
+
         drawBoard = new DrawBoard(width, height);
     }
 
@@ -52,12 +52,12 @@ public class BoardView extends JFrame implements PacManView{
     public void initialize() {
         // General initialization
         drawBoard.initialize();
-        add( drawBoard );
-
+        add(drawBoard);
 
         // The initial panel (quand pon lance la fonction main)
         initialPanel = new JPanel();
-        initialPanel.setPreferredSize(new Dimension(drawBoard.getPreferredSize().width, drawBoard.getPreferredSize().height));
+        initialPanel.setPreferredSize(
+                new Dimension(drawBoard.getPreferredSize().width, drawBoard.getPreferredSize().height));
 
         JButton initialStartButton;
         initialStartButton = new JButton("Start");
@@ -66,60 +66,59 @@ public class BoardView extends JFrame implements PacManView{
         drawBoard.add(initialPanel);
         initialPanel.setBackground(new Color(0, 0, 0, 0));
 
-
         // Timer initialization
         timer.addActionListener(new ButtonListener(controller, GameAction.NEXT_FRAME));
 
         // The play panel (when the simulation is running)
         playPanel = new JPanel();
-        playPanel.setPreferredSize(new Dimension(drawBoard.getPreferredSize().width, drawBoard.getPreferredSize().height));
+        playPanel.setPreferredSize(
+                new Dimension(drawBoard.getPreferredSize().width, drawBoard.getPreferredSize().height));
         JButton PauseButton;
         PauseButton = new JButton("Pause");
         PauseButton.addActionListener(new ButtonListener(controller, GameAction.PAUSE));
         playPanel.add(PauseButton);
-        drawBoard.add(playPanel);
-
+        drawBoard.add(playPanel, BorderLayout.CENTER);
 
         // The pause panel (when the game is on pause)
         pausePanel = new JPanel();
-        pausePanel.setPreferredSize(new Dimension(drawBoard.getPreferredSize().width, drawBoard.getPreferredSize().height));
+        pausePanel.setPreferredSize(
+                new Dimension(drawBoard.getPreferredSize().width, drawBoard.getPreferredSize().height));
         JButton ResumeButton;
         ResumeButton = new JButton("Resume");
         ResumeButton.addActionListener(new ButtonListener(controller, GameAction.RESUME));
         pausePanel.add(ResumeButton);
         drawBoard.add(pausePanel);
 
-
         pack();
         setVisible(true);
 
     }
 
-    //@Override
+    // @Override
     public void setLoopDelay(int ms) {
         timer.setDelay(ms);
     }
 
-    
     public void pause() {
-        //controller.receiveAction(GameAction.PAUSE);
+        // controller.receiveAction(GameAction.PAUSE);
     }
 
     @Override
     public void setLayout(PacManLayout layout) {
 
         switch (layout) {
-            case INIT :
+            case INIT:
                 drawInitView();
                 break;
-            case GAME_ON :
+            case GAME_ON:
                 drawPlayView();
+
                 break;
-            case PAUSE :
+            case PAUSE:
                 drawPauseView();
                 break;
         }
-        
+
     }
 
     @Override
@@ -137,6 +136,7 @@ public class BoardView extends JFrame implements PacManView{
 
     private void drawPlayView() {
         timer.start();
+        add(DrawBoard,BorderLayout.CENTER);
         initialPanel.setVisible(false);
         playPanel.setVisible(true);
         pausePanel.setVisible(false);

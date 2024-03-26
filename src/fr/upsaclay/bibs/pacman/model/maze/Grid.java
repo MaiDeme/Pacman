@@ -15,8 +15,8 @@ public class Grid implements Maze {
         this.width = width;
         this.plateau = new Tile[height][width];
 
-        for (int i =0; i< width; i++){
-            for (int j = 0; j < width; j++){
+        for (int i = 0; i < width; i++) {
+            for (int j = 0; j < width; j++) {
                 plateau[i][j] = Tile.EE;
             }
         }
@@ -56,33 +56,33 @@ public class Grid implements Maze {
     @Override
     public TilePosition getNeighbourTilePosition(int line, int col, Direction dir) {
         switch (dir) {
-            case UP :
-                line = line -1;
+            case UP:
+                line--;
                 break;
 
             case LEFT:
-                col = col -1;
+                col--;
                 break;
 
-            case RIGHT :
-                col = col +1;
+            case RIGHT:
+                col++;
                 break;
 
             case DOWN:
-                line = line +1;
+                line++;
                 break;
 
         }
 
-        if (col< 0){
-            col = this.getWidth() -1 ;
-        }else if (col > this.getWidth()-1){
+        if (col < 0) {
+            col = this.getWidth() - 1;
+        } else if (col > this.getWidth() - 1) {
             col = 0;
         }
 
-        if (line< 0){
-            line = this.getHeight() -1 ;
-        }else if (line > this.getHeight() -1){
+        if (line < 0) {
+            line = this.getHeight() - 1;
+        } else if (line > this.getHeight() - 1) {
             line = 0;
         }
 
@@ -122,12 +122,10 @@ public class Grid implements Maze {
     @Override
     public TilePosition getTilePosition(int x, int y) {
 
-        return new TilePosition((int) floor(y/8), (int) floor(x/8));
+        return new TilePosition((int) floor(y / 8), (int) floor(x / 8));
     }
 
-
-
-    public int getNumberOfDots(){
+    public int getNumberOfDots() {
         return 0;
 
     }
