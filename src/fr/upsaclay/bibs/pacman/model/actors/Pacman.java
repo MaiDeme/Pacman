@@ -11,11 +11,16 @@ import fr.upsaclay.bibs.pacman.model.maze.TilePosition;
 
 
 public class Pacman extends AbstractActor {
+    private int stop_eat;
+
+
 
     public Pacman(Board board) {
         super(board, ActorType.PACMAN);
         start();
         setDirection(Direction.LEFT);
+        stop_eat = 0;
+
     }
 
 
@@ -75,16 +80,21 @@ public class Pacman extends AbstractActor {
 
 
         //On commence par faire avancer Pacman dans sa direction puis ensuite on applique des conditions en fonction de sa position d arrivee
-        if (Direction == Direction.UP && this.y==0){
-            this.y = getBoard().getMaze().getPixelHeight()-1;
-        }else if (Direction == Direction.DOWN && this.y==getBoard().getMaze().getPixelHeight()-1){
-            this.y = 0;
-        }else if (Direction == Direction.LEFT && this.x==0){
-            this.x = getBoard().getMaze().getPixelWidth()-1;
-        }else if (Direction == Direction.RIGHT && this.x==getBoard().getMaze().getPixelWidth()-1){
-            this.x = 0;
+        if(stop_eat == 0) {
+            if (Direction == Direction.UP && this.y == 0) {
+                this.y = getBoard().getMaze().getPixelHeight() - 1;
+            } else if (Direction == Direction.DOWN && this.y == getBoard().getMaze().getPixelHeight() - 1) {
+                this.y = 0;
+            } else if (Direction == Direction.LEFT && this.x == 0) {
+                this.x = getBoard().getMaze().getPixelWidth() - 1;
+            } else if (Direction == Direction.RIGHT && this.x == getBoard().getMaze().getPixelWidth() - 1) {
+                this.x = 0;
+            } else {
+                setPosition(this.x + this.getDirection().getDx(), this.y + this.getDirection().getDy());
+            }
         }else{
-            setPosition(this.x + this.getDirection().getDx(), this.y + this.getDirection().getDy());
+            stop_eat -= 1;
+
         }
 
 
@@ -117,6 +127,34 @@ public class Pacman extends AbstractActor {
             this.setPosition(x_depart, y_depart);
             this.blocked = true;
         }
+
+
+        //Si il arrive au début d'une case : vérifie s'il y a un dot a manger et si oui met a jour score et labyrinthe
+        if ((this.getDirection() == fr.upsaclay.bibs.pacman.model.Direction.RIGHT && this.getX() % Maze.TILE_WIDTH == 0 )
+                || (this.getDirection() == fr.upsaclay.bibs.pacman.model.Direction.LEFT && (this.getX()) % Maze.TILE_WIDTH == 7)
+                ||(this.getDirection() == fr.upsaclay.bibs.pacman.model.Direction.DOWN && this.getY() % Maze.TILE_WIDTH == 0)
+                ||(this.getDirection() == fr.upsaclay.bibs.pacman.model.Direction.UP && (this.getY()) % Maze.TILE_WIDTH == 7)) {
+            TilePosition pos = this.getCurrentTile();
+            int score = this.getBoard().getScore();
+            if (this.getBoard().getMaze().getTile(this.getCurrentTile()) == Tile.SD) {
+                this.getBoard().setScore(score + 10);
+                this.getBoard().getMaze().setTile(pos.getLine(), pos.getCol(), Tile.EE);
+                stop_eat = 1;
+
+            } else if (this.getBoard().getMaze().getTile(this.getCurrentTile()) == Tile.ND) {
+                this.getBoard().setScore(score + 10);
+                this.getBoard().getMaze().setTile(pos.getLine(), pos.getCol(), Tile.NT);
+                stop_eat = 1;
+
+            } else if (this.getBoard().getMaze().getTile(this.getCurrentTile()) == Tile.BD) {
+                this.getBoard().setScore(score + 50);
+                this.getBoard().getMaze().setTile(pos.getLine(), pos.getCol(), Tile.EE);
+                stop_eat = 3;
+
+            }
+        }
+
+
 
     }
 }

@@ -29,6 +29,7 @@ public abstract class AbstractBoard implements Board {
 
     public AbstractBoard(GameType gameType) {
         this.gameType = gameType;
+        this.score = 0;
 
     }
 
@@ -97,6 +98,16 @@ public abstract class AbstractBoard implements Board {
      */
     public int getScore(){
         return this.score;
+    }
+
+
+
+    /**
+     * Set the current score of the game
+     *
+     */
+    public void setScore(int score){
+        this.score = score;
     }
 
     /**
