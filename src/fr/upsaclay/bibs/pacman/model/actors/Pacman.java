@@ -36,56 +36,36 @@ public class Pacman extends AbstractActor {
     @Override
     public void setIntention(Direction direction) {
         if (this.Direction.reverse() == direction) {
-            this.Direction = direction;
+            setDirection(direction);
             this.intention = null;
-        } else if (this.isBlocked()
-                && !this.getBoard().getMaze().getNeighbourTile(this.getCurrentTile(), direction).isWall()) {
-            this.Direction = direction;
-            this.intention = null;
+        } else if (this.isBlocked() && !this.getBoard().getMaze().getNeighbourTile(this.getCurrentTile(), direction).isWall()) {
+                setDirection(direction);
+                this.intention = null;
         } else {
-            this.intention = direction;
-        }
+                this.intention = null;
+                        }
     }
 
     @Override
     public void nextMove() {
-        // Si PacMan se trouve avant le milieu d'une tuile, il continue d'avancer dans
-        // sa direction
-        // si PacMan est au milieu de la tuile, il vérifie s'il a une "intention" et met
-        // à jour sa direction
-        // si PacMan a dépassé le milieu de la tuile, il vérifie qu'il peut continuer
-        // d'avancer dans sa direction. Si ce n'est pas le cas, il arrête d'avancer, il
-        // est bloqué
-        TilePosition depart = this.getCurrentTile();
+        // Si PacMan se trouve avant le milieu d'une tuile, il continue d'avancer dans sa direction
+        // si PacMan est au milieu de la tuile, il vérifie s'il a une "intention" et met à jour sa direction
+        // si PacMan a dépassé le milieu de la tuile, il vérifie qu'il peut continuer d'avancer dans sa direction. Si ce n'est pas le cas, il arrête d'avancer, il est bloqué
 
-        //Pacman est avant le milieu de la tuile
-        if (this.getX() % Maze.TILE_WIDTH < Maze.TITLE_CENTER_X && this.getY() % Maze.TILE_HEIGHT < Maze.TITLE_CENTER_Y){
-            setPosition(x+this.getDirection().getDx(), y+this.getDirection().getDy());
-            return;
+        TilePosition depart = this.getCurrentTile();
+        if (!this.isBlocked()){
+            setPosition(this.x + getDirection().getDx(), this.y + getDirection().getDy());
+        }
 
         // Cas ou Pacman est au milieu de la tuile
-        }else if (this.getX() %Maze.TILE_WIDTH == Maze.TITLE_CENTER_X && this.getY() % Maze.TILE_HEIGHT == Maze.TITLE_CENTER_Y) {
-            if (this.intention != null) { // si Pacman a une intention
-
-                // Cas où a le droit de tourner
-                if (!this.getBoard().getMaze().getNeighbourTile(depart, this.intention).isWall()) {
-                    //on avance et on met à jour la direction
-                    setPosition(this.x + getDirection().getDx(), this.y + getDirection().getDy());
-                    this.setDirection(intention);
-                }else{
-                    setPosition(this.x + getDirection().getDx(), this.y + getDirection().getDy());
-                }
-            }else{
-                setPosition(this.x + getDirection().getDx(), this.y + getDirection().getDy());
-            }
-
-            this.intention = null;
-            return;
-
-        } else { // Pacman est après le milieu de la tuile
-            if (!this.getBoard().getMaze().getNeighbourTile(depart, this.Direction).isWall()) {
-                setPosition(this.x + getDirection().getDx(), this.y + getDirection().getDy());
-            }
-        }
+       if (this.getX() %Maze.TILE_WIDTH  == Maze.TITLE_CENTER_X   && this.getY() % Maze.TILE_HEIGHT  == Maze.TITLE_CENTER_Y) {
+           if (this.getIntention() != null) { // si Pacman a une intention
+               // Cas où a le droit de tourner
+               if (!this.getBoard().getMaze().getNeighbourTile(depart, this.intention).isWall()) {
+                   setDirection(intention);
+               }
+               this.intention = null;
+           }
+       }
     }
 }
