@@ -736,7 +736,6 @@ public class PacManTest {
         // Now let's move to the left wall and get stuck again
         for(int i = 0; i < Maze.TILE_WIDTH +3; i++) {
             pacman.nextMove();;
-            //assertNotEquals(pacman.getX(), );
             //Ne se bloque pas dans la boucle
         }
         assertEquals(pacman.getX(), x-8);
