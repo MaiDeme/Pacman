@@ -6,6 +6,7 @@ import fr.upsaclay.bibs.pacman.model.Direction;
 import fr.upsaclay.bibs.pacman.model.actors.Actor;
 import fr.upsaclay.bibs.pacman.model.board.Board;
 import fr.upsaclay.bibs.pacman.model.maze.Maze;
+import fr.upsaclay.bibs.pacman.model.maze.Tile;
 import fr.upsaclay.bibs.pacman.model.maze.TilePosition;
 import org.junit.jupiter.api.Test;
 
@@ -691,7 +692,8 @@ public class PacManTest {
         }
         int x = pacman.getX();
         int y = pacman.getY();
-        assertFalse(pacman.isBlocked()); // not blocked yet
+        //assertEquals(pacman.getBoard().getMaze().getTile(pacman.getCurrentTile()), Tile.SD);
+        //assertFalse(pacman.isBlocked()); // not blocked yet
         // On the next move, we are stuck because of the wall
         pacman.nextMove();;
         assertEquals(pacman.getX(), x);

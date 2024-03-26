@@ -11,7 +11,6 @@ import fr.upsaclay.bibs.pacman.model.maze.TilePosition;
 
 
 public class Pacman extends AbstractActor {
-    boolean blocked ;
 
     public Pacman(Board board) {
         super(board, ActorType.PACMAN);
@@ -68,16 +67,17 @@ public class Pacman extends AbstractActor {
         // est bloqué
 
         int x_depart = this.getX();
-        int y_depart = this.getY();
+        int y_depart = this.y;
         TilePosition depart = this.getCurrentTile();
         // d'abord on met a jour la direction dans les cas particuliers ou c'est immmédiat
         // si c'est pas possible rien ne change
         setIntention(this.intention);
+        Tile arrivee_tuile = this.getBoard().getMaze().getNeighbourTile(depart, this.Direction);
 
-
+        this.blocked = false;
 
         // si Pacman n'est pas bloqué il avance dans sa direction qu'il soit avant ou après le milieu de la tuile
-        if (!this.getBoard().getMaze().getNeighbourTile(depart, this.Direction).isWall()) {
+        if (!arrivee_tuile.isWall()) {
             if (Direction == Direction.UP && this.y==0){
                 this.y = getBoard().getMaze().getPixelHeight()-1;
             }else if (Direction == Direction.DOWN && this.y==getBoard().getMaze().getPixelHeight()-1){
@@ -93,7 +93,9 @@ public class Pacman extends AbstractActor {
 
         }
 
-        // si il arrive au milieu d'une tuile
+
+
+        // si il arrive au milieu d'une tuile a la fin du deplacement
         if (this.getX() % Maze.TILE_WIDTH == Maze.TITLE_CENTER_X
                 && this.getY() % Maze.TILE_HEIGHT == Maze.TITLE_CENTER_Y) {
                     //si intention n'est pas null
@@ -106,15 +108,18 @@ public class Pacman extends AbstractActor {
                 } else {
                     //sinon intention = null
                     this.intention = null;
+
                 }
 
             }
+        }
+
+        if(x_depart == this.getX() && this.getY() == y_depart && arrivee_tuile.isWall() == true){
+            if(this.getX() % Maze.TILE_WIDTH == Maze.TITLE_CENTER_X || this.getY() % Maze.TILE_HEIGHT == Maze.TITLE_CENTER_Y){
+                this.blocked = true;
+            }
 
         }
-        if(this.getX() == x_depart && this.getY() == y_depart){
-            this.blocked = true;
-        }else{
-            this.blocked = false;
-        }
+
     }
 }
