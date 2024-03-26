@@ -26,10 +26,13 @@ public abstract class AbstractBoard implements Board {
     protected List<Ghost> ghosts;
     protected int score;
 
+    protected BoardState boardState;
+
 
     public AbstractBoard(GameType gameType) {
         this.gameType = gameType;
         this.score = 0;
+        this.boardState = BoardState.INITIAL;
 
     }
 
@@ -62,6 +65,8 @@ public abstract class AbstractBoard implements Board {
      */
     public void startActors() {
         pacman.start();
+        this.boardState = BoardState.STARTED;
+
     }
 
     /**
@@ -117,7 +122,7 @@ public abstract class AbstractBoard implements Board {
      * @return the board state
      */
     public BoardState getBoardState(){
-        return null;
+        return this.boardState;
     }
 
     /**

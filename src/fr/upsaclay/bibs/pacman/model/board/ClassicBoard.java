@@ -27,6 +27,7 @@ public class ClassicBoard extends AbstractBoard {
             throw new RuntimeException(e);
         }
         this.pacman = new Pacman(this);
+
     }
 
 }
