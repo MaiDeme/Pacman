@@ -23,6 +23,7 @@ public class SimpleController implements Controller {
     @Override
     public void initialize() throws PacManException {
         initializeNewGame();
+
     }
 
     @Override

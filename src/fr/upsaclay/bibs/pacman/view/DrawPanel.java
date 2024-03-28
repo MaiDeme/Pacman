@@ -8,21 +8,19 @@ import fr.upsaclay.bibs.pacman.model.maze.TilePosition;
 import javax.swing.*;
 import java.awt.*;
 
-
 /**
  * A customized implementation of JPanel to draw the ongoing simulation
  *
  * @author Viviane Pons
  *
  */
-public class DrawBoard extends JPanel {
+public class DrawPanel extends JPanel {
     
     private Board board;
     
-
-    public DrawBoard(int width, int height) {   
+    public DrawPanel(int width, int height) {   
         super();
-        setPreferredSize(new Dimension( width* BoardView.PIXELS_PER_CELLS, height* BoardView.PIXELS_PER_CELLS));
+        setPreferredSize(new Dimension(width, height));
     }
 
     public void initialize() {
@@ -31,6 +29,7 @@ public class DrawBoard extends JPanel {
 
     public void paintWalls(Graphics g, int i, int j) {
         int size = BoardView.PIXELS_PER_CELLS;
+      
         g.setColor(Color.BLUE);
         g.fillRect(j * size, i * size, size, size);
     }
@@ -49,7 +48,6 @@ public class DrawBoard extends JPanel {
          Maze maze = board.getMaze();
          TilePosition Pacpos = board.getPacMan().getCurrentTile();
 
-
         if(board != null) {
             for(int i = 0; i < maze.getPixelHeight(); i++) {
                 for(int j = 0; j <maze.getPixelWidth(); j++) {
@@ -57,10 +55,9 @@ public class DrawBoard extends JPanel {
                     Tile tile = maze.getTile(pos);
                     if (tile.isWall()){
                         paintWalls(g, i, j);
-                    } else if (pos == Pacpos) {
+                    } else if (pos == Pacpos){
                         paintPacMan(g,i,j);
                     }
-
                 }
             }
         }
@@ -75,6 +72,5 @@ public class DrawBoard extends JPanel {
     public void setBoard(Board board) {
         this.board = board;
     }
-
 }
 

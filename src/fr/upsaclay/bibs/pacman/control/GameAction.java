@@ -20,6 +20,7 @@ public enum GameAction {
     START,
     /** Ask to move to next game frame **/
     NEXT_FRAME,
+    QUIT,
 
     /** Step 2 actions **/
 

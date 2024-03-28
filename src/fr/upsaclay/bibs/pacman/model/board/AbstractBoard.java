@@ -30,6 +30,11 @@ public abstract class AbstractBoard implements Board {
     public AbstractBoard(GameType gameType) {
         this.gameType = gameType;
         this.boardState = BoardState.INITIAL;
+        try {
+            initialize();
+        } catch (PacManException e) {
+            e.printStackTrace();
+        }
     }
 
     /**
@@ -55,6 +60,7 @@ public abstract class AbstractBoard implements Board {
      */
     @Override
     public void initialize() throws PacManException {
+        System.out.println("Initializing board");
         if (gameType == GameType.TEST) {
             try {
                 this.maze = Maze.loadFromFile("resources/test.txt");
@@ -69,7 +75,6 @@ public abstract class AbstractBoard implements Board {
             }
         }
         boardState = BoardState.STARTED;
-
         startActors();
     }
 
