@@ -28,7 +28,9 @@ public abstract class AbstractBoard implements Board {
     protected List<Ghost> ghosts;
     protected int score;
 
+
     public AbstractBoard(GameType gameType) {
+
         this.gameType = gameType;
         this.boardState = BoardState.INITIAL;
         try {
@@ -37,6 +39,8 @@ public abstract class AbstractBoard implements Board {
             e.printStackTrace();
         }
     }
+
+
 
     /**
      * Return the type of game of the board

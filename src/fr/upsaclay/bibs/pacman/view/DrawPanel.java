@@ -2,6 +2,7 @@ package fr.upsaclay.bibs.pacman.view;
 
 import fr.upsaclay.bibs.pacman.model.Direction;
 import fr.upsaclay.bibs.pacman.model.actors.Actor;
+import fr.upsaclay.bibs.pacman.model.actors.GhostType;
 import fr.upsaclay.bibs.pacman.model.actors.Pacman;
 import fr.upsaclay.bibs.pacman.model.board.Board;
 import fr.upsaclay.bibs.pacman.model.maze.Maze;
@@ -71,33 +72,6 @@ public class DrawPanel extends JPanel {
         int x_pac = Pacman.getX();
         int y_pac = Pacman.getY();
 
-        //On s'occupe de savoir s'il doit avoir la bouche fermée/grande ouverte ou peu ouverte
-        if (Pacman.getDirection() == Direction.RIGHT || Pacman.getDirection() == Direction.LEFT){
-            if(x_pac %16 >= 0 && x_pac %16 <=3){
-                openMouth =3;
-
-            }else if ((x_pac %16 >= 4 && x_pac %16 <=7) || (x_pac %16 >= 12 && x_pac %16 <=15)) {
-                openMouth = 2;
-
-            }else{
-                openMouth = 1;
-            }
-
-        }else {
-
-            if (Pacman.getDirection() == Direction.UP || Pacman.getDirection() == Direction.DOWN) {
-                if (y_pac %16 >= 0 && y_pac %16 <=3) {
-                    openMouth = 1;
-
-                } else if ((y_pac %16 >= 4 && y_pac %16 <=7) || (y_pac %16 >= 12 && y_pac %16 <=15)) {
-                    openMouth = 2;
-
-                } else {
-                    openMouth = 3;
-                }
-
-            }
-        }
 
 
 
@@ -153,6 +127,33 @@ public class DrawPanel extends JPanel {
 
 
 
+
+    public void paintBlinky(Graphics g, int i, int j) {
+        int size = BoardView.PIXELS_PER_CELLS;
+        i = i * size;
+        j = j * size;
+        String filename = "resources/ghosts/LEFT.txt";
+
+
+        try (Scanner scanner = new Scanner(new File(filename))) {
+            int y = 0;
+            while (scanner.hasNextLine()) {
+                String line = scanner.nextLine();
+                String[] chars = line.split(" ");
+                for (int x = 0; x < chars.length; x++) {
+                    if (chars[x].equals("1")) {
+                        g.setColor(Color.RED);
+                        g.fillRect(x * size + i, y * size + j, size, size);
+                    }
+                }
+                y++;
+            }
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        }
+    }
+
+
     public void paintDot(Graphics g, int i, int j, Tile texture) {
         int size = BoardView.PIXELS_PER_CELLS;
         i = i * size;
@@ -180,7 +181,14 @@ public class DrawPanel extends JPanel {
         g.setColor(Color.WHITE);
         float newSize = 15;
         g.setFont(getFont().deriveFont(newSize));
-        g.drawString(Integer.toString(score), 10, 20);
+        g.drawString(Integer.toString(score), 10, 40);
+    }
+
+    public void paintHighScore(Graphics g) {
+        g.setColor(Color.WHITE);
+        float newSize = 15;
+        g.setFont(getFont().deriveFont(newSize));
+        g.drawString("HIGH SCORE " + Integer.toString(getBoard().getMaze().getHigh_score()), 10, 20);
     }
 
 
@@ -197,6 +205,7 @@ public class DrawPanel extends JPanel {
         TilePosition Pacpos = board.getPacMan().getCurrentTile();
         updateScore(board.getScore());
         paintScore(g);
+        paintHighScore(g);
         frameCounter++;
         if (frameCounter%6 == 0) {
             openMouth++;
@@ -218,6 +227,8 @@ public class DrawPanel extends JPanel {
                     } else if (pos.equals(Pacpos)) {
                         paintPacMan(g, j, i);
 
+                    } else if (pos.equals(this.board.getGhost(GhostType.BLINKY).getCurrentTile())){
+                        paintBlinky(g, i, j);
                     }
                 }
             }

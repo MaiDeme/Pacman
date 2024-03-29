@@ -26,8 +26,6 @@ public abstract class AbstractGhost extends AbstractActor implements Ghost {
         setPosition(this.x + this.getDirection().getDx() * this.getSpeed(), this.y + this.getDirection().getDy() * this.getSpeed());
 
         // Quand il rejoint le centre d'une tuile :
-
-
         if (this.getX() % Maze.TILE_WIDTH == Maze.TITLE_CENTER_X
                 && this.getY() % Maze.TILE_HEIGHT == Maze.TITLE_CENTER_Y) {
             //il applique son intention et met donc à jour sa direction

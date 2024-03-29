@@ -18,6 +18,7 @@ import java.util.List;
  */
 public interface Board {
 
+
     /**
      * Return the type of game of the board
      * Depending on the type, the maze or other initializations might be different

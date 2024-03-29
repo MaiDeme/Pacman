@@ -3,7 +3,6 @@ package fr.upsaclay.bibs.pacman.model.actors;
 import fr.upsaclay.bibs.pacman.GameType;
 import fr.upsaclay.bibs.pacman.model.Direction;
 import fr.upsaclay.bibs.pacman.model.board.Board;
-import fr.upsaclay.bibs.pacman.model.maze.Grid;
 import fr.upsaclay.bibs.pacman.model.maze.Maze;
 import fr.upsaclay.bibs.pacman.model.maze.Tile;
 import fr.upsaclay.bibs.pacman.model.maze.TilePosition;
@@ -34,7 +33,7 @@ public class Pacman extends AbstractActor {
         if (this.getBoard().getGameType() == GameType.CLASSIC) {
             this.x = 112;
             this.y = 211;
-        } else {
+        } else if (this.getBoard().getGameType() == GameType.TEST){
             this.x = 35;
             this.y = 75;
         }
@@ -93,7 +92,7 @@ public class Pacman extends AbstractActor {
                 this.x = (x_arrivee - getBoard().getMaze().getPixelWidth());
             }else {
                 //Il ne fait pas de mouvement circulaire, on calcule sa position normalement en multipliant ar la vitesse
-                setPosition(this.x + this.getDirection().getDx() * this.getSpeed(), this.y + this.getDirection().getDy() * this.getSpeed());
+                this.setPosition(this.x + this.getDirection().getDx() * this.getSpeed(), this.y + this.getDirection().getDy() * this.getSpeed());
             }
 
             //Maintenant que l'on a sa position on peut faire des actions par rapport à sa position d'arrivée : Après milieu de tuile (bloqué), milieu de tuile(intention), début de tuile(manger)
@@ -140,6 +139,7 @@ public class Pacman extends AbstractActor {
                     this.getBoard().getMaze().setTile(pos.getLine(), pos.getCol(), Tile.EE);
                     setStopTime(3);
                 }
+                this.getBoard().getMaze().setHigh_score(this.getBoard().getScore());
             }
 
         }else{

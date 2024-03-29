@@ -99,7 +99,8 @@ public class BlinkyTest {
         board.nextFrame();
         assertEquals(blinky.getDirection(), Direction.LEFT);
         assertEquals(blinky.getIntention(), Direction.LEFT);
-        assertEquals(blinky.getX(), x - 1);
+        assertEquals(board.getGhost(GhostType.BLINKY).getSpeed(), 0.94);
+        assertEquals(blinky.getRealX(), x - 1);
         // We move again 1 frame, with blinky speed this should move one more x to left
         board.nextFrame();
         assertEquals(blinky.getX(), x - 2);
