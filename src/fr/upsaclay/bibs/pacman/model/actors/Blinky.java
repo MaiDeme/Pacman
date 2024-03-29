@@ -21,6 +21,7 @@ public class Blinky extends AbstractGhost {
         this.x = 112;
         this.y = 115;
         this.Direction = fr.upsaclay.bibs.pacman.model.Direction.LEFT;
+        this.speed = 0.94;
     }
 
     /**
