@@ -74,13 +74,13 @@ public class DrawPanel extends JPanel {
         //On s'occupe de savoir s'il doit avoir la bouche fermée/grande ouverte ou peu ouverte
         if (Pacman.getDirection() == Direction.RIGHT || Pacman.getDirection() == Direction.LEFT){
             if(x_pac %16 >= 0 && x_pac %16 <=3){
-                openMouth =1;
+                openMouth =3;
 
             }else if ((x_pac %16 >= 4 && x_pac %16 <=7) || (x_pac %16 >= 12 && x_pac %16 <=15)) {
                 openMouth = 2;
 
             }else{
-                openMouth = 3;
+                openMouth = 1;
             }
 
         }else {
@@ -110,16 +110,24 @@ public class DrawPanel extends JPanel {
 
                 if(Pacman.getDirection() == Direction.LEFT){
                     filename= "resources/pacman_left.txt";
-                }else{
+                }else if (Pacman.getDirection() == Direction.RIGHT){
                     filename= "resources/pacman_right.txt";
+                } else if (Pacman.getDirection() == Direction.UP){
+                    filename= "resources/pacman_up.txt";
+                }else{
+                    filename= "resources/pacman_down.txt";
                 }
 
                 break;
             case 3:
                 if(Pacman.getDirection() == Direction.LEFT){
                     filename= "resources/pacmanbigmouthopen_left.txt";
-                }else{
+                }else if(Pacman.getDirection() == Direction.RIGHT){
                     filename= "resources/pacmanbigmouthopen_right.txt";
+                } else if (Pacman.getDirection() == Direction.UP) {
+                    filename= "resources/pacmanbigmouthopen_up.txt";
+                }else{
+                    filename= "resources/pacmanbigmouthopen_down.txt";
                 }
                 break;
             default:
