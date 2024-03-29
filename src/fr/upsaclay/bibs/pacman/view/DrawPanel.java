@@ -52,11 +52,17 @@ public class DrawPanel extends JPanel {
         }
     }
 
-    public void paintPacMan(Graphics g, int i, int j) {
+    public void paintPacMan(Graphics g, int i, int j,boolean open) {
         int size = BoardView.PIXELS_PER_CELLS;
         i = i * size;
         j = j * size;
-        try (Scanner scanner = new Scanner(new File("resources/pacman.txt"))) {
+        String filename;
+        if (open){
+            filename= "resources/pacman.txt";
+        }else{
+            filename = "resources/pacman_closedmouth.txt";
+        }
+        try (Scanner scanner = new Scanner(new File(filename))) {
             int y = 0;
             while (scanner.hasNextLine()) {
                 String line = scanner.nextLine();
@@ -73,6 +79,7 @@ public class DrawPanel extends JPanel {
             e.printStackTrace();
         }
     }
+
 
 
     public void paintDot(Graphics g, int i, int j, Tile texture) {
@@ -97,11 +104,9 @@ public class DrawPanel extends JPanel {
         }
     }
 
-
     @Override
     public void paintComponent(Graphics g) {
         super.paintComponent(g);
-
         Maze maze = board.getMaze();
         TilePosition Pacpos = board.getPacMan().getCurrentTile();
 
@@ -113,7 +118,7 @@ public class DrawPanel extends JPanel {
                     if (tile.isWall()) {
                         paintWalls(g, j, i, tile);
                     } else if (pos.equals(Pacpos)) {
-                        paintPacMan(g, j, i);
+                        paintPacMan(g, j, i,false);
                     }
                     if (tile.hasDot()) {
                         paintDot(g, j, i, tile);
@@ -123,7 +128,7 @@ public class DrawPanel extends JPanel {
         }
     }
 
-    
+
     public Board getBoard() {
         return board;
     }

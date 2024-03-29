@@ -18,8 +18,6 @@ public class Pacman extends AbstractActor {
         setDirection(Direction.LEFT);
     }
 
-
-
     /**
      * Start the actor at the beginning of the game
      * Perform all necessary action to start the actor at the beginning of the game
@@ -38,6 +36,7 @@ public class Pacman extends AbstractActor {
 
     }
 
+    
     @Override
     public void setIntention(Direction direction) {
         if (direction == null) {

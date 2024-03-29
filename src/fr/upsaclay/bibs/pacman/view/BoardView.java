@@ -121,7 +121,6 @@ public class BoardView extends JFrame implements PacManView {
         gbc.gridy = 2;
 
         pausePanel.add(QuitButton,gbc);
-
         
         Key keylist= new Key(controller);
         addKeyListener(keylist);
