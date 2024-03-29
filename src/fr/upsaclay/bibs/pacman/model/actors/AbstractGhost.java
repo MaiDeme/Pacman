@@ -24,18 +24,16 @@ public abstract class AbstractGhost extends AbstractActor implements Ghost {
         int y_depart = this.getY();
         TilePosition depart = this.getCurrentTile();
 
-        // Les fantômes ne peuvent pas être bloqué je crois
-        // Il vérifie toujours qu'ils peuvent avancé
         setPosition(this.x + this.getDirection().getDx() * this.getSpeed(), this.y + this.getDirection().getDy() * this.getSpeed());
 
-        // Quand il arrive AU CNETRE d'une tuile
-        // Calcule de la prochaine intention
+        // Quand il arrive au centre d'une tuile
+        // Change la direction et
+        // calcule de la prochaine intention
         if (this.getX() % Maze.TILE_WIDTH == Maze.TITLE_CENTER_X
                 && this.getY() % Maze.TILE_HEIGHT == Maze.TITLE_CENTER_Y) {
             this.Direction = this.intention;
 
             // Pour Blinky la target est la position de PacMan
-
             TilePosition target = this.getTarget();
 
             // Liste avec les 4 directions dans l'ordre de préférence des fantômes
@@ -50,6 +48,8 @@ public abstract class AbstractGhost extends AbstractActor implements Ghost {
                         TilePosition next_tuile = this.getBoard().getMaze().getNeighbourTilePosition(depart, dir);
                         double dist_to_target = Math.sqrt((next_tuile.getCol() - target.getCol())^2 + (next_tuile.getLine() - target.getLine())^2);
                         dist[i] = dist_to_target;
+                    } else {
+                        dist[i] = Double.MAX_VALUE;
                     }
                 } else { // dir == Direction.reverse()
                     dist[i] = Double.MAX_VALUE;
@@ -63,7 +63,7 @@ public abstract class AbstractGhost extends AbstractActor implements Ghost {
                     min = i;
                 }
             }
-            this.intention = directions[i];
+            this.intention = directions[min];
         }
     }
 
