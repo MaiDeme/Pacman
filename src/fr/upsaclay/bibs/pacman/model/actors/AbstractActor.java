@@ -2,19 +2,19 @@ package fr.upsaclay.bibs.pacman.model.actors;
 
 import fr.upsaclay.bibs.pacman.model.Direction;
 import fr.upsaclay.bibs.pacman.model.board.Board;
-import fr.upsaclay.bibs.pacman.model.maze.Tile;
 import fr.upsaclay.bibs.pacman.model.maze.TilePosition;
 
 
 
 public abstract class AbstractActor implements Actor{
 
-    protected int x;
-    protected int y;
+    protected double x;
+    protected double y;
     protected Board board;
     protected Direction Direction;
     protected Direction intention;
     protected boolean blocked;
+    protected double speed;
 
 
     public ActorType type;
@@ -23,6 +23,7 @@ public abstract class AbstractActor implements Actor{
         this.type = type;
         this.board = board;
         this.blocked = false;
+        this.speed = 1;
     }
 
 
@@ -38,23 +39,25 @@ public abstract class AbstractActor implements Actor{
 
     @Override
     public int getX() {
-        return this.x;
+
+        return (int) Math.floor(this.x);
+
     }
 
     @Override
     public int getY() {
-        return this.y;
+        return (int) Math.floor(this.y);
     }
 
     @Override
-    public void setPosition(int x, int y) {
+    public void setPosition(double x, double y) {
         this.x = x;
         this.y = y;
     }
 
     @Override
     public TilePosition getCurrentTile() {
-        return board.getMaze().getTilePosition(this.x, this.y);
+        return board.getMaze().getTilePosition(this.getX(), this.getY());
     }
 
     @Override
@@ -99,22 +102,23 @@ public abstract class AbstractActor implements Actor{
     // Step 2
     @Override
     public void setSpeed(double speed) {
+        this.speed = speed;
 
     }
 
     @Override
     public double getSpeed() {
-        return 0;
+        return this.speed;
     }
 
     @Override
     public double getRealX() {
-        return 0;
+        return this.x;
     }
 
     @Override
     public double getRealY() {
-        return 0;
+        return this.y;
     }
 
     @Override

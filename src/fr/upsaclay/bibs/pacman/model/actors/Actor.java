@@ -45,7 +45,8 @@ public interface Actor {
      * @param x, the x position in pixels
      * @param y, the y position in pixels
      */
-    void setPosition(int x, int y);
+
+    void setPosition(double x, double y);
 
     /**
      * Return the current tile position corresponding

@@ -187,8 +187,8 @@ public class PacManTest {
         }
         // Pacman should have tried to go up, failed and kept going left
         assertEquals(pacman.getDirection(), Direction.LEFT);
-        assertEquals(pacman.getX(), x-9);
-        assertEquals(pacman.getY(), y);
+        assertEquals(pacman.getX(), x-9); //Pacman a une position x de 26
+        assertEquals(pacman.getY(), y); // Pacman a une position y de 75
         // The intention should be back to null
         assertNull(pacman.getIntention());
         // We ask pacman to go down
@@ -199,7 +199,7 @@ public class PacManTest {
         }
         // Pacman should have tried to go down, failed and kept going left
         assertEquals(pacman.getDirection(), Direction.LEFT);
-        assertEquals(pacman.getX(), x-17);
+        assertEquals(pacman.getX(), x-17); //Pacman a une position x de 18 au lieu de 19 : il fait un mouvement de trop apparemment.
         assertEquals(pacman.getY(), y);
         // The intention should be back to null
         assertNull(pacman.getIntention());
@@ -253,7 +253,7 @@ public class PacManTest {
         // Pacman should have tried to go right, failed and kept going up
         assertEquals(pacman.getDirection(), Direction.UP);
         assertEquals(pacman.getX(), x);
-        assertEquals(pacman.getY(), y-17);
+        assertEquals(pacman.getY(), y-17);  //Il a fait un mouvement de trop en haut.
         // The intention should be back to null
         assertNull(pacman.getIntention());
     }
