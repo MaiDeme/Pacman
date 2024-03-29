@@ -134,6 +134,17 @@ public class DrawPanel extends JPanel {
         j = j * size;
         String filename = "resources/ghosts/LEFT.txt";
 
+        Direction dir = board.getGhost(GhostType.BLINKY).getDirection();
+        if( dir == Direction.LEFT) {
+            filename = "resources/ghosts/LEFT.txt";
+        }else if(dir == Direction.RIGHT){
+            filename = "resources/ghosts/RIGHT.txt";
+        } else if (dir == Direction.UP){
+            filename = "resources/ghosts/UP.txt";
+        }else if (dir == Direction.DOWN){
+            filename = "resources/ghosts/DOWN.txt";
+        }
+
 
         try (Scanner scanner = new Scanner(new File(filename))) {
             int y = 0;
@@ -143,6 +154,12 @@ public class DrawPanel extends JPanel {
                 for (int x = 0; x < chars.length; x++) {
                     if (chars[x].equals("1")) {
                         g.setColor(Color.RED);
+                        g.fillRect(x * size + i, y * size + j, size, size);
+                    } else if (chars[x].equals("2")) {
+                        g.setColor(Color.WHITE);
+                        g.fillRect(x * size + i, y * size + j, size, size);
+                    }if (chars[x].equals("3")) {
+                        g.setColor(Color.BLACK);
                         g.fillRect(x * size + i, y * size + j, size, size);
                     }
                 }
