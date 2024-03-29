@@ -16,18 +16,8 @@ public class TestBoard extends AbstractBoard {
         super(GameType.TEST);
     }
 
-
     @Override
-    public void initialize() throws PacManException {
-
-
-        try {
-            this.maze = Maze.loadFromFile("resources/test.txt");
-        } catch (FileNotFoundException e) {
-            throw new RuntimeException(e);
-        }
-        this.pacman = new Pacman(this);
-
+    public void setScore(int score) {
+        this.score = score;
     }
-
 }

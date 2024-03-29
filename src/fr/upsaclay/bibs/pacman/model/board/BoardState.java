@@ -10,6 +10,9 @@ public enum BoardState {
     INITIAL,
     /** Game started, everything normal **/
     STARTED,
+    /** Game paused **/
+    PAUSED,
+
     /** All the dots have been eaten **/
     LEVEL_OVER,
     /** PacMan looses a life (eaten by a ghost) **/

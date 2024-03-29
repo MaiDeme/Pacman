@@ -1,9 +1,8 @@
 package fr.upsaclay.bibs.pacman;
 
-//import fr.upsaclay.bibs.pacman.control.simple;
-
 import fr.upsaclay.bibs.pacman.control.Controller;
 import fr.upsaclay.bibs.pacman.control.InterfaceMode;
+
 
 import javax.swing.*;
 
@@ -23,7 +22,6 @@ public class PacManApp {
                 throw new RuntimeException(e);
             }
         });
-
 
     }
 }
