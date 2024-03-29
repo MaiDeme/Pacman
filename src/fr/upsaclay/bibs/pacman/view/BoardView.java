@@ -8,8 +8,12 @@ import fr.upsaclay.bibs.pacman.model.board.Board;
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.KeyListener;
+import java.io.File;
+import java.io.IOException;
 
 import javax.swing.border.Border;
+import java.awt.Font;
+import java.awt.FontFormatException;
 
 public class BoardView extends JFrame implements PacManView {
 
@@ -18,12 +22,12 @@ public class BoardView extends JFrame implements PacManView {
     public static final int PIXELS_PER_CELLS = 2;
 
     DrawPanel drawPanel;
-
     Timer timer;
 
     JPanel initialPanel;
     JPanel playPanel;
     JPanel pausePanel;
+    Font arcadeFont;
 
     public BoardView(String name, int width, int height) {
         super(name);
@@ -50,6 +54,21 @@ public class BoardView extends JFrame implements PacManView {
 
     @Override
     public void initialize() {
+
+        //Loading fonts
+            
+        try {
+            arcadeFont = Font.createFont(Font.TRUETYPE_FONT, new File("resources/Emulogic-zrEw.ttf"));
+            setFont(arcadeFont);
+            
+            // Now you can use arcadeFont with any component that allows setting a font
+        } catch (FontFormatException | IOException e) {
+            e.printStackTrace();
+        }
+
+
+
+
         // General initialization
         drawPanel.initialize();
         add(drawPanel);
@@ -76,6 +95,7 @@ public class BoardView extends JFrame implements PacManView {
         initialPanel.add(initialStartButton);
 
         drawPanel.add(initialPanel);
+        drawPanel.setFont(arcadeFont);
 
         // Timer initialization
         timer.addActionListener(new ButtonListener(controller, GameAction.NEXT_FRAME));
@@ -106,6 +126,7 @@ public class BoardView extends JFrame implements PacManView {
         ResumeButton.addActionListener(new ButtonListener(controller, GameAction.RESUME));
         gbc.gridx = 0;
         gbc.gridy = 0;
+
         gbc.insets = new Insets(10, 0, 10, 0); // 10 pixels of padding above and below
 
         pausePanel.add(ResumeButton,gbc);

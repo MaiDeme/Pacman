@@ -2,6 +2,8 @@ package fr.upsaclay.bibs.pacman.control;
 
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
+import java.io.File;
+import java.io.IOException;
 
 import fr.upsaclay.bibs.pacman.GameType;
 import fr.upsaclay.bibs.pacman.PacManException;
@@ -22,11 +24,13 @@ public class VisualController extends SimpleController {
     private BoardView view;
 
     VisualController() {
-        super();
+        super();        
     }
 
     @Override
     public void initialize() throws PacManException {
+
+   
         board = Board.createBoard(this.getGameType());
 
         view = new BoardView("PACMAN", board.getMaze().getPixelWidth()*BoardView.PIXELS_PER_CELLS, board.getMaze().getPixelHeight()*BoardView.PIXELS_PER_CELLS+this.board.getMaze().TILE_HEIGHT);
