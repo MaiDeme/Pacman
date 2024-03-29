@@ -7,10 +7,10 @@ import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 
 
-public class Key implements KeyListener{
+public class KeyMove implements KeyListener{
     private final Controller controller;
 
-    public Key(Controller controller) {
+    public KeyMove(Controller controller) {
         this.controller = controller;
     }
    
@@ -50,7 +50,13 @@ public class Key implements KeyListener{
                     // TODO Auto-generated catch block
                     e1.printStackTrace();
                 }
-                
+                break;
+            case KeyEvent.VK_ESCAPE:
+                try {
+                    controller.receiveAction(GameAction.PAUSE);
+                } catch (PacManException e1) {
+                    e1.printStackTrace();
+                }
                 break;
         
             default:

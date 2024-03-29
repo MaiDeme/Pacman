@@ -162,7 +162,7 @@ public class BoardView extends JFrame implements PacManView {
 
         pausePanel.add(QuitButton,gbc);
         
-        Key keylist= new Key(controller);
+        KeyMove keylist= new KeyMove(controller);
         addKeyListener(keylist);
         setFocusable(true);
         requestFocusInWindow();

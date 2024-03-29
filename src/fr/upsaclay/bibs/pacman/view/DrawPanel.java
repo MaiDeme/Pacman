@@ -24,6 +24,8 @@ public class DrawPanel extends JPanel {
 
     private Board board;
     private int score;
+    private int frameCounter;
+    private int openMouth = 1;
 
     public DrawPanel(int width, int height) {
         super();
@@ -56,15 +58,23 @@ public class DrawPanel extends JPanel {
         }
     }
 
-    public void paintPacMan(Graphics g, int i, int j,boolean open) {
+    public void paintPacMan(Graphics g, int i, int j) {
         int size = BoardView.PIXELS_PER_CELLS;
         i = i * size;
         j = j * size;
         String filename;
-        if (open){
-            filename= "resources/pacman.txt";
-        }else{
-            filename = "resources/pacman_closedmouth.txt";
+        switch (openMouth) {
+            case 1:
+                filename = "resources/pacman_closedmouth.txt";
+                break;
+            case 2:
+                filename= "resources/pacman.txt";
+                break;
+            case 3:
+                filename="resources/pacmanbigmouthopen.txt";
+                break;
+            default:
+                filename = "resources/pacman_closedmouth.txt";
         }
         try (Scanner scanner = new Scanner(new File(filename))) {
             int y = 0;
@@ -130,7 +140,15 @@ public class DrawPanel extends JPanel {
         TilePosition Pacpos = board.getPacMan().getCurrentTile();
         updateScore(board.getScore());
         paintScore(g);
-
+        frameCounter++;
+        if (frameCounter%6 == 0) {
+            openMouth++;
+            if (openMouth >3) {
+                openMouth = 1;
+                frameCounter = 0;
+            }
+           
+        }
         if (board != null) {
             for (int i = 0; i < maze.getPixelHeight(); i+=8) {
                 for (int j = 0; j < maze.getPixelWidth(); j+=8) {
@@ -141,7 +159,7 @@ public class DrawPanel extends JPanel {
                     }else if (tile.hasDot()) {
                         paintDot(g, j, i, tile);
                     } else if (pos.equals(Pacpos)) {
-                        paintPacMan(g, j, i,true);
+                        paintPacMan(g, j, i);
 
                     }
                 }
