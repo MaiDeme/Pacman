@@ -1,5 +1,6 @@
 package fr.upsaclay.bibs.pacman.model.actors;
 
+import fr.upsaclay.bibs.pacman.model.board.Board;
 import fr.upsaclay.bibs.pacman.model.board.Counter;
 import fr.upsaclay.bibs.pacman.model.maze.Maze;
 import fr.upsaclay.bibs.pacman.model.maze.TilePosition;
@@ -8,6 +9,10 @@ public abstract class AbstractGhost extends AbstractActor implements Ghost {
 
     protected GhostState currentState;
     protected  GhostPenState currentPenState;
+
+    public AbstractGhost(Board board, ActorType type) {
+        super(board, type);
+    }
 
     @Override
     public abstract void start();

@@ -1,6 +1,7 @@
 package fr.upsaclay.bibs.pacman.model.actors;
 
 import fr.upsaclay.bibs.pacman.model.Direction;
+import fr.upsaclay.bibs.pacman.model.board.Board;
 import fr.upsaclay.bibs.pacman.model.board.Counter;
 import fr.upsaclay.bibs.pacman.model.maze.Maze;
 import fr.upsaclay.bibs.pacman.model.maze.Tile;
@@ -10,6 +11,10 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class Blinky extends AbstractGhost {
+
+    public Blinky(Board board, ActorType type) {
+        super(board, type);
+    }
 
     @Override
     public void start() {
