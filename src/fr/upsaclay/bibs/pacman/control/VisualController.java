@@ -46,6 +46,8 @@ public class VisualController extends SimpleController {
 
     @Override
     public void initializeNewGame() throws PacManException {
+        board = Board.createBoard(this.getGameType());
+        view.setBoard(this.board);
         view.setLayout(PacManLayout.GAME_ON);
         }
 
@@ -73,7 +75,7 @@ public class VisualController extends SimpleController {
             case NEXT_LEVEL:
                 break;
             case NEW_GAME:
-                this.initialize();
+                view.setLayout(PacManLayout.GAME_ON);
                 initializeNewGame();
             case NEW_LIFE:
                 break;
@@ -87,7 +89,9 @@ public class VisualController extends SimpleController {
                 System.exit(0);
                 break;
             case TITLE_SCREEN:
-                this.initialize();
+                board = Board.createBoard(this.getGameType());
+                view.setBoard(this.board);
+                view.setLayout(PacManLayout.INIT);
             default:
                 break;
         }

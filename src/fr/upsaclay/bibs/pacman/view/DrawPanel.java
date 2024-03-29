@@ -1,5 +1,8 @@
 package fr.upsaclay.bibs.pacman.view;
 
+import fr.upsaclay.bibs.pacman.model.Direction;
+import fr.upsaclay.bibs.pacman.model.actors.Actor;
+import fr.upsaclay.bibs.pacman.model.actors.Pacman;
 import fr.upsaclay.bibs.pacman.model.board.Board;
 import fr.upsaclay.bibs.pacman.model.maze.Maze;
 import fr.upsaclay.bibs.pacman.model.maze.Tile;
@@ -63,6 +66,37 @@ public class DrawPanel extends JPanel {
         i = i * size;
         j = j * size;
         String filename;
+        Actor Pacman = this.board.getPacMan();
+        int x_pac = Pacman.getX();
+        int y_pac = Pacman.getY();
+
+        if (Pacman.getDirection() == Direction.RIGHT || Pacman.getDirection() == Direction.LEFT){
+            if(x_pac %4 == 0){
+                openMouth =1;
+
+            }else if (x_pac %4 == 1 || x_pac % 3 == 3) {
+                openMouth = 2;
+
+            }else{
+                openMouth = 3;
+            }
+
+        }else {
+
+            if (Pacman.getDirection() == Direction.UP || Pacman.getDirection() == Direction.DOWN) {
+                if (y_pac % 4 == 0) {
+                    openMouth = 1;
+
+                } else if (y_pac % 4 == 1 || y_pac % 3 == 3) {
+                    openMouth = 2;
+
+                } else {
+                    openMouth = 3;
+                }
+
+            }
+        }
+
         switch (openMouth) {
             case 1:
                 filename = "resources/pacman_closedmouth.txt";

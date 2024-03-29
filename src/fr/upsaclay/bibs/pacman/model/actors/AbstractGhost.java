@@ -21,35 +21,37 @@ public abstract class AbstractGhost extends AbstractActor implements Ghost {
     @Override
     public void nextMove() {
 
-        int x_depart = this.getX();
-        int y_depart = this.getY();
-        TilePosition depart = this.getCurrentTile();
+        //TilePosition depart = this.getCurrentTile();
 
         setPosition(this.x + this.getDirection().getDx() * this.getSpeed(), this.y + this.getDirection().getDy() * this.getSpeed());
 
-        // Quand il arrive au centre d'une tuile
-        // Change la direction et
-        // calcule de la prochaine intention
+        // Quand il rejoint le centre d'une tuile :
+
+
         if (this.getX() % Maze.TILE_WIDTH == Maze.TITLE_CENTER_X
                 && this.getY() % Maze.TILE_HEIGHT == Maze.TITLE_CENTER_Y) {
+            //il applique son intention et met donc à jour sa direction
             this.Direction = this.intention;
-
-
-            this.intention = getNextIntention(depart);
+            //il calcule sa nouvelle intention.
+            this.intention = getNextIntention(this.getCurrentTile());
 
         }
     }
 
     public fr.upsaclay.bibs.pacman.model.Direction getNextIntention(TilePosition depart) {
         // Pour Blinky la target est la position de PacMan
+        //Il choisit la tuile possible qui le rapproche le plus de sa tuile cible (selon la distance euclidienne)
+        //Pour cela, il regarde où il peut aller à partir de la prochaine tuile sachant qu'il n'a pas le droit de revenir en arrière.
 
         TilePosition target = this.getTarget();
 
         // Liste avec les 4 directions dans l'ordre de préférence des fantômes
         fr.upsaclay.bibs.pacman.model.Direction[] directions = {fr.upsaclay.bibs.pacman.model.Direction.UP, fr.upsaclay.bibs.pacman.model.Direction.LEFT,
                 fr.upsaclay.bibs.pacman.model.Direction.DOWN, fr.upsaclay.bibs.pacman.model.Direction.RIGHT};
+        //Liste vide des distances de cases par rapport à la cible
         double[] dist = new double[4];
         int i = 0;
+
         // On calcule la distance entre les differentes tuiles possibles et la tuile target
         for (fr.upsaclay.bibs.pacman.model.Direction dir : directions) {
             if (dir != this.Direction.reverse()) {
@@ -72,7 +74,20 @@ public abstract class AbstractGhost extends AbstractActor implements Ghost {
                 min = i;
             }
         }
-        return directions[min];
+
+        //Si la direction est l'inverse de celle du fantome, on pend la deuxieme plus petite direction
+        if (this.Direction.reverse() == directions[min]){
+           int min_2 = 0;
+            for (i = 1; i < 4; i++) {
+                if (dist[i] < dist[min] && i!=min) {
+                    min_2 = i;
+                }
+            }
+            return directions[min_2];
+        }else {
+
+            return directions[min];
+        }
     }
 
 

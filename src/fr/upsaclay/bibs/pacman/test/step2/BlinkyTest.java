@@ -82,7 +82,6 @@ public class BlinkyTest {
             board.nextFrame();
         }
         //La variable Pacman n'a pas bougé
-        pacman = board.getPacMan();
         // Pacman position has changed and the target should have also changed
         pacmacPos = board.getMaze().getTilePosition(pacman.getX(), pacman.getY());
         assertEquals(blinky.getTarget(), pacmacPos);
@@ -98,6 +97,8 @@ public class BlinkyTest {
         // We test that blinky moves on new frames
         int x = blinky.getX();
         board.nextFrame();
+        assertEquals(blinky.getDirection(), Direction.LEFT);
+        assertEquals(blinky.getIntention(), Direction.LEFT);
         assertEquals(blinky.getX(), x - 1);
         // We move again 1 frame, with blinky speed this should move one more x to left
         board.nextFrame();
