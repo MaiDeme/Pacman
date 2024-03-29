@@ -8,6 +8,7 @@ import fr.upsaclay.bibs.pacman.model.maze.Maze;
 import fr.upsaclay.bibs.pacman.model.maze.TilePosition;
 
 import java.io.FileNotFoundException;
+import java.util.ArrayList;
 import java.util.List;
 
 public abstract class AbstractBoard implements Board {
@@ -84,6 +85,9 @@ public abstract class AbstractBoard implements Board {
     public void startActors() {
         this.pacman = new Pacman(this);
         pacman.start();
+        this.ghosts = new ArrayList<Ghost>();
+        Ghost blinky = new Blinky(this, ActorType.GHOST);
+        this.ghosts.add(blinky);
     }
 
     /**
@@ -209,6 +213,11 @@ public abstract class AbstractBoard implements Board {
      * @return true if this ghost is on the board
      */
     public boolean hasGhost(GhostType ghostType) {
+        for (Ghost g : this.ghosts) {
+            if (g.getGhostType() == ghostType) {
+                return true;
+            }
+        }
         return false;
     }
 
