@@ -68,9 +68,8 @@ public class Pacman extends AbstractActor {
         double x_arrivee = this.x + this.getDirection().getDx() * this.getSpeed();
         double y_arrivee = this.y + this.getDirection().getDy() * this.getSpeed();
 
-        //Ensuite on met à jour l'intention de PAcman et on récupère la tuile d'arrivée prédite
+        //Ensuite on récupère la tuile d'arrivée prédite et celle de départ
         TilePosition depart = this.getCurrentTile();
-        setIntention(this.intention);
         Tile arrivee_tuile = this.getBoard().getMaze().getNeighbourTile(depart, this.Direction);
 
         //On vérifie si Pacman est stoppé après avoir mangé un dot ou pas

@@ -93,7 +93,7 @@ public class DrawPanel extends JPanel {
                 String[] chars = line.split(" ");
                 for (int x = 0; x < chars.length; x++) {
                     if (chars[x].equals("1")) {
-                        g.setColor(Color.WHITE);
+                        g.setColor(new Color(236,212,83));
                         g.fillRect(x * size + i, y * size + j, size, size);
                     }
                 }
@@ -103,6 +103,7 @@ public class DrawPanel extends JPanel {
             e.printStackTrace();
         }
     }
+
 
     @Override
     public void paintComponent(Graphics g) {
@@ -117,11 +118,11 @@ public class DrawPanel extends JPanel {
                     Tile tile = maze.getTile(pos);
                     if (tile.isWall()) {
                         paintWalls(g, j, i, tile);
+                    }else if (tile.hasDot()) {
+                        paintDot(g, j, i, tile);
                     } else if (pos.equals(Pacpos)) {
                         paintPacMan(g, j, i,true);
-                    }
-                    if (tile.hasDot()) {
-                        paintDot(g, j, i, tile);
+
                     }
                 }
             }

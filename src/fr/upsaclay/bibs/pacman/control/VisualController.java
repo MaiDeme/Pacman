@@ -49,16 +49,16 @@ public class VisualController extends SimpleController {
     public void receiveAction(GameAction action) throws PacManException{
         switch (action) {
             case UP:
-                board.getPacMan().setDirection(Direction.UP);
+                board.getPacMan().setIntention(Direction.UP);
                 break;
             case DOWN:
-                board.getPacMan().setDirection(Direction.DOWN);
+                board.getPacMan().setIntention(Direction.DOWN);
                 break;
             case LEFT:
-                board.getPacMan().setDirection(Direction.LEFT);
+                board.getPacMan().setIntention(Direction.LEFT);
                 break;
             case RIGHT:
-                board.getPacMan().setDirection(Direction.RIGHT);
+                board.getPacMan().setIntention(Direction.RIGHT);
                 break;
             case PAUSE:
                 view.setLayout(PacManLayout.PAUSE);
@@ -69,7 +69,7 @@ public class VisualController extends SimpleController {
             case NEXT_LEVEL:
                 break;
             case NEW_GAME:
-                break;
+                this.initialize();
             case NEW_LIFE:
                 break;
             case START:
