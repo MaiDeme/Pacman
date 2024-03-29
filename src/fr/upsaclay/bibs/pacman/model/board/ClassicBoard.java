@@ -16,5 +16,9 @@ public class ClassicBoard extends AbstractBoard {
         super(GameType.CLASSIC);
     }
 
+    @Override
+    public void setScore(int score) {
+            this.score = score;
+    }
 }
 

@@ -15,4 +15,9 @@ public class TestBoard extends AbstractBoard {
     public TestBoard() {
         super(GameType.TEST);
     }
+
+    @Override
+    public void setScore(int score) {
+        this.score = score;
+    }
 }
