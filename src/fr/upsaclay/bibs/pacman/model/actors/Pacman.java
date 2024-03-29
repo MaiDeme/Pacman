@@ -82,18 +82,18 @@ public class Pacman extends AbstractActor {
             this.blocked = false;
 
             //Pacman n'est pas bloqué, on vérifie s'il fait un mouvement circulaire
-            if(Direction == fr.upsaclay.bibs.pacman.model.Direction.UP && y_arrivee <= -1){
+            if(Direction == fr.upsaclay.bibs.pacman.model.Direction.UP && y_arrivee < 0){
                 //Il fait un mouvement circulaire par le haut, sa nouvelle position y est la hauteur du plateau moins la différence entre l'arrivée et -1
-                this.y = getBoard().getMaze().getPixelHeight() - (y_arrivee + 1 );
-            } else if(Direction == fr.upsaclay.bibs.pacman.model.Direction.LEFT && x_arrivee <= -1){
+                this.y = getBoard().getMaze().getPixelHeight()-1 - (y_arrivee +1);
+            } else if(Direction == fr.upsaclay.bibs.pacman.model.Direction.LEFT && x_arrivee < 0){
                 //Il fait un mouvement circulaire par la gauche, sa nouvelle position x est la largeur du plateau moins la différence entre l'arrivée et -1
-                this.x = getBoard().getMaze().getPixelWidth() - (x_arrivee + 1 );
-            }else if (Direction == fr.upsaclay.bibs.pacman.model.Direction.DOWN && y_arrivee > getBoard().getMaze().getPixelHeight()) {
-                //Il fait un mouvement circulaire par le bas, sa nouvelle position y est -1 + différence hauteur du plateau et arrivée
-                this.y = -1 + (y_arrivee - getBoard().getMaze().getPixelHeight());
-            } else if (Direction == fr.upsaclay.bibs.pacman.model.Direction.RIGHT && x_arrivee > getBoard().getMaze().getPixelWidth()) {
-                //Il fait un mouvement circulaire par la droite, sa nouvelle position x est -1 + différence largeur du plateau et arrivée
-                this.x = -1 + (x_arrivee - getBoard().getMaze().getPixelWidth());
+                this.x = getBoard().getMaze().getPixelWidth()-1 - (x_arrivee +1);
+            }else if (Direction == fr.upsaclay.bibs.pacman.model.Direction.DOWN && y_arrivee > (getBoard().getMaze().getPixelHeight()-1)) {
+                //Il fait un mouvement circulaire par le bas, sa nouvelle position y est 0 + différence hauteur du plateau et arrivée
+                this.y = (y_arrivee - getBoard().getMaze().getPixelHeight());
+            } else if (Direction == fr.upsaclay.bibs.pacman.model.Direction.RIGHT && x_arrivee > (getBoard().getMaze().getPixelWidth()-1)) {
+                //Il fait un mouvement circulaire par la droite, sa nouvelle position x est 0 + différence largeur du plateau et arrivée
+                this.x = (x_arrivee - getBoard().getMaze().getPixelWidth());
             }else {
                 //Il ne fait pas de mouvement circulaire, on calcule sa position normalement en multipliant ar la vitesse
                 setPosition(this.x + this.getDirection().getDx() * this.getSpeed(), this.y + this.getDirection().getDy() * this.getSpeed());
