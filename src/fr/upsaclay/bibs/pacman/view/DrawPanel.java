@@ -30,6 +30,7 @@ public class DrawPanel extends JPanel {
     private int frameCounter;
     private int openMouth = 1;
 
+
     public DrawPanel(int width, int height) {
         super();
         setPreferredSize(new Dimension(width, height));
@@ -70,11 +71,12 @@ public class DrawPanel extends JPanel {
         int x_pac = Pacman.getX();
         int y_pac = Pacman.getY();
 
+        //On s'occupe de savoir s'il doit avoir la bouche fermée/grande ouverte ou peu ouverte
         if (Pacman.getDirection() == Direction.RIGHT || Pacman.getDirection() == Direction.LEFT){
-            if(x_pac %4 == 0){
+            if(x_pac %16 >= 0 && x_pac %16 <=3){
                 openMouth =1;
 
-            }else if (x_pac %4 == 1 || x_pac % 3 == 3) {
+            }else if ((x_pac %16 >= 4 && x_pac %16 <=7) || (x_pac %16 >= 12 && x_pac %16 <=15)) {
                 openMouth = 2;
 
             }else{
@@ -84,10 +86,10 @@ public class DrawPanel extends JPanel {
         }else {
 
             if (Pacman.getDirection() == Direction.UP || Pacman.getDirection() == Direction.DOWN) {
-                if (y_pac % 4 == 0) {
+                if (y_pac %16 >= 0 && y_pac %16 <=3) {
                     openMouth = 1;
 
-                } else if (y_pac % 4 == 1 || y_pac % 3 == 3) {
+                } else if ((y_pac %16 >= 4 && y_pac %16 <=7) || (y_pac %16 >= 12 && y_pac %16 <=15)) {
                     openMouth = 2;
 
                 } else {
@@ -97,15 +99,28 @@ public class DrawPanel extends JPanel {
             }
         }
 
+
+
         switch (openMouth) {
             case 1:
                 filename = "resources/pacman_closedmouth.txt";
+
                 break;
             case 2:
-                filename= "resources/pacman.txt";
+
+                if(Pacman.getDirection() == Direction.LEFT){
+                    filename= "resources/pacman_left.txt";
+                }else{
+                    filename= "resources/pacman_right.txt";
+                }
+
                 break;
             case 3:
-                filename="resources/pacmanbigmouthopen.txt";
+                if(Pacman.getDirection() == Direction.LEFT){
+                    filename= "resources/pacmanbigmouthopen_left.txt";
+                }else{
+                    filename= "resources/pacmanbigmouthopen_right.txt";
+                }
                 break;
             default:
                 filename = "resources/pacman_closedmouth.txt";
