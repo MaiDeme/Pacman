@@ -11,7 +11,6 @@ import fr.upsaclay.bibs.pacman.model.maze.TilePosition;
 
 
 public class Pacman extends AbstractActor {
-    private int stop_eat;
 
 
 
@@ -19,7 +18,6 @@ public class Pacman extends AbstractActor {
         super(board, ActorType.PACMAN);
         start();
         setDirection(Direction.LEFT);
-        stop_eat = 0;
 
     }
 
@@ -76,7 +74,7 @@ public class Pacman extends AbstractActor {
         Tile arrivee_tuile = this.getBoard().getMaze().getNeighbourTile(depart, this.Direction);
 
         //On vérifie si Pacman est stoppé après avoir mangé un dot ou pas
-        if(stop_eat == 0){
+        if(this.stopTime == 0){
 
             //On réinitialise blocked si Pacman était bloqué auparavant
             this.blocked = false;
@@ -131,23 +129,23 @@ public class Pacman extends AbstractActor {
                 if (this.getBoard().getMaze().getTile(this.getCurrentTile()) == Tile.SD) {
                     this.getBoard().setScore(score + 10);
                     this.getBoard().getMaze().setTile(pos.getLine(), pos.getCol(), Tile.EE);
-                    stop_eat = 1;
+                    setStopTime(1);
 
                 } else if (this.getBoard().getMaze().getTile(this.getCurrentTile()) == Tile.ND) {
                     this.getBoard().setScore(score + 10);
                     this.getBoard().getMaze().setTile(pos.getLine(), pos.getCol(), Tile.NT);
-                    stop_eat = 1;
+                    setStopTime(1);
 
                 } else if (this.getBoard().getMaze().getTile(this.getCurrentTile()) == Tile.BD) {
                     this.getBoard().setScore(score + 50);
                     this.getBoard().getMaze().setTile(pos.getLine(), pos.getCol(), Tile.EE);
-                    stop_eat = 3;
+                    setStopTime(3);
                 }
             }
 
         }else{
             //Pacman est bloqué après avoir mangé un dot , on le débloque de 1 frame
-            stop_eat -= 1;
+            setStopTime(this.stopTime -1);
         }
 
     }

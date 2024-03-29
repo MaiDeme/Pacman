@@ -15,6 +15,7 @@ public abstract class AbstractActor implements Actor{
     protected Direction intention;
     protected boolean blocked;
     protected double speed;
+    protected int stopTime;
 
 
     public ActorType type;
@@ -24,6 +25,7 @@ public abstract class AbstractActor implements Actor{
         this.board = board;
         this.blocked = false;
         this.speed = 1;
+        this.stopTime = 0;
     }
 
 
@@ -123,5 +125,6 @@ public abstract class AbstractActor implements Actor{
 
     @Override
     public void setStopTime(int nbFrames) {
+        this.stopTime = nbFrames;
     }
 }
