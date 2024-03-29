@@ -1,11 +1,13 @@
 package fr.upsaclay.bibs.pacman.view;
 
 import fr.upsaclay.bibs.pacman.control.Controller;
+import fr.upsaclay.bibs.pacman.control.VisualController;
 import fr.upsaclay.bibs.pacman.control.GameAction;
 import fr.upsaclay.bibs.pacman.model.board.Board;
 
 import javax.swing.*;
 import java.awt.*;
+import java.awt.event.KeyListener;
 
 import javax.swing.border.Border;
 
@@ -116,11 +118,15 @@ public class BoardView extends JFrame implements PacManView {
         pausePanel.add(pauseLabel,gbc);
 
         drawPanel.add(pausePanel);
-        playPanel.add(QuitButton);
         gbc.gridy = 2;
 
         pausePanel.add(QuitButton,gbc);
 
+        
+        Key keylist= new Key(controller);
+        addKeyListener(keylist);
+        setFocusable(true);
+        requestFocusInWindow();
         pack();
         setVisible(true);
 
@@ -131,6 +137,7 @@ public class BoardView extends JFrame implements PacManView {
     }
 
     public void pause() {
+        timer.stop();
         
     }
 
@@ -146,6 +153,7 @@ public class BoardView extends JFrame implements PacManView {
                 break;
             case PAUSE:
                 drawPauseView();
+                pause();
                 break;
             case GAME_OVER:
                 break;
@@ -176,7 +184,6 @@ public class BoardView extends JFrame implements PacManView {
         timer.start();
         add(drawPanel, BorderLayout.CENTER);
         drawPanel.setVisible(true);
-
         initialPanel.setVisible(false);
         playPanel.setVisible(true);
         pausePanel.setVisible(false);
@@ -184,12 +191,10 @@ public class BoardView extends JFrame implements PacManView {
     }
 
     private void drawPauseView() {
-        timer.stop();
         add(drawPanel, BorderLayout.CENTER);
         drawPanel.setVisible(true);
         initialPanel.setVisible(false);
         playPanel.setVisible(false);
         pausePanel.setVisible(true);
-
     }
 }

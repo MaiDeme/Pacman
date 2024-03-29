@@ -1,5 +1,8 @@
 package fr.upsaclay.bibs.pacman.control;
 
+import java.awt.event.KeyEvent;
+import java.awt.event.KeyListener;
+
 import fr.upsaclay.bibs.pacman.GameType;
 import fr.upsaclay.bibs.pacman.PacManException;
 import fr.upsaclay.bibs.pacman.model.board.Board;
@@ -40,7 +43,6 @@ public class VisualController extends SimpleController {
     @Override
     public void initializeNewGame() throws PacManException {
         view.setLayout(PacManLayout.GAME_ON);
-        //board.initialize();
         }
 
     @Override
@@ -73,7 +75,6 @@ public class VisualController extends SimpleController {
             case START:
                 initializeNewGame();
                 break;
-
             case RESUME:
                 view.setLayout(PacManLayout.GAME_ON);
                 break;
@@ -85,5 +86,7 @@ public class VisualController extends SimpleController {
         }
         view.update();
     }
+
+
 
 }

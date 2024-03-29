@@ -60,7 +60,6 @@ public abstract class AbstractBoard implements Board {
      */
     @Override
     public void initialize() throws PacManException {
-        System.out.println("Initializing board");
         if (gameType == GameType.TEST) {
             try {
                 this.maze = Maze.loadFromFile("resources/test.txt");
