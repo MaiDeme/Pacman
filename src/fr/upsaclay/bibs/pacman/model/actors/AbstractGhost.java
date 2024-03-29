@@ -21,7 +21,7 @@ public abstract class AbstractGhost extends AbstractActor implements Ghost {
 
         // Les fantômes ne peuvent pas être bloqué je crois
         // Il vérifie toujours qu'ils peuvent avancé
-        setPosition(this.x + this.getDirection().getDx(), this.y + this.getDirection().getDy());
+        setPosition(this.x + this.getDirection().getDx() * this.getSpeed(), this.y + this.getDirection().getDy() * this.getSpeed());
 
         // Quand il arrive AU CNETRE d'une tuile
         // Calcule de la prochaine intention
