@@ -15,7 +15,7 @@ public class BoardView extends JFrame implements PacManView {
 
     private Controller controller;
 
-    public static final int PIXELS_PER_CELLS = 2;
+    public static final int PIXELS_PER_CELLS = 3;
 
     DrawPanel drawPanel;
 

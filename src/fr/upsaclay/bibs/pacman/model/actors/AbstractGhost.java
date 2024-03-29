@@ -36,6 +36,7 @@ public abstract class AbstractGhost extends AbstractActor implements Ghost {
 
 
             this.intention = getNextIntention(depart);
+
         }
     }
 

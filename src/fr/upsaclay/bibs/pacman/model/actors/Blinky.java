@@ -11,6 +11,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class Blinky extends AbstractGhost {
+    TilePosition target;
 
     public Blinky(Board board, ActorType type) {
         super(board, type);
@@ -45,7 +46,7 @@ public class Blinky extends AbstractGhost {
      */
     @Override
     public TilePosition getTarget() {
-        return this.getBoard().getPacMan().getCurrentTile();
+        return board.getMaze().getTilePosition(this.getBoard().getPacMan().getX(), this.getBoard().getPacMan().getY());
     }
 
     /**

@@ -88,6 +88,7 @@ public abstract class AbstractBoard implements Board {
         this.ghosts = new ArrayList<Ghost>();
         Ghost blinky = new Blinky(this, ActorType.GHOST);
         this.ghosts.add(blinky);
+        blinky.start();
     }
 
     /**
@@ -107,6 +108,10 @@ public abstract class AbstractBoard implements Board {
     @Override
     public void nextFrame() {
         pacman.nextFrame();
+        for (Ghost g : this.ghosts){
+            g.nextFrame();
+        }
+
     }
 
     // Step 2
