@@ -30,6 +30,9 @@ public enum GameAction {
     /** Ask the controller to load a new game **/
     NEW_GAME,
 
+    /** Ask the controller to load athetitle screen **/
+    TITLE_SCREEN,
+
     /** Step 3 actions **/
 
     /** Ask  the controller to load the board after pac man has lost a life **/

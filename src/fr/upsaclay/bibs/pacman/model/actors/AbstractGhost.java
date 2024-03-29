@@ -1,5 +1,6 @@
 package fr.upsaclay.bibs.pacman.model.actors;
 
+import fr.upsaclay.bibs.pacman.model.Direction;
 import fr.upsaclay.bibs.pacman.model.board.Board;
 import fr.upsaclay.bibs.pacman.model.board.Counter;
 import fr.upsaclay.bibs.pacman.model.maze.Maze;
@@ -24,48 +25,55 @@ public abstract class AbstractGhost extends AbstractActor implements Ghost {
         int y_depart = this.getY();
         TilePosition depart = this.getCurrentTile();
 
-        // Les fantômes ne peuvent pas être bloqué je crois
-        // Il vérifie toujours qu'ils peuvent avancé
         setPosition(this.x + this.getDirection().getDx() * this.getSpeed(), this.y + this.getDirection().getDy() * this.getSpeed());
 
-        // Quand il arrive AU CNETRE d'une tuile
-        // Calcule de la prochaine intention
+        // Quand il arrive au centre d'une tuile
+        // Change la direction et
+        // calcule de la prochaine intention
         if (this.getX() % Maze.TILE_WIDTH == Maze.TITLE_CENTER_X
                 && this.getY() % Maze.TILE_HEIGHT == Maze.TITLE_CENTER_Y) {
             this.Direction = this.intention;
 
-            // Pour Blinky la target est la position de PacMan
 
-            TilePosition target = this.getTarget();
-
-            // Liste avec les 4 directions dans l'ordre de préférence des fantômes
-            fr.upsaclay.bibs.pacman.model.Direction [] directions = {fr.upsaclay.bibs.pacman.model.Direction.UP, fr.upsaclay.bibs.pacman.model.Direction.LEFT,
-                    fr.upsaclay.bibs.pacman.model.Direction.DOWN, fr.upsaclay.bibs.pacman.model.Direction.RIGHT};
-            double [] dist = new double[4];
-            int i = 0;
-            // On calcule la distance entre les differentes tuiles possibles et la tuile target
-            for(fr.upsaclay.bibs.pacman.model.Direction dir : directions) {
-                if( dir != this.Direction.reverse()) {
-                    if(! this.getBoard().getMaze().getNeighbourTile(depart, dir).isWall()) {
-                        TilePosition next_tuile = this.getBoard().getMaze().getNeighbourTilePosition(depart, dir);
-                        double dist_to_target = Math.sqrt((next_tuile.getCol() - target.getCol())^2 + (next_tuile.getLine() - target.getLine())^2);
-                        dist[i] = dist_to_target;
-                    }
-                } else { // dir == Direction.reverse()
-                    dist[i] = Double.MAX_VALUE;
-                }
-                i++;
-            }
-            // On cherche la plus petite distance pour choisir la prochaine intention
-            int min = 0;
-            for(i = 1; i<4; i++){
-                if (dist[i] < dist[min]) {
-                    min = i;
-                }
-            }
-            this.intention = directions[i];
+            this.intention = getNextIntention(depart);
         }
     }
+
+    public fr.upsaclay.bibs.pacman.model.Direction getNextIntention(TilePosition depart) {
+        // Pour Blinky la target est la position de PacMan
+
+        TilePosition target = this.getTarget();
+
+        // Liste avec les 4 directions dans l'ordre de préférence des fantômes
+        fr.upsaclay.bibs.pacman.model.Direction[] directions = {fr.upsaclay.bibs.pacman.model.Direction.UP, fr.upsaclay.bibs.pacman.model.Direction.LEFT,
+                fr.upsaclay.bibs.pacman.model.Direction.DOWN, fr.upsaclay.bibs.pacman.model.Direction.RIGHT};
+        double[] dist = new double[4];
+        int i = 0;
+        // On calcule la distance entre les differentes tuiles possibles et la tuile target
+        for (fr.upsaclay.bibs.pacman.model.Direction dir : directions) {
+            if (dir != this.Direction.reverse()) {
+                if (!this.getBoard().getMaze().getNeighbourTile(depart, dir).isWall()) {
+                    TilePosition next_tuile = this.getBoard().getMaze().getNeighbourTilePosition(depart, dir);
+                    double dist_to_target = Math.sqrt((next_tuile.getCol() - target.getCol()) ^ 2 + (next_tuile.getLine() - target.getLine()) ^ 2);
+                    dist[i] = dist_to_target;
+                } else {
+                    dist[i] = Double.MAX_VALUE;
+                }
+            } else { // dir == Direction.reverse()
+                dist[i] = Double.MAX_VALUE;
+            }
+            i++;
+        }
+        // On cherche la plus petite distance pour choisir la prochaine intention
+        int min = 0;
+        for (i = 1; i < 4; i++) {
+            if (dist[i] < dist[min]) {
+                min = i;
+            }
+        }
+        return directions[min];
+    }
+
 
     /**
      * Return the type of ghost it is

@@ -131,6 +131,25 @@ public class BoardView extends JFrame implements PacManView {
 
         pausePanel.add(ResumeButton,gbc);
 
+        JButton RestartButton;
+        RestartButton = new JButton("Start New Game");
+        RestartButton.addActionListener(new ButtonListener(controller, GameAction.NEW_GAME));
+        gbc.gridx = 0;
+        gbc.gridy = 30;
+        gbc.insets = new Insets(10, 0, 10, 0); // 10 pixels of padding above and below
+
+        pausePanel.add(RestartButton,gbc);
+
+
+        JButton TitleButton;
+        TitleButton = new JButton("Back to title screen");
+        TitleButton.addActionListener(new ButtonListener(controller, GameAction.TITLE_SCREEN));
+        gbc.gridx = 0;
+        gbc.gridy = 40;
+        gbc.insets = new Insets(10, 0, 10, 0); // 10 pixels of padding above and below
+
+        pausePanel.add(TitleButton,gbc);
+
         pausePanel.setBackground(new Color (128,128,128,100)); //semi transparent parce que le jeu est en pause
         JLabel pauseLabel = new JLabel("Game Paused");
         pauseLabel.setForeground(Color.WHITE);

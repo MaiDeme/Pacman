@@ -138,11 +138,11 @@ public class DrawPanel extends JPanel {
                     Tile tile = maze.getTile(pos);
                     if (tile.isWall()) {
                         paintWalls(g, j, i, tile);
+                    }else if (tile.hasDot()) {
+                        paintDot(g, j, i, tile);
                     } else if (pos.equals(Pacpos)) {
                         paintPacMan(g, j, i,true);
-                    }
-                    if (tile.hasDot()) {
-                        paintDot(g, j, i, tile);
+
                     }
                 }
             }

@@ -73,7 +73,8 @@ public class VisualController extends SimpleController {
             case NEXT_LEVEL:
                 break;
             case NEW_GAME:
-                break;
+                this.initialize();
+                initializeNewGame();
             case NEW_LIFE:
                 break;
             case START:
@@ -85,6 +86,8 @@ public class VisualController extends SimpleController {
             case QUIT:
                 System.exit(0);
                 break;
+            case TITLE_SCREEN:
+                this.initialize();
             default:
                 break;
         }
