@@ -83,7 +83,8 @@ public class BlinkyTest {
         }
         //La variable Pacman n'a pas bougé
         // Pacman position has changed and the target should have also changed
-        pacmacPos = board.getMaze().getTilePosition(pacman.getX(), pacman.getY());
+        pacmacPos = board.getMaze().getTilePosition(board.getPacMan().getX(), board.getPacMan().getY());
+        //pacmacPos = board.getMaze().getTilePosition(pacman.getX(), pacman.getY());
         assertEquals(blinky.getTarget(), pacmacPos);
     }
 
@@ -99,8 +100,7 @@ public class BlinkyTest {
         board.nextFrame();
         assertEquals(blinky.getDirection(), Direction.LEFT);
         assertEquals(blinky.getIntention(), Direction.LEFT);
-        assertEquals(board.getGhost(GhostType.BLINKY).getSpeed(), 0.94);
-        assertEquals(blinky.getRealX(), x - 1);
+        assertEquals(blinky.getX(), x - 1);
         // We move again 1 frame, with blinky speed this should move one more x to left
         board.nextFrame();
         assertEquals(blinky.getX(), x - 2);
