@@ -118,7 +118,7 @@ public class DrawPanel extends JPanel {
                     if (tile.isWall()) {
                         paintWalls(g, j, i, tile);
                     } else if (pos.equals(Pacpos)) {
-                        paintPacMan(g, j, i,false);
+                        paintPacMan(g, j, i,true);
                     }
                     if (tile.hasDot()) {
                         paintDot(g, j, i, tile);
