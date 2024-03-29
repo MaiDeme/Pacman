@@ -96,6 +96,15 @@ public interface Board {
      */
     int getScore();
 
+
+
+    /**
+     * Set the current score of the game
+     *
+     */
+    void setScore(int score);
+
+
     /**
      * Return the current state of the board
      * used to detect end of level / end of game

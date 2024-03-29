@@ -154,7 +154,8 @@ public class BoardTest {
             testBoard.nextFrame(); // we move until we reach the tile
         }
         // we have reached the tile
-        assertEquals(maze.getTile(9,2), Tile.EE); // Pacman has eater the dot
+
+        assertEquals(maze.getTile(9,2), Tile.EE); // Pacman has eaten the dot
         assertEquals(testBoard.getScore(), 10);
         assertEquals(maze.getNumberOfDots(), nbdots - 1);
         // Pacman stops for 1 frame

@@ -696,8 +696,8 @@ public class PacManTest {
         //assertFalse(pacman.isBlocked()); // not blocked yet
         // On the next move, we are stuck because of the wall
         pacman.nextMove();;
-        assertEquals(pacman.getX(), x);
-        assertEquals(pacman.getY(), y);
+        assertEquals(pacman.getX(), x);  //Normalement 35
+        assertEquals(pacman.getY(), y); //Normalement 27, hors on a 26, s'arret trop tard quand est bloque
         assertTrue(pacman.isBlocked());
         // still stuck
         pacman.nextMove();;
@@ -735,7 +735,6 @@ public class PacManTest {
         // Now let's move to the left wall and get stuck again
         for(int i = 0; i < Maze.TILE_WIDTH +3; i++) {
             pacman.nextMove();;
-            //assertNotEquals(pacman.getX(), );
             //Ne se bloque pas dans la boucle
         }
         assertEquals(pacman.getX(), x-8);
@@ -744,7 +743,7 @@ public class PacManTest {
         // If we tell pacman to g right, it gets unstuck
         pacman.setIntention(Direction.RIGHT);
         pacman.nextMove();;
-        assertEquals(pacman.getX(), x-7);
+       assertEquals(pacman.getX(), x-7);
         assertEquals(pacman.getY(), y);
         assertFalse(pacman.isBlocked());
     }
