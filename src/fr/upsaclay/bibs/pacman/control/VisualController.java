@@ -69,7 +69,7 @@ public class VisualController extends SimpleController {
             case NEXT_LEVEL:
                 break;
             case NEW_GAME:
-                break;
+                this.initialize();
             case NEW_LIFE:
                 break;
             case START:
