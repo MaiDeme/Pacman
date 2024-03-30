@@ -1,6 +1,7 @@
 package fr.upsaclay.bibs.pacman.view;
 
 import fr.upsaclay.bibs.pacman.model.actors.Ghost;
+import fr.upsaclay.bibs.pacman.model.actors.GhostType;
 import fr.upsaclay.bibs.pacman.model.board.Board;
 import fr.upsaclay.bibs.pacman.model.maze.Maze;
 import fr.upsaclay.bibs.pacman.model.maze.Tile;
@@ -179,6 +180,7 @@ public class DrawPanel extends JPanel {
         super.paintComponent(g);
         Maze maze = board.getMaze();
         TilePosition Pacpos = board.getPacMan().getCurrentTile();
+        TilePosition Blinkypos = board.getGhost(GhostType.BLINKY).getCurrentTile();
         updateScore(board.getScore());
         paintScore(g);
         frameCounter++;
@@ -201,7 +203,9 @@ public class DrawPanel extends JPanel {
                         paintDot(g, j, i, tile);
                     } else if (pos.equals(Pacpos)) {
                         paintPacMan(g, j, i);
-
+                    }
+                    if (pos.equals(Blinkypos)) {
+                        paintGhost(g, j, i, board.getGhost(GhostType.BLINKY));
                     }
                 }
             }
