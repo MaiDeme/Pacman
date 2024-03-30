@@ -83,8 +83,8 @@ public class BlinkyTest {
         }
         //La variable Pacman n'a pas bougé
         // Pacman position has changed and the target should have also changed
-        pacmacPos = board.getMaze().getTilePosition(board.getPacMan().getX(), board.getPacMan().getY());
-        //pacmacPos = board.getMaze().getTilePosition(pacman.getX(), pacman.getY());
+        //pacmacPos = board.getMaze().getTilePosition(board.getPacMan().getX(), board.getPacMan().getY());
+        pacmacPos = board.getMaze().getTilePosition(pacman.getX(), pacman.getY());
         assertEquals(blinky.getTarget(), pacmacPos);
     }
 
