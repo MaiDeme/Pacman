@@ -1,9 +1,11 @@
 package fr.upsaclay.bibs.pacman.view;
 
+import fr.upsaclay.bibs.pacman.model.actors.Ghost;
 import fr.upsaclay.bibs.pacman.model.board.Board;
 import fr.upsaclay.bibs.pacman.model.maze.Maze;
 import fr.upsaclay.bibs.pacman.model.maze.Tile;
 import fr.upsaclay.bibs.pacman.model.maze.TilePosition;
+import fr.upsaclay.bibs.pacman.model.Direction;
 
 import javax.swing.*;
 import java.awt.*;
@@ -127,10 +129,49 @@ public class DrawPanel extends JPanel {
     }
 
 
+    public void paintGhost(Graphics g, int i, int j,Ghost ghost) {
+        int size = BoardView.PIXELS_PER_CELLS;
+        i = i * size;
+        j = j * size;
+        Direction dir=ghost.getDirection();
+        String filename= "resources/ghosts/"+dir+".txt";
+        try (Scanner scanner = new Scanner(new File(filename))) {
+            int y = 0;
+            while (scanner.hasNextLine()) {
+                String line = scanner.nextLine();
+                String[] chars = line.split(" ");
+                for (int x = 0; x < chars.length; x++) {
+                    if (chars[x].equals("1")) {
+                        switch (ghost.getGhostType()) {
+                            case BLINKY:
+                                g.setColor(Color.RED);
+                                break;
+                            case PINKY:
+                                g.setColor(Color.PINK);
+                                break;
+                            case INKY:
+                                g.setColor(Color.CYAN);
+                                break;
+                            case CLYDE:
+                                g.setColor(Color.ORANGE);
+                                break;
+                            
+                        }
+                        g.fillRect(x * size + i, y * size + j, size, size);
+                    }
+                }
+                y++;
+            }
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        }
+    }
+
     public void updateScore(int newScore) {
         this.score = newScore;
         
     }
+
 
     @Override
     public void paintComponent(Graphics g) {
