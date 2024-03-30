@@ -1,8 +1,7 @@
 package fr.upsaclay.bibs.pacman.view;
 
 import fr.upsaclay.bibs.pacman.model.Direction;
-import fr.upsaclay.bibs.pacman.model.actors.Actor;
-import fr.upsaclay.bibs.pacman.model.actors.GhostType;
+import fr.upsaclay.bibs.pacman.model.actors.*;
 import fr.upsaclay.bibs.pacman.model.actors.Pacman;
 import fr.upsaclay.bibs.pacman.model.board.Board;
 import fr.upsaclay.bibs.pacman.model.maze.Maze;
@@ -17,6 +16,8 @@ import java.io.FileNotFoundException;
 import java.util.Scanner;
 import java.awt.Font;
 import java.awt.FontFormatException;
+import java.util.List;
+
 
 
 /**
@@ -72,38 +73,15 @@ public class DrawPanel extends JPanel {
         Actor Pacman = this.board.getPacMan();
         int x_pac = Pacman.getX();
         int y_pac = Pacman.getY();
-
-
-
-
         switch (openMouth) {
             case 1:
                 filename = "resources/pacman_closedmouth.txt";
-
                 break;
             case 2:
-
-                if(Pacman.getDirection() == Direction.LEFT){
-                    filename= "resources/pacman_left.txt";
-                }else if (Pacman.getDirection() == Direction.RIGHT){
-                    filename= "resources/pacman_right.txt";
-                } else if (Pacman.getDirection() == Direction.UP){
-                    filename= "resources/pacman_up.txt";
-                }else{
-                    filename= "resources/pacman_down.txt";
-                }
-
+                filename = "resources/pacman_"+Pacman.getDirection()+".txt";
                 break;
             case 3:
-                if(Pacman.getDirection() == Direction.LEFT){
-                    filename= "resources/pacmanbigmouthopen_left.txt";
-                }else if(Pacman.getDirection() == Direction.RIGHT){
-                    filename= "resources/pacmanbigmouthopen_right.txt";
-                } else if (Pacman.getDirection() == Direction.UP) {
-                    filename= "resources/pacmanbigmouthopen_up.txt";
-                }else{
-                    filename= "resources/pacmanbigmouthopen_down.txt";
-                }
+                filename= "resources/pacmanbigmouthopen_"+Pacman.getDirection()+".txt";
                 break;
             default:
                 filename = "resources/pacman_closedmouth.txt";
@@ -125,52 +103,6 @@ public class DrawPanel extends JPanel {
             e.printStackTrace();
         }
     }
-
-
-
-
-    public void paintBlinky(Graphics g, int i, int j) {
-        int size = BoardView.PIXELS_PER_CELLS;
-        i = i * size;
-        j = j * size;
-        String filename = "resources/ghosts/LEFT.txt";
-
-        Direction dir = board.getGhost(GhostType.BLINKY).getDirection();
-        if( dir == Direction.LEFT) {
-            filename = "resources/ghosts/LEFT.txt";
-        }else if(dir == Direction.RIGHT){
-            filename = "resources/ghosts/RIGHT.txt";
-        } else if (dir == Direction.UP){
-            filename = "resources/ghosts/UP.txt";
-        }else if (dir == Direction.DOWN){
-            filename = "resources/ghosts/DOWN.txt";
-        }
-
-
-        try (Scanner scanner = new Scanner(new File(filename))) {
-            int y = 0;
-            while (scanner.hasNextLine()) {
-                String line = scanner.nextLine();
-                String[] chars = line.split(" ");
-                for (int x = 0; x < chars.length; x++) {
-                    if (chars[x].equals("1")) {
-                        g.setColor(Color.RED);
-                        g.fillRect(x * size + i, y * size + j, size, size);
-                    } else if (chars[x].equals("2")) {
-                        g.setColor(Color.WHITE);
-                        g.fillRect(x * size + i, y * size + j, size, size);
-                    }if (chars[x].equals("3")) {
-                        g.setColor(Color.BLACK);
-                        g.fillRect(x * size + i, y * size + j, size, size);
-                    }
-                }
-                y++;
-            }
-        } catch (FileNotFoundException e) {
-            e.printStackTrace();
-        }
-    }
-
 
     public void paintDot(Graphics g, int i, int j, Tile texture) {
         int size = BoardView.PIXELS_PER_CELLS;
@@ -225,19 +157,20 @@ public class DrawPanel extends JPanel {
                     if (chars[x].equals("1")) {
                         switch (ghost.getGhostType()) {
                             case BLINKY:
-                                g.setColor(Color.RED);
-                                break;
+                                g.setColor(Color.RED);break;
                             case PINKY:
-                                g.setColor(Color.PINK);
-                                break;
+                                g.setColor(Color.PINK);break;
                             case INKY:
-                                g.setColor(Color.CYAN);
-                                break;
+                                g.setColor(Color.CYAN);break;
                             case CLYDE:
-                                g.setColor(Color.ORANGE);
-                                break;
-                            
+                                g.setColor(Color.ORANGE);break;                                
                         }
+                        g.fillRect(x * size + i, y * size + j, size, size);
+                    } else if (chars[x].equals("2")) {
+                        g.setColor(Color.WHITE);
+                        g.fillRect(x * size + i, y * size + j, size, size);
+                    }if (chars[x].equals("3")) {
+                        g.setColor(Color.BLACK);
                         g.fillRect(x * size + i, y * size + j, size, size);
                     }
                 }
@@ -250,7 +183,6 @@ public class DrawPanel extends JPanel {
 
     public void updateScore(int newScore) {
         this.score = newScore;
-        
     }
 
 
@@ -260,7 +192,7 @@ public class DrawPanel extends JPanel {
         super.paintComponent(g);
         Maze maze = board.getMaze();
         TilePosition Pacpos = board.getPacMan().getCurrentTile();
-        TilePosition Blinkypos = board.getGhost(GhostType.BLINKY).getCurrentTile();
+        List <Ghost> ghosts = board.getGhosts();
         updateScore(board.getScore());
         paintScore(g);
         paintHighScore(g);
@@ -284,10 +216,15 @@ public class DrawPanel extends JPanel {
                         paintDot(g, j, i, tile);
                     } else if (pos.equals(Pacpos)) {
                         paintPacMan(g, j, i);
+                    }else{
+                        for (Ghost ghost : ghosts) {
+                            if (pos.equals(ghost.getCurrentTile())) {
+                                paintGhost(g, j, i, ghost);
+                            }
+                        }
 
-                    } else if (pos.equals(this.board.getGhost(GhostType.BLINKY).getCurrentTile())){
-                        paintBlinky(g, i, j);
                     }
+                    
                 }
             }
         }
