@@ -21,38 +21,45 @@ public abstract class AbstractGhost extends AbstractActor implements Ghost {
     @Override
     public void nextMove() {
 
-        int x_depart = this.getX();
-        int y_depart = this.getY();
-        TilePosition depart = this.getCurrentTile();
 
-        setPosition(this.x + this.getDirection().getDx() * this.getSpeed(), this.y + this.getDirection().getDy() * this.getSpeed());
+        //TilePosition depart = this.getCurrentTile();
+        this.setPosition(this.x + this.getDirection().getDx() * this.getSpeed(), this.y + this.getDirection().getDy() * this.getSpeed());
 
-        // Quand il arrive au centre d'une tuile
-        // Change la direction et
-        // calcule de la prochaine intention
+        // Quand il rejoint le centre d'une tuile :
         if (this.getX() % Maze.TILE_WIDTH == Maze.TITLE_CENTER_X
                 && this.getY() % Maze.TILE_HEIGHT == Maze.TITLE_CENTER_Y) {
+            //il applique son intention et met donc à jour sa direction
             this.Direction = this.intention;
+            //il calcule sa nouvelle intention.
+            this.intention = getNextIntention(this.getCurrentTile());
 
-
-            this.intention = getNextIntention(depart);
         }
     }
 
     public fr.upsaclay.bibs.pacman.model.Direction getNextIntention(TilePosition depart) {
         // Pour Blinky la target est la position de PacMan
+        //Il choisit la tuile possible qui le rapproche le plus de sa tuile cible (selon la distance euclidienne)
+        //Pour cela, il regarde où il peut aller à partir de la prochaine tuile sachant qu'il n'a pas le droit de revenir en arrière ni de traverser les murs
 
         TilePosition target = this.getTarget();
 
         // Liste avec les 4 directions dans l'ordre de préférence des fantômes
         fr.upsaclay.bibs.pacman.model.Direction[] directions = {fr.upsaclay.bibs.pacman.model.Direction.UP, fr.upsaclay.bibs.pacman.model.Direction.LEFT,
                 fr.upsaclay.bibs.pacman.model.Direction.DOWN, fr.upsaclay.bibs.pacman.model.Direction.RIGHT};
+        //Liste vide des distances de cases par rapport à la cible
         double[] dist = new double[4];
         int i = 0;
+
         // On calcule la distance entre les differentes tuiles possibles et la tuile target
+
+        //On parcoure la liste des directions
         for (fr.upsaclay.bibs.pacman.model.Direction dir : directions) {
+            //Si la directionn'est pas l'inverse de l'actuelle (interdit d'aller en arrière)
             if (dir != this.Direction.reverse()) {
+
+                //Si la prochaine tuile dans cette direction n'est pas un mur
                 if (!this.getBoard().getMaze().getNeighbourTile(depart, dir).isWall()) {
+
                     TilePosition next_tuile = this.getBoard().getMaze().getNeighbourTilePosition(depart, dir);
                     double dist_to_target = Math.sqrt((next_tuile.getCol() - target.getCol()) ^ 2 + (next_tuile.getLine() - target.getLine()) ^ 2);
                     dist[i] = dist_to_target;
@@ -71,7 +78,9 @@ public abstract class AbstractGhost extends AbstractActor implements Ghost {
                 min = i;
             }
         }
-        return directions[min];
+
+            return directions[min];
+
     }
 
 

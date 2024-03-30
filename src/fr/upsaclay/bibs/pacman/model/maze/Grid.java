@@ -8,11 +8,15 @@ public class Grid implements Maze {
     private int width;
     private int height;
 
+    private int High_score;
+
+
     private int number_of_dots;
 
     static Tile[][] plateau;
 
     public Grid(int height, int width) {
+        this.High_score = 0;
         this.number_of_dots = 0;
         this.height = height;
         this.width = width;
@@ -25,6 +29,18 @@ public class Grid implements Maze {
         }
 
     }
+
+
+    public int getHigh_score() {
+        return this.High_score;
+    }
+
+    public void setHigh_score(int score) {
+        if (this.High_score < score)
+            this.High_score = score;
+    }
+
+
 
     @Override
     public int getWidth() {

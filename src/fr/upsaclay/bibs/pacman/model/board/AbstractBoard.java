@@ -28,7 +28,9 @@ public abstract class AbstractBoard implements Board {
     protected List<Ghost> ghosts;
     protected int score;
 
+
     public AbstractBoard(GameType gameType) {
+
         this.gameType = gameType;
         this.boardState = BoardState.INITIAL;
         try {
@@ -37,6 +39,8 @@ public abstract class AbstractBoard implements Board {
             e.printStackTrace();
         }
     }
+
+
 
     /**
      * Return the type of game of the board
@@ -88,6 +92,7 @@ public abstract class AbstractBoard implements Board {
         this.ghosts = new ArrayList<Ghost>();
         Ghost blinky = new Blinky(this, ActorType.GHOST);
         this.ghosts.add(blinky);
+        blinky.start();
     }
 
     /**
@@ -107,6 +112,10 @@ public abstract class AbstractBoard implements Board {
     @Override
     public void nextFrame() {
         pacman.nextFrame();
+        for (Ghost g : this.ghosts){
+            g.nextFrame();
+        }
+
     }
 
     // Step 2

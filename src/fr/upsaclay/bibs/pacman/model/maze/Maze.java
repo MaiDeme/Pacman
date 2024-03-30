@@ -184,4 +184,8 @@ public interface Maze {
      */
     int getNumberOfDots();
 
+    int getHigh_score();
+
+    void setHigh_score(int score) ;
+
 }

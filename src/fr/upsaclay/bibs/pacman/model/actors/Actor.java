@@ -11,6 +11,7 @@ import fr.upsaclay.bibs.pacman.model.maze.TilePosition;
  * @author Viviane Pons
  */
 public interface Actor {
+    String getTest();
 
     /**
      * Return the type of actor it is

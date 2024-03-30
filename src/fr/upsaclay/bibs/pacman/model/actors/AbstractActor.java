@@ -16,6 +16,7 @@ public abstract class AbstractActor implements Actor{
     protected boolean blocked;
     protected double speed;
     protected int stopTime;
+    String test;
 
 
     public ActorType type;
@@ -95,9 +96,13 @@ public abstract class AbstractActor implements Actor{
     @Override
     public abstract void nextMove() ;
 
+    public String getTest(){
+        return this.test;
+    }
     @Override
     public void nextFrame() {
         this.nextMove();
+
     }
 
 //----------------------------------------------------------------------------------------------------------------------
