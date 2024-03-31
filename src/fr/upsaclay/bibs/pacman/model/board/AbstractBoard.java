@@ -78,8 +78,13 @@ public abstract class AbstractBoard implements Board {
                 e.printStackTrace();
             }
         }
-        //boardState = BoardState.STARTED;
-        startActors();
+
+        //create the actors
+        pacman = new Pacman(this);
+
+        this.ghosts = new ArrayList<Ghost>();
+        Ghost blinky = new Blinky(this, ActorType.GHOST);
+        this.ghosts.add(blinky);
     }
 
     /**
@@ -87,18 +92,14 @@ public abstract class AbstractBoard implements Board {
      * Perform all necessary actions to start actors at the beginning of the game
      */
     public void startActors() {
+        
+        pacman.start();
+        
+        for (Ghost g : this.ghosts){
+            g.start();
+        }
         this.boardState=BoardState.STARTED;
-        if (this.pacman == null) {
-            this.pacman = new Pacman(this);
-            pacman.start();
-        }
 
-        if (this.ghosts == null) {
-            this.ghosts = new ArrayList<Ghost>();
-            Ghost blinky = new Blinky(this, ActorType.GHOST);
-            this.ghosts.add(blinky);
-            blinky.start();
-        }
     }
 
     /**
@@ -123,6 +124,18 @@ public abstract class AbstractBoard implements Board {
         }
 
     }
+
+
+    // rajout
+    public void pause() {
+        this.boardState = BoardState.PAUSED;
+    }
+
+    public void resume(){
+        this.boardState = BoardState.STARTED;
+    }
+
+ 
 
     // Step 2
     // The methods below won't be used / tested before step 2

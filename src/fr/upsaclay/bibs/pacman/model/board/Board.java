@@ -18,6 +18,10 @@ import java.util.List;
  */
 public interface Board {
 
+    //rajout
+    void pause();
+    
+    void resume();
 
     /**
      * Return the type of game of the board
@@ -69,8 +73,6 @@ public interface Board {
      * @return the board
      */
     static Board createBoard(GameType type) {
-        //throw new UnsupportedOperationException("Not implemented");
-
         switch (type) {
             case CLASSIC:
                 return new ClassicBoard();

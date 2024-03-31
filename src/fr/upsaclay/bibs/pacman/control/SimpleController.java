@@ -1,19 +1,17 @@
 package fr.upsaclay.bibs.pacman.control;
 
+import java.security.cert.CertPathValidatorException.BasicReason;
+
 import fr.upsaclay.bibs.pacman.GameType;
 import fr.upsaclay.bibs.pacman.PacManException;
 import fr.upsaclay.bibs.pacman.model.board.Board;
 import fr.upsaclay.bibs.pacman.model.board.BoardState;
-import fr.upsaclay.bibs.pacman.view.BoardView;
-import fr.upsaclay.bibs.pacman.view.PacManLayout;
-import fr.upsaclay.bibs.pacman.view.PacManView;
 import fr.upsaclay.bibs.pacman.model.Direction;
 
 public class SimpleController implements Controller {
 
     public GameType gameType;
     public Board board;
-    public PacManView view;
     public static final int INITIAL_DELAY = 17;
 
     public SimpleController() {
@@ -22,15 +20,17 @@ public class SimpleController implements Controller {
 
     @Override
     public void initialize() throws PacManException {
-        initializeNewGame();
+        board = Board.createBoard(this.getGameType());
 
     }
 
     @Override
     public void initializeNewGame() throws PacManException {
 
+        int HS = board.getMaze().getHigh_score();
         board = Board.createBoard(this.getGameType());
-
+        board.startActors();
+        board.getMaze().setHigh_score(HS);
     }
 
     @Override
@@ -44,49 +44,64 @@ public class SimpleController implements Controller {
     }
     @Override
     public void receiveAction(GameAction action) throws PacManException{
-
-        //si le jeu n'est pas started
-        if (board.getBoardState()== BoardState.INITIAL){
-            //si on appuie sur start
-            if (action==GameAction.START){
-                board.initialize();
-            }else{
-                //sinon impossible de faire autre chose
-                throw new ForbiddenActionException(action);
-            }
-        }else {
-            switch (action) {
-                case START:
-                    throw new ForbiddenActionException(action);
-                case UP:
-                    board.getPacMan().setDirection(Direction.UP);
-                    break;
-                case DOWN:
-                    board.getPacMan().setDirection(Direction.DOWN);
-                    break;
-                case LEFT:
-                    board.getPacMan().setDirection(Direction.LEFT);
-                    break;
-                case RIGHT:
-                    board.getPacMan().setDirection(Direction.RIGHT);
-                    break;
-                case PAUSE:
-                    break;
-                case NEXT_FRAME:
-                    board.nextFrame();
-                    break;
-                case NEXT_LEVEL:
-                    break;
-                case NEW_GAME:
-                    break;
-                case NEW_LIFE:
-                    break;
-                case RESUME:
-                default:
-                    break;
-            }
+        if (board.getBoardState()==BoardState.INITIAL && action!=GameAction.START ){
+            throw new ForbiddenActionException(action);
+        }
+        if (board.getBoardState() == BoardState.PAUSED && action != GameAction.RESUME && action != GameAction.TITLE_SCREEN && action != GameAction.QUIT) {
+            throw new ForbiddenActionException(action);
         }
 
+        switch (action) {
+            case UP:
+                board.getPacMan().setIntention(Direction.UP);
+                break;
+            case DOWN:
+                board.getPacMan().setIntention(Direction.DOWN);
+                break;
+            case LEFT:
+                board.getPacMan().setIntention(Direction.LEFT);
+                break;
+            case RIGHT:
+                board.getPacMan().setIntention(Direction.RIGHT);
+                break;
+            case PAUSE:
+                if (board.getBoardState() != BoardState.STARTED) {
+                    throw new ForbiddenActionException(action);
+                }
+                board.pause();
+                break;
+            case NEXT_FRAME:
+                board.nextFrame();
+                break;
+            case NEXT_LEVEL:
+                break;
+            case NEW_GAME:
+                initializeNewGame();
+            case NEW_LIFE:
+                break;
+            case START:
+                if (board.getBoardState() == BoardState.STARTED) {
+                    throw new ForbiddenActionException(action);
+                }
+                initializeNewGame();
+                break;
+            case RESUME:
+                if (board.getBoardState() != BoardState.PAUSED) {
+                    throw new ForbiddenActionException(action);
+                }
+                board.resume();
+                break;
+            case QUIT:
+                System.exit(0);
+                break;
+            case TITLE_SCREEN:
+                int HS = board.getMaze().getHigh_score();
+                board = Board.createBoard(this.getGameType());
+                board.getMaze().setHigh_score(HS);
+                
+            default:
+                break;
+        }
     }
 
 

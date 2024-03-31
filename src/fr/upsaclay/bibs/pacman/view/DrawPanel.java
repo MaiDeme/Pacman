@@ -3,6 +3,7 @@ package fr.upsaclay.bibs.pacman.view;
 import fr.upsaclay.bibs.pacman.model.Direction;
 import fr.upsaclay.bibs.pacman.model.actors.*;
 import fr.upsaclay.bibs.pacman.model.board.Board;
+import fr.upsaclay.bibs.pacman.model.board.BoardState;
 import fr.upsaclay.bibs.pacman.model.maze.Maze;
 import fr.upsaclay.bibs.pacman.model.maze.Tile;
 import fr.upsaclay.bibs.pacman.model.maze.TilePosition;
@@ -219,7 +220,7 @@ public class DrawPanel extends JPanel {
             }
            
         }
-        if (board != null) {
+        if (board != null && board.getBoardState()!=BoardState.INITIAL) {
             for (int i = 0; i < maze.getPixelHeight(); i+=8) {
                 for (int j = 0; j < maze.getPixelWidth(); j+=8) {
                     TilePosition pos = maze.getTilePosition(j, i);

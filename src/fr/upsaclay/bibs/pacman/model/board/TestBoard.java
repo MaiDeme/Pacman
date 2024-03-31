@@ -20,4 +20,6 @@ public class TestBoard extends AbstractBoard {
     public void setScore(int score) {
         this.score = score;
     }
+
+
 }
