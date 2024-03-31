@@ -26,7 +26,9 @@ public class SimpleController implements Controller {
 
     @Override
     public void initializeNewGame() throws PacManException {
-
+        if (board == null) {
+            initialize();
+        }
         int HS = board.getMaze().getHigh_score();
         board = Board.createBoard(this.getGameType());
         board.startActors();
