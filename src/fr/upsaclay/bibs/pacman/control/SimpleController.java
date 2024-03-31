@@ -49,7 +49,7 @@ public class SimpleController implements Controller {
         if (board.getBoardState()==BoardState.INITIAL && action!=GameAction.START ){
             throw new ForbiddenActionException(action);
         }
-        if (board.getBoardState() == BoardState.PAUSED && action != GameAction.RESUME && action != GameAction.TITLE_SCREEN && action != GameAction.QUIT) {
+        if (board.getBoardState() == BoardState.PAUSED && action != GameAction.RESUME && action != GameAction.TITLE_SCREEN && action != GameAction.QUIT && action != GameAction.NEW_GAME) {
             throw new ForbiddenActionException(action);
         }
 

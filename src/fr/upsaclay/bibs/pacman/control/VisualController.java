@@ -62,7 +62,7 @@ public class VisualController extends SimpleController {
         if (board.getBoardState()==BoardState.INITIAL && action!=GameAction.START ){
             throw new ForbiddenActionException(action);
         }
-        if (board.getBoardState() == BoardState.PAUSED && action != GameAction.RESUME && action != GameAction.TITLE_SCREEN && action != GameAction.QUIT) {
+        if (board.getBoardState() == BoardState.PAUSED && action != GameAction.RESUME && action != GameAction.TITLE_SCREEN && action != GameAction.QUIT && action != GameAction.NEW_GAME) {
             throw new ForbiddenActionException(action);
         }
         switch (action) {
@@ -114,6 +114,7 @@ public class VisualController extends SimpleController {
             case TITLE_SCREEN:
                 int HS = board.getMaze().getHigh_score();
                 board = Board.createBoard(this.getGameType());
+                initialize();
                 board.getMaze().setHigh_score(HS);
                 view.setBoard(this.board);
                 view.setLayout(PacManLayout.INIT);
