@@ -2,7 +2,6 @@ package fr.upsaclay.bibs.pacman.view;
 
 import fr.upsaclay.bibs.pacman.model.Direction;
 import fr.upsaclay.bibs.pacman.model.actors.*;
-import fr.upsaclay.bibs.pacman.model.actors.Pacman;
 import fr.upsaclay.bibs.pacman.model.board.Board;
 import fr.upsaclay.bibs.pacman.model.maze.Maze;
 import fr.upsaclay.bibs.pacman.model.maze.Tile;
@@ -14,8 +13,6 @@ import java.awt.*;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.util.Scanner;
-import java.awt.Font;
-import java.awt.FontFormatException;
 import java.util.List;
 
 
@@ -185,17 +182,34 @@ public class DrawPanel extends JPanel {
         this.score = newScore;
     }
 
+    public void paintLives(Graphics g) {
+
+    int lives = board.getNumberOfLives();
+    int size = 20; 
+    int padding = 5;
+
+    for (int i = 0; i < lives; i++) {
+        int x = i * (size + padding)+20; 
+        int y = this.getHeight() - size - padding; 
+
+        g.setColor(Color.YELLOW);
+        g.fillArc(x, y, size, size, 225, 270);
+    }
+}
 
     @Override
     public void paintComponent(Graphics g) {
 
         super.paintComponent(g);
+
         Maze maze = board.getMaze();
         TilePosition Pacpos = board.getPacMan().getCurrentTile();
         List <Ghost> ghosts = board.getGhosts();
         updateScore(board.getScore());
         paintScore(g);
         paintHighScore(g);
+        paintLives(g);
+
         frameCounter++;
         if (frameCounter%6 == 0) {
             openMouth++;

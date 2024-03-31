@@ -23,7 +23,7 @@ public abstract class AbstractBoard implements Board {
     // Pour les étapes 2 à 4 :
     protected Bonus bonus;
     protected int extraLifeScore;
-    protected int extraLives;
+    protected int extraLives = 2;
     protected int level;
     public List<Ghost> ghosts;
     protected int score;
@@ -78,7 +78,7 @@ public abstract class AbstractBoard implements Board {
                 e.printStackTrace();
             }
         }
-        boardState = BoardState.STARTED;
+        //boardState = BoardState.STARTED;
         startActors();
     }
 
@@ -87,6 +87,7 @@ public abstract class AbstractBoard implements Board {
      * Perform all necessary actions to start actors at the beginning of the game
      */
     public void startActors() {
+        this.boardState=BoardState.STARTED;
         if (this.pacman == null) {
             this.pacman = new Pacman(this);
             pacman.start();
