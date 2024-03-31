@@ -40,8 +40,6 @@ public class TitleScreen extends JPanel {
         int y = 100;  // Adjust this value to move the text up or down
     
         g.drawString(message, x, y);
-
-        g.drawString(message, x, y);
     }
 
 
