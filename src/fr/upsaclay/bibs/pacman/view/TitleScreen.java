@@ -6,6 +6,8 @@ import javax.swing.JPanel;
 
 import fr.upsaclay.bibs.pacman.model.board.Board;
 
+import java.awt.Font;
+import java.awt.FontMetrics;
 import java.awt.Graphics;
 import java.io.File;
 import java.io.IOException;
@@ -28,7 +30,18 @@ public class TitleScreen extends JPanel {
     @Override
     protected void paintComponent(Graphics g) {
         super.paintComponent(g);
+        g.setFont(getFont().deriveFont(Font.BOLD, 18));
+        g.setColor(java.awt.Color.WHITE);
         g.drawImage(background, 0, 0, this);
+
+        String message = "Press SPACE to start";
+        FontMetrics metrics = g.getFontMetrics(g.getFont());
+        int x = (this.getWidth() - metrics.stringWidth(message)) / 2;
+        int y = 100;  // Adjust this value to move the text up or down
+    
+        g.drawString(message, x, y);
+
+        g.drawString(message, x, y);
     }
 
 
