@@ -19,7 +19,7 @@ public class BoardView extends JFrame implements PacManView {
 
     private Controller controller;
 
-    public static final int PIXELS_PER_CELLS = 3;
+    public static final int PIXELS_PER_CELLS = 2;
 
     DrawPanel drawPanel;
     Timer timer;
@@ -29,13 +29,15 @@ public class BoardView extends JFrame implements PacManView {
     JPanel pausePanel;
     Font arcadeFont;
 
+    KeyStart startkey;
+
     public BoardView(String name, int width, int height) {
         super(name);
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         this.setResizable(false);
 
         // Create the drawPanel (where we draw the board)
-        drawPanel = new DrawPanel(width,height);
+        drawPanel = new DrawPanel(width, height);
 
         // Create the timer
         this.timer = new Timer(1, null);
@@ -55,19 +57,16 @@ public class BoardView extends JFrame implements PacManView {
     @Override
     public void initialize() {
 
-        //Loading fonts
-            
+        // Loading fonts
+
         try {
             arcadeFont = Font.createFont(Font.TRUETYPE_FONT, new File("resources/Emulogic-zrEw.ttf"));
             setFont(arcadeFont);
-            
+
             // Now you can use arcadeFont with any component that allows setting a font
         } catch (FontFormatException | IOException e) {
             e.printStackTrace();
         }
-
-
-
 
         // General initialization
         drawPanel.initialize();
@@ -75,7 +74,8 @@ public class BoardView extends JFrame implements PacManView {
 
         // Ecran de titre
         try {
-            initialPanel = new TitleScreen(drawPanel.getPreferredSize().width,drawPanel.getPreferredSize().height);
+            initialPanel = new TitleScreen(drawPanel.getPreferredSize().width, drawPanel.getPreferredSize().height);
+            initialPanel.setFont(arcadeFont);
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -83,16 +83,9 @@ public class BoardView extends JFrame implements PacManView {
         initialPanel.setPreferredSize(
                 new Dimension(drawPanel.getPreferredSize().width, drawPanel.getPreferredSize().height));
 
-        JButton QuitButton;
-
-        QuitButton = new JButton("Quit");
-        QuitButton.addActionListener(new ButtonListener(controller, GameAction.QUIT));
-        initialPanel.add(QuitButton);
-
-        JButton initialStartButton;
-        initialStartButton = new JButton("Start");
-        initialStartButton.addActionListener(new ButtonListener(controller, GameAction.START));
-        initialPanel.add(initialStartButton);
+        // Start key Listener
+        startkey = new KeyStart(controller);
+        initialPanel.addKeyListener(startkey);
 
         drawPanel.add(initialPanel);
         drawPanel.setFont(arcadeFont);
@@ -105,19 +98,13 @@ public class BoardView extends JFrame implements PacManView {
         playPanel.setPreferredSize(
                 new Dimension(drawPanel.getPreferredSize().width, drawPanel.getPreferredSize().height));
 
-        JButton PauseButton;
-        PauseButton = new JButton("Pause");
-        PauseButton.addActionListener(new ButtonListener(controller, GameAction.PAUSE));
-        playPanel.add(PauseButton);
-        playPanel.setBackground(new Color(0,0,0,0) ); // panel transparent mais les boutons sont visibles
+        playPanel.setBackground(new Color(0, 0, 0, 0)); // panel transparent mais les boutons sont visibles
         drawPanel.add(playPanel);
-       
 
         // The pause panel (when the game is on pause)
         pausePanel = new JPanel(new GridBagLayout());
         pausePanel.setPreferredSize(
                 new Dimension(drawPanel.getPreferredSize().width, drawPanel.getPreferredSize().height));
-
 
         GridBagConstraints gbc = new GridBagConstraints();
 
@@ -129,7 +116,7 @@ public class BoardView extends JFrame implements PacManView {
 
         gbc.insets = new Insets(10, 0, 10, 0); // 10 pixels of padding above and below
 
-        pausePanel.add(ResumeButton,gbc);
+        pausePanel.add(ResumeButton, gbc);
 
         JButton RestartButton;
         RestartButton = new JButton("Start New Game");
@@ -138,8 +125,7 @@ public class BoardView extends JFrame implements PacManView {
         gbc.gridy = 30;
         gbc.insets = new Insets(10, 0, 10, 0); // 10 pixels of padding above and below
 
-        pausePanel.add(RestartButton,gbc);
-
+        pausePanel.add(RestartButton, gbc);
 
         JButton TitleButton;
         TitleButton = new JButton("Back to title screen");
@@ -148,24 +134,27 @@ public class BoardView extends JFrame implements PacManView {
         gbc.gridy = 40;
         gbc.insets = new Insets(10, 0, 10, 0); // 10 pixels of padding above and below
 
-        pausePanel.add(TitleButton,gbc);
+        pausePanel.add(TitleButton, gbc);
 
-        pausePanel.setBackground(new Color (128,128,128,100)); //semi transparent parce que le jeu est en pause
+        pausePanel.setBackground(new Color(128, 128, 128, 100)); // semi transparent parce que le jeu est en pause
         JLabel pauseLabel = new JLabel("Game Paused");
         pauseLabel.setForeground(Color.WHITE);
         gbc.gridy = 1;
 
-        pausePanel.add(pauseLabel,gbc);
+        pausePanel.add(pauseLabel, gbc);
 
         drawPanel.add(pausePanel);
         gbc.gridy = 2;
 
-        pausePanel.add(QuitButton,gbc);
-        
-        KeyMove keylist= new KeyMove(controller);
-        addKeyListener(keylist);
-        setFocusable(true);
-        requestFocusInWindow();
+        JButton QuitButton;
+
+        QuitButton = new JButton("Quit");
+        QuitButton.addActionListener(new ButtonListener(controller, GameAction.QUIT));
+        pausePanel.add(QuitButton, gbc);
+
+        KeyMove keylist = new KeyMove(controller);
+        drawPanel.addKeyListener(keylist);
+
         pack();
         setVisible(true);
 
@@ -177,7 +166,7 @@ public class BoardView extends JFrame implements PacManView {
 
     public void pause() {
         timer.stop();
-        
+
     }
 
     @Override
@@ -212,7 +201,9 @@ public class BoardView extends JFrame implements PacManView {
 
     private void drawInitView() {
         initialPanel.setVisible(true);
-        add(drawPanel,BorderLayout.CENTER);
+        initialPanel.setFocusable(true);
+        initialPanel.requestFocusInWindow();
+        add(drawPanel, BorderLayout.CENTER);
         drawPanel.setVisible(true);
         playPanel.setVisible(false);
         pausePanel.setVisible(false);
@@ -220,6 +211,10 @@ public class BoardView extends JFrame implements PacManView {
     }
 
     private void drawPlayView() {
+        initialPanel.removeKeyListener(startkey);
+        initialPanel.setFocusable(false);
+        drawPanel.setFocusable(true);
+        drawPanel.requestFocusInWindow();
         timer.start();
         add(drawPanel, BorderLayout.CENTER);
         drawPanel.setVisible(true);

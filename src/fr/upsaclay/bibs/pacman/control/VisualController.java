@@ -46,8 +46,12 @@ public class VisualController extends SimpleController {
 
     @Override
     public void initializeNewGame() throws PacManException {
+        if (board == null) {
+            initialize();
+        }
         int HS = board.getMaze().getHigh_score();
         board = Board.createBoard(this.getGameType());
+        board.startActors();
         view.setBoard(this.board);
         board.getMaze().setHigh_score(HS);
         view.setLayout(PacManLayout.GAME_ON);
@@ -55,6 +59,12 @@ public class VisualController extends SimpleController {
 
     @Override
     public void receiveAction(GameAction action) throws PacManException{
+        if (board.getBoardState()==BoardState.INITIAL && action!=GameAction.START ){
+            throw new ForbiddenActionException(action);
+        }
+        if (board.getBoardState() == BoardState.PAUSED && action != GameAction.RESUME && action != GameAction.TITLE_SCREEN && action != GameAction.QUIT && action != GameAction.NEW_GAME) {
+            throw new ForbiddenActionException(action);
+        }
         switch (action) {
             case UP:
                 board.getPacMan().setIntention(Direction.UP);
@@ -69,7 +79,11 @@ public class VisualController extends SimpleController {
                 board.getPacMan().setIntention(Direction.RIGHT);
                 break;
             case PAUSE:
+                if (board.getBoardState() == BoardState.PAUSED) {
+                    throw new ForbiddenActionException(action);
+                }
                 view.setLayout(PacManLayout.PAUSE);
+                board.pause();
                 break;
             case NEXT_FRAME:
                 board.nextFrame();
@@ -82,9 +96,16 @@ public class VisualController extends SimpleController {
             case NEW_LIFE:
                 break;
             case START:
+                if (board.getBoardState() == BoardState.STARTED) {
+                    throw new ForbiddenActionException(action);
+                }
                 initializeNewGame();
                 break;
             case RESUME:
+                if (board.getBoardState() != BoardState.PAUSED) {
+                    throw new ForbiddenActionException(action);
+                }
+                board.resume();
                 view.setLayout(PacManLayout.GAME_ON);
                 break;
             case QUIT:
@@ -93,6 +114,7 @@ public class VisualController extends SimpleController {
             case TITLE_SCREEN:
                 int HS = board.getMaze().getHigh_score();
                 board = Board.createBoard(this.getGameType());
+                initialize();
                 board.getMaze().setHigh_score(HS);
                 view.setBoard(this.board);
                 view.setLayout(PacManLayout.INIT);
