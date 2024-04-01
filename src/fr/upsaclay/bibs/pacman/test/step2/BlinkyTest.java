@@ -134,10 +134,13 @@ public class BlinkyTest {
         Actor pacman = board.getPacMan();
         board.startActors();
         // We move as long as blinky goes left.
-        // If this is an infinite loop, it means something is wrong
         while (blinky.getDirection() == Direction.LEFT) {
             board.nextFrame();
         }
+
+        TilePosition pacmacPos = board.getMaze().getTilePosition(pacman.getX(), pacman.getY());
+        assertEquals(blinky.getTarget(), pacmacPos);
+
         // The next direction should be down
         assertEquals(blinky.getDirection(), Direction.DOWN);
         // Blnky should be in tile (14,9) (corner top left above the ghost pen)

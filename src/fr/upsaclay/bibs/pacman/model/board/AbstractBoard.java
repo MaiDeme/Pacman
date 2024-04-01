@@ -15,8 +15,8 @@ public abstract class AbstractBoard implements Board {
 
     // Etape 1
     protected final GameType gameType;
-    public Maze maze;
-    public Actor pacman;
+    protected Maze maze;
+    protected Actor pacman;
     public BoardState boardState;
     //
 
@@ -25,7 +25,7 @@ public abstract class AbstractBoard implements Board {
     protected int extraLifeScore;
     protected int extraLives;
     protected int level;
-    public List<Ghost> ghosts;
+    protected List<Ghost> ghosts;
     protected int score;
 
 
@@ -100,6 +100,8 @@ public abstract class AbstractBoard implements Board {
         }
     }
 
+
+
     /**
      * Return the maze
      *
@@ -116,7 +118,7 @@ public abstract class AbstractBoard implements Board {
      */
     @Override
     public void nextFrame() {
-        this.pacman.nextFrame();
+        pacman.nextFrame();
         for (Ghost g : this.ghosts){
             g.nextFrame();
         }

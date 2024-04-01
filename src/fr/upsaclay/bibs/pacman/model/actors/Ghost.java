@@ -13,6 +13,14 @@ import fr.upsaclay.bibs.pacman.model.maze.TilePosition;
 public interface Ghost extends Actor {
 
     /**
+     * Return the default speed of this type of ghost
+     *
+     * @return a double
+     */
+    double getDefaultSpeed();
+
+
+    /**
      * Return the type of ghost it is
      * @return a ghost type
      */
