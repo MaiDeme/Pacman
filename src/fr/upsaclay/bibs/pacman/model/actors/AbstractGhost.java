@@ -59,7 +59,7 @@ public abstract class AbstractGhost extends AbstractActor implements Ghost {
         //On parcoure la liste des directions
         for (fr.upsaclay.bibs.pacman.model.Direction dir : directions) {
             if ((dir == this.Direction.reverse()) // le fantôme essaye de faire demi-tour
-                || (this.getBoard().getMaze().getTile(this.getCurrentTile()) == Tile.NT && dir == Direction.UP) // il est sur une case où il ne peut pas aller vers le haut
+                || (this.getBoard().getMaze().getTile(next_tuile) == Tile.NT && dir == Direction.UP) // il est sur une case où il ne peut pas aller vers le haut
                 || (this.getBoard().getMaze().getNeighbourTile(next_tuile, dir).isWall()) ) { // la prochaine case est un mur
                 dist[i] = Double.MAX_VALUE;
             } else {
@@ -69,6 +69,8 @@ public abstract class AbstractGhost extends AbstractActor implements Ghost {
             }
             i++;
         }
+
+
         // On cherche la plus petite distance pour choisir la prochaine intention
         int min = 0;
         for (i = 1; i < 4; i++) {
