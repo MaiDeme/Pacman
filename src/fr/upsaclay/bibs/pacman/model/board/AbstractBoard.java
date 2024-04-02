@@ -283,7 +283,14 @@ public abstract class AbstractBoard implements Board {
      * @param ghostType the type of ghost to disable
      */
     public void disableGhost(GhostType ghostType) {
+        List<Ghost> ghost= new ArrayList<Ghost>();
 
+        for (Ghost g : this.ghosts) {
+            if (g.getGhostType() != ghostType) {
+                ghost.add(g);
+            }
+        }
+        this.ghosts=ghost;
     }
 
     /**
