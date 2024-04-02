@@ -12,6 +12,7 @@ public class Inky extends AbstractGhost {
     public Inky(Board board, ActorType type) {
         super(board, type);
         setGhostPenState(GhostPenState.IN);
+        setGhostState(GhostState.SCATTER);
 
     }
 

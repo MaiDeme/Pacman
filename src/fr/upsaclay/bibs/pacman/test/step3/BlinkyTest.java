@@ -32,12 +32,10 @@ public class BlinkyTest {
     public void testDisableBlinky() throws PacManException {
         Board board = Board.createBoard(GameType.CLASSIC);
         board.disableGhost(GhostType.BLINKY);
+        
+        //board.initialize();        
         assertFalse(board.hasGhost(GhostType.BLINKY));
         assertNull(board.getGhost(GhostType.BLINKY));
-
-        //board.initialize();        
-        //assertFalse(board.hasGhost(GhostType.BLINKY));
-        //assertNull(board.getGhost(GhostType.BLINKY));
     }
 
     @Test

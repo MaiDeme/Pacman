@@ -64,7 +64,14 @@ public class ClassicBoard extends AbstractBoard {
             g.nextFrame();
         }
 
-        this.setBoardState();
-
+        if (this.getMaze().getNumberOfDots() == 0) {
+            setBoardState(BoardState.LEVEL_OVER);
+        } else if (this.isEaten()) {
+            setBoardState(BoardState.LIFE_OVER);
+        } else if (this.getNumberOfLives() == 0) {
+            setBoardState(BoardState.GAME_OVER);
+        }
     }
+
+    
 }
