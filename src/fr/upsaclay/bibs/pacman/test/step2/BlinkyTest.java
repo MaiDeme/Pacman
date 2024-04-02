@@ -275,8 +275,8 @@ public class BlinkyTest {
         maze.setTile(14,12,Tile.EE);
         Ghost blinky = board.getGhost(GhostType.BLINKY);
         Actor pacman = board.getPacMan();
+        board.startActors(); // test modifié car notre startActors modifie la position de pacman
         pacman.setPosition(208, 35); // (top right corner)
-        board.startActors();
         TilePosition nt = new TilePosition(14,12);
         while (!blinky.getCurrentTile().equals(nt)) {
             board.nextFrame();

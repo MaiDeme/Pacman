@@ -272,9 +272,10 @@ public class BoardTest {
 
     @Test
     public void testBoardState() throws PacManException {
+        //On commence le jeu en meme temps qu on initialise le board
         Board board = Board.createBoard(GameType.CLASSIC);
         board.initialize();
-        assertEquals(board.getBoardState(), BoardState.INITIAL);
+        assertEquals(board.getBoardState(), BoardState.STARTED);
         board.startActors();
         assertEquals(board.getBoardState(), BoardState.STARTED);
     }
@@ -298,6 +299,7 @@ public class BoardTest {
         while (!pacman.getCurrentTile().equals(new TilePosition(9,2))) {
             testBoard.nextFrame(); // we move until we reach the tile
         }
+        assertEquals(testBoard.getMaze().getNumberOfDots(), 0);
         assertEquals(testBoard.getBoardState(), BoardState.LEVEL_OVER);
     }
 

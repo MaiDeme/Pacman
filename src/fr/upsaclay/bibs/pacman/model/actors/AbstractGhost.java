@@ -22,6 +22,7 @@ public abstract class AbstractGhost extends AbstractActor implements Ghost {
     @Override
     public void nextMove() {
 
+
         double x_arrivee = this.x + this.getDirection().getDx() * this.getSpeed();
         double y_arrivee = this.y + this.getDirection().getDy() * this.getSpeed();
 
