@@ -50,5 +50,10 @@ public class SoundManager {
         }
     }
 
+    public boolean isPlaying(String soundName) {
+        Clip clip = soundClips.get(soundName);
+        return clip != null && clip.isRunning();
+    }
+
     // Add other methods for pause, resume, etc., as needed
 }
