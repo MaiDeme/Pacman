@@ -80,9 +80,7 @@ public abstract class AbstractBoard implements Board {
         //create the actors
         pacman = new Pacman(this);
 
-        this.ghosts = new ArrayList<Ghost>();
-        Ghost blinky = new Blinky(this, ActorType.GHOST);
-        this.ghosts.add(blinky);
+        //startActors();
         }
 
     /**
@@ -90,13 +88,8 @@ public abstract class AbstractBoard implements Board {
      * Perform all necessary actions to start actors at the beginning of the game
      */
     public void startActors() {
-        
         pacman.start();
-        for (Ghost g : this.ghosts){
-            g.start();
-        }
-        //this.boardState=BoardState.STARTED;
-
+   
     }
 
 
