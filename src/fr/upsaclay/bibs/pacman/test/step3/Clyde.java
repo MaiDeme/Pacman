@@ -1,27 +1,29 @@
-package fr.upsaclay.bibs.pacman.model.actors;
+package fr.upsaclay.bibs.pacman.test.step3;
 
+import fr.upsaclay.bibs.pacman.model.actors.AbstractGhost;
+import fr.upsaclay.bibs.pacman.model.actors.ActorType;
+import fr.upsaclay.bibs.pacman.model.actors.GhostState;
+import fr.upsaclay.bibs.pacman.model.actors.GhostType;
 import fr.upsaclay.bibs.pacman.model.board.Board;
 import fr.upsaclay.bibs.pacman.model.board.Counter;
-import fr.upsaclay.bibs.pacman.model.maze.Maze;
 import fr.upsaclay.bibs.pacman.model.maze.TilePosition;
 
-public class Inky extends AbstractGhost {
+public class Clyde extends AbstractGhost {
     final double DEFAULT_SPEED = 0.94;
-    final TilePosition scattertarget = new TilePosition(this.getBoard().getMaze().getHeight()-2, this.getBoard().getMaze().getWidth()-1);
+    final TilePosition scattertarget = new TilePosition(this.getBoard().getMaze().getHeight()-2, 0);
 
-    public Inky(Board board, ActorType type) {
+    public Clyde(Board board, ActorType type) {
         super(board, type);
     }
 
     @Override
     public void start() {
-        this.x = 96;
+        this.x = 128;
         this.y = 139;
         this.Direction = fr.upsaclay.bibs.pacman.model.Direction.LEFT;
         this.speed = this.DEFAULT_SPEED;
         TilePosition depart = this.getCurrentTile();
         this.intention = getNextIntention(depart);
-
     }
 
     /**
@@ -31,7 +33,7 @@ public class Inky extends AbstractGhost {
      */
     @Override
     public GhostType getGhostType() {
-        return GhostType.INKY;
+        return GhostType.CLYDE;
     }
 
     /**
@@ -44,34 +46,23 @@ public class Inky extends AbstractGhost {
      */
     @Override
     public TilePosition getTarget() {
-        Actor pacman = this.getBoard().getPacMan();
-        Actor blinky = this.getBoard().getGhost(GhostType.BLINKY);
+        TilePosition pacman_tile = this.getBoard().getPacMan().getCurrentTile();
+        TilePosition current_tile = this.getCurrentTile();
 
-        int x_offset = 0;
-        int y_offset = 0;
-        switch (pacman.getDirection()) {
-            case DOWN -> {y_offset += 2;}
-            case RIGHT -> {x_offset += 2;}
-            case UP -> {y_offset -= 2;x_offset -= 2;}
-            case LEFT -> {x_offset -= 2;}
+        double dist = Math.sqrt(Math.pow(pacman_tile.getCol() - current_tile.getCol(), 2) + Math.pow(pacman_tile.getLine() - current_tile.getLine(), 2));
+        TilePosition target;
+        if (dist < 8) {
+            target = new TilePosition(0, this.board.getMaze().getHeight()-1);
+        } else {
+            target = pacman_tile;
         }
-
-        TilePosition pacman_tile = pacman.getCurrentTile();
-
-        TilePosition mid_tile = this.getBoard().getMaze().getTilePosition((pacman_tile.getCol() + x_offset) * Maze.TILE_WIDTH,
-                (pacman_tile.getLine() + y_offset) * Maze.TILE_HEIGHT);
-
-        TilePosition blinky_tile = blinky.getCurrentTile();
-
-       TilePosition target = new TilePosition(mid_tile.getLine() + (mid_tile.getLine() - blinky_tile.getLine()),
-               mid_tile.getCol() + (mid_tile.getCol() - blinky_tile.getCol()));
 
         return target;
     }
 
     @Override
     public double getDefaultSpeed() {
-        return 0;
+        return this.DEFAULT_SPEED;
     }
 
     /**
