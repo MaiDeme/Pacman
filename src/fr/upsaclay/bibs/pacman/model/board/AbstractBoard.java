@@ -47,6 +47,7 @@ public abstract class AbstractBoard implements Board {
         return soundManager;
     }
 
+
     public void setBoardState (){
 
         if (this.getMaze().getNumberOfDots() == 0) {
@@ -60,6 +61,10 @@ public abstract class AbstractBoard implements Board {
         }
 
     }
+    public void initBoardState (){
+        this.boardState = BoardState.INITIAL;
+    }
+
 
 
     public boolean isEaten() {

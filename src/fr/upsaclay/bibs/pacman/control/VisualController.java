@@ -96,8 +96,9 @@ public class VisualController extends SimpleController {
                         board.initializeNewLevel(board.getLevel()+1);
                         break;
                     case LIFE_OVER:
-                        board.setNumberOfLives(board.getNumberOfLives() - 1);
-                        view.setLayout(PacManLayout.LIFE_OVER);
+                        //board.setNumberOfLives(board.getNumberOfLives());
+                        board.setNumberOfLives(board.getNumberOfLives() -1);
+                        board.startActors();
                         break;
                 
                     default:
@@ -114,7 +115,6 @@ public class VisualController extends SimpleController {
             case NEW_LIFE:
                 break;
             case START:
-
                 initializeNewGame();
                 board.start();
                 break;
@@ -131,8 +131,8 @@ public class VisualController extends SimpleController {
             case TITLE_SCREEN:
                 int HS = board.getMaze().getHigh_score();
                 board = Board.createBoard(this.getGameType());
-                initialize();
                 board.getMaze().setHigh_score(HS);
+                board.initBoardState();
                 view.setBoard(this.board);
                 view.setLayout(PacManLayout.INIT);
             default:

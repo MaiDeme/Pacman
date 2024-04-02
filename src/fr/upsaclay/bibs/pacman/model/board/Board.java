@@ -27,6 +27,8 @@ public interface Board {
     
     void resume();
 
+    void initBoardState ();
+
     /**
      * Return the type of game of the board
      * Depending on the type, the maze or other initializations might be different

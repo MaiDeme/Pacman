@@ -38,11 +38,14 @@ public class ClassicBoard extends AbstractBoard {
 
     @Override
     public void startActors() {
-        super.startActors();
 
+        //On réinitialise la vitesse pour le cas ou le start actor se fait quand les fantomes sont sur des cases lentes
+        super.startActors();
+        pacman.setSpeed(1);
 
         for (Ghost ghost : this.ghosts) {
             ghost.start();
+            ghost.setSpeed(ghost.getDefaultSpeed());
         }
     }
 
