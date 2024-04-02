@@ -16,7 +16,6 @@ public class Pacman extends AbstractActor {
 
     public Pacman(Board board) {
         super(board, ActorType.PACMAN);
-        start();
         setDirection(Direction.LEFT);
         soundManager = new SoundManager();  
 
