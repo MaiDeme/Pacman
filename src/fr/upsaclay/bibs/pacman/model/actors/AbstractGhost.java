@@ -58,20 +58,14 @@ public abstract class AbstractGhost extends AbstractActor implements Ghost {
 
         //On parcoure la liste des directions
         for (fr.upsaclay.bibs.pacman.model.Direction dir : directions) {
-            //Si la directionn'est pas l'inverse de l'actuelle (interdit d'aller en arrière)
-            if (dir != this.Direction.reverse()) {
-
-                //Si la prochaine tuile dans cette direction n'est pas un mur
-                if (!this.getBoard().getMaze().getNeighbourTile(depart, dir).isWall()) {
-
-                    TilePosition next_tuile = this.getBoard().getMaze().getNeighbourTilePosition(depart, dir);
-                    double dist_to_target = Math.sqrt((next_tuile.getCol() - target.getCol()) ^ 2 + (next_tuile.getLine() - target.getLine()) ^ 2);
-                    dist[i] = dist_to_target;
-                } else {
-                    dist[i] = Double.MAX_VALUE;
-                }
-            } else { // dir == Direction.reverse()
+            if ((dir == this.Direction.reverse()) // le fantôme essaye de faire demi-tour
+                || (this.getBoard().getMaze().getTile(this.getCurrentTile()) == Tile.NT && dir == Direction.UP) // il est sur une case où il ne peut pas aller vers le haut
+                || (this.getBoard().getMaze().getNeighbourTile(depart, dir).isWall()) ) { // la prochaine case est un mur
                 dist[i] = Double.MAX_VALUE;
+            } else {
+                TilePosition next_tuile = this.getBoard().getMaze().getNeighbourTilePosition(depart, dir);
+                double dist_to_target = Math.sqrt((next_tuile.getCol() - target.getCol()) ^ 2 + (next_tuile.getLine() - target.getLine()) ^ 2);
+                dist[i] = dist_to_target;
             }
             i++;
         }
