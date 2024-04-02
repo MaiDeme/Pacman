@@ -65,7 +65,7 @@ public abstract class AbstractBoard implements Board {
     public boolean isEaten() {
 
         for (Ghost g : this.ghosts) {
-            if (pacman.getCurrentTile() == g.getCurrentTile()) {
+            if (pacman.getCurrentTile().equals(g.getCurrentTile())) {
                 return true;
             }
         }
