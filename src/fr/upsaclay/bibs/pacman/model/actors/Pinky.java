@@ -9,6 +9,7 @@ public class Pinky extends AbstractGhost{
 
     TilePosition target;
     final double DEFAULT_SPEED = 0.94;
+    final TilePosition scattertarget = new TilePosition(0, 3);
     public Counter dotCounter=new Counter(0);
 
 

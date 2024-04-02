@@ -10,6 +10,7 @@ import fr.upsaclay.bibs.pacman.model.maze.TilePosition;
 
 public class Clyde extends AbstractGhost {
     final double DEFAULT_SPEED = 0.94;
+    final TilePosition scattertarget = new TilePosition(this.getBoard().getMaze().getHeight()-2, 0);
 
     public Clyde(Board board, ActorType type) {
         super(board, type);

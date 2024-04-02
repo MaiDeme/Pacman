@@ -7,6 +7,7 @@ import fr.upsaclay.bibs.pacman.model.maze.TilePosition;
 public class Blinky extends AbstractGhost {
     TilePosition target;
     final double DEFAULT_SPEED = 0.94;
+    final TilePosition scattertarget = new TilePosition(0, this.getBoard().getMaze().getWidth()-3);
 
     public Blinky(Board board, ActorType type) {
         super(board, type);
