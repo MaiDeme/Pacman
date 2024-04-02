@@ -102,7 +102,7 @@ public abstract class AbstractBoard implements Board {
         for (Ghost g : this.ghosts){
             g.start();
         }
-        this.boardState=BoardState.STARTED;
+       //this.boardState=BoardState.STARTED;
 
     }
 
