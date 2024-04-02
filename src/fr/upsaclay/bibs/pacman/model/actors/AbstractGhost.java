@@ -56,15 +56,17 @@ public abstract class AbstractGhost extends AbstractActor implements Ghost {
 
         // On calcule la distance entre les differentes tuiles possibles et la tuile target
 
+        TilePosition next_tuile = this.getBoard().getMaze().getNeighbourTilePosition(depart, this.Direction);
+
         //On parcoure la liste des directions
         for (fr.upsaclay.bibs.pacman.model.Direction dir : directions) {
             if ((dir == this.Direction.reverse()) // le fantôme essaye de faire demi-tour
                 || (this.getBoard().getMaze().getTile(this.getCurrentTile()) == Tile.NT && dir == Direction.UP) // il est sur une case où il ne peut pas aller vers le haut
-                || (this.getBoard().getMaze().getNeighbourTile(depart, dir).isWall()) ) { // la prochaine case est un mur
+                || (this.getBoard().getMaze().getNeighbourTile(next_tuile, dir).isWall()) ) { // la prochaine case est un mur
                 dist[i] = Double.MAX_VALUE;
             } else {
-                TilePosition next_tuile = this.getBoard().getMaze().getNeighbourTilePosition(depart, dir);
-                double dist_to_target = Math.sqrt((next_tuile.getCol() - target.getCol()) ^ 2 + (next_tuile.getLine() - target.getLine()) ^ 2);
+                TilePosition next_next_tuile = this.getBoard().getMaze().getNeighbourTilePosition(next_tuile, dir);
+                double dist_to_target = Math.sqrt((next_next_tuile.getCol() - target.getCol()) ^ 2 + (next_next_tuile.getLine() - target.getLine()) ^ 2);
                 dist[i] = dist_to_target;
             }
             i++;
