@@ -68,12 +68,14 @@ public abstract class AbstractBoard implements Board {
         if (gameType == GameType.TEST) {
             try {
                 this.maze = Maze.loadFromFile("resources/test.txt");
+
             } catch (FileNotFoundException e) {
                 e.printStackTrace();
             }
         } else {
             try {
                 this.maze = Maze.loadFromFile("resources/maze.txt");
+
             } catch (FileNotFoundException e) {
                 e.printStackTrace();
             }
@@ -85,6 +87,8 @@ public abstract class AbstractBoard implements Board {
         this.ghosts = new ArrayList<Ghost>();
         Ghost blinky = new Blinky(this, ActorType.GHOST);
         this.ghosts.add(blinky);
+
+        startActors();
     }
 
     /**
