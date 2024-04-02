@@ -27,7 +27,6 @@ public class ClassicBoard extends AbstractBoard {
     @Override
     public void initialize() throws PacManException {
         super.initialize();
-        //this.ghosts = new ArrayList<Ghost>();
         Ghost blinky = new Blinky(this, ActorType.GHOST);
         this.ghosts.add(blinky);
         startActors();

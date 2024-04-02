@@ -101,6 +101,7 @@ public class VisualController extends SimpleController {
                         break;
                 
                     default:
+                        view.setLayout(PacManLayout.LIFE_OVER);
                         break;
                 }
                 break;

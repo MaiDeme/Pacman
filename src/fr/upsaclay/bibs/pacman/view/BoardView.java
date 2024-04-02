@@ -184,14 +184,38 @@ public class BoardView extends JFrame implements PacManView {
                 pause();
                 break;
             case GAME_OVER:
+                drawGameOverView();
+                pause();
                 break;
             case LEVEL_OVER:
+                drawLevelOverView();
+                pause();
                 break;
             case LIFE_OVER:
                 break;
         }
 
     }
+
+
+
+    private void drawGameOverView() {
+        add(drawPanel, BorderLayout.CENTER);
+        drawPanel.setVisible(true);
+        initialPanel.setVisible(false);
+        playPanel.setVisible(false);
+        pausePanel.setVisible(true);
+    }
+
+
+    private void drawLevelOverView() {
+        add(drawPanel, BorderLayout.CENTER);
+        drawPanel.setVisible(true);
+        initialPanel.setVisible(false);
+        playPanel.setVisible(false);
+        pausePanel.setVisible(true);
+    }
+
 
     @Override
     public void update() {

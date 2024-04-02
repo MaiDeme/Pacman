@@ -25,7 +25,7 @@ public abstract class AbstractBoard implements Board {
     // Pour les étapes 2 à 4 :
     protected Bonus bonus;
     protected int extraLifeScore;
-    protected int extraLives = 2;
+    protected int extraLives = 3;
     protected int level;
     public List<Ghost> ghosts;
     protected int score;
@@ -53,7 +53,7 @@ public abstract class AbstractBoard implements Board {
             this.boardState = BoardState.LEVEL_OVER;
         } else if (this.isEaten()) {
             this.boardState = BoardState.LIFE_OVER;
-        } else if (this.getNumberOfLives() == -1) {
+        } else if (this.getNumberOfLives() == 0) {
             this.boardState = BoardState.GAME_OVER;
         }else{
             this.boardState = BoardState.STARTED;

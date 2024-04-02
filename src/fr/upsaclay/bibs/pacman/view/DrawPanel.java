@@ -205,41 +205,66 @@ public class DrawPanel extends JPanel {
 
         Maze maze = board.getMaze();
         TilePosition Pacpos = board.getPacMan().getCurrentTile();
-        List <Ghost> ghosts = board.getGhosts();
+        List<Ghost> ghosts = board.getGhosts();
         updateScore(board.getScore());
         paintScore(g);
         paintHighScore(g);
         paintLives(g);
 
         frameCounter++;
-        if (frameCounter%6 == 0) {
+        if (frameCounter % 6 == 0) {
             openMouth++;
-            if (openMouth >3) {
+            if (openMouth > 3) {
                 openMouth = 1;
                 frameCounter = 0;
             }
-           
+
         }
-        if (board != null && board.getBoardState()!=BoardState.INITIAL) {
-            for (int i = 0; i < maze.getPixelHeight(); i+=8) {
-                for (int j = 0; j < maze.getPixelWidth(); j+=8) {
+
+        if (board != null && board.getBoardState() != BoardState.INITIAL) {
+            for (int i = 0; i < maze.getPixelHeight(); i += 8) {
+                for (int j = 0; j < maze.getPixelWidth(); j += 8) {
                     TilePosition pos = maze.getTilePosition(j, i);
                     Tile tile = maze.getTile(pos);
                     if (tile.isWall()) {
                         paintWalls(g, j, i, tile);
-                    }else if (tile.hasDot()) {
-                        paintDot(g, j, i, tile);
-                    } else if (pos.equals(Pacpos)) {
-                        paintPacMan(g, j, i);
-                    }else{
-                        for (Ghost ghost : ghosts) {
-                            if (pos.equals(ghost.getCurrentTile())) {
-                                paintGhost(g, j, i, ghost);
-                            }
-                        }
-
                     }
-                    
+                }
+            }
+        }
+
+        if (board != null && board.getBoardState() != BoardState.INITIAL) {
+            for (int i = 0; i < maze.getPixelHeight(); i += 8) {
+                for (int j = 0; j < maze.getPixelWidth(); j += 8) {
+                    TilePosition pos = maze.getTilePosition(j, i);
+                    Tile tile = maze.getTile(pos);
+                    if (tile.hasDot()) {
+                        paintDot(g, j, i, tile);
+                    }
+                }
+            }
+        }
+
+        if (board != null && board.getBoardState() != BoardState.INITIAL) {
+            for (int i = 0; i < maze.getPixelHeight(); i += 8) {
+                for (int j = 0; j < maze.getPixelWidth(); j += 8) {
+                    TilePosition pos = maze.getTilePosition(j, i);
+                    if (pos.equals(Pacpos)) {
+                        paintPacMan(g, j, i);
+                    }
+                }
+            }
+        }
+
+        if (board != null && board.getBoardState() != BoardState.INITIAL) {
+            for (int i = 0; i < maze.getPixelHeight(); i += 8) {
+                for (int j = 0; j < maze.getPixelWidth(); j += 8) {
+                    TilePosition pos = maze.getTilePosition(j, i);
+                    for (Ghost ghost : ghosts) {
+                        if (pos.equals(ghost.getCurrentTile())) {
+                            paintGhost(g, j, i, ghost);
+                        }
+                    }
                 }
             }
         }
