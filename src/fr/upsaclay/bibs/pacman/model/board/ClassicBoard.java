@@ -21,7 +21,7 @@ public class ClassicBoard extends AbstractBoard {
 
     @Override
     public void setScore(int score) {
-            this.score = score;
+        this.score = score;
     }
 
     @Override
@@ -40,5 +40,15 @@ public class ClassicBoard extends AbstractBoard {
             ghost.start();
         }
     }
-}
 
+
+    @Override
+    public void nextFrame(){
+        super.nextFrame();
+
+        for (Ghost g : this.ghosts){
+            g.nextFrame();
+        }
+
+    }
+}
