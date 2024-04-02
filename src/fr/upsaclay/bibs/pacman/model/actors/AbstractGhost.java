@@ -21,7 +21,26 @@ public abstract class AbstractGhost extends AbstractActor implements Ghost {
 
     @Override
     public void nextMove() {
-        this.setPosition(this.x + this.getDirection().getDx() * this.getSpeed(), this.y + this.getDirection().getDy() * this.getSpeed());
+
+
+        double x_arrivee = this.x + this.getDirection().getDx() * this.getSpeed();
+        double y_arrivee = this.y + this.getDirection().getDy() * this.getSpeed();
+
+        // on vérifie s'il fait un mouvement circulaire
+        if(Direction == fr.upsaclay.bibs.pacman.model.Direction.LEFT && x_arrivee < 0){
+            //Il fait un mouvement circulaire par la gauche, sa nouvelle position x est la largeur du plateau moins la différence entre l'arrivée et -1
+            this.setPosition(getBoard().getMaze().getPixelWidth()-1 - (x_arrivee +1), y_arrivee);
+        } else if (Direction == fr.upsaclay.bibs.pacman.model.Direction.RIGHT && x_arrivee > (getBoard().getMaze().getPixelWidth()-1)) {
+            //Il fait un mouvement circulaire par la droite, sa nouvelle position x est 0 + différence largeur du plateau et arrivée
+            this.setPosition((x_arrivee - getBoard().getMaze().getPixelWidth()), y_arrivee);
+        } else {
+            //Il ne fait pas de mouvement circulaire, on calcule sa position normalement en multipliant ar la vitesse
+            this.setPosition(x_arrivee, y_arrivee);
+        }
+
+
+
+
         if (this.getBoard().getMaze().getTile(this.getCurrentTile()) == Tile.SL){
             if (getSpeed() == getDefaultSpeed()) {
                 this.setSpeed(0.5);
