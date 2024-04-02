@@ -1,17 +1,12 @@
 package fr.upsaclay.bibs.pacman.model.actors;
 
-import fr.upsaclay.bibs.pacman.model.Direction;
 import fr.upsaclay.bibs.pacman.model.board.Board;
 import fr.upsaclay.bibs.pacman.model.board.Counter;
-import fr.upsaclay.bibs.pacman.model.maze.Maze;
-import fr.upsaclay.bibs.pacman.model.maze.Tile;
 import fr.upsaclay.bibs.pacman.model.maze.TilePosition;
-
-import java.util.ArrayList;
-import java.util.List;
 
 public class Blinky extends AbstractGhost {
     TilePosition target;
+    final double DEFAULT_SPEED = 0.94;
 
     public Blinky(Board board, ActorType type) {
         super(board, type);
@@ -22,7 +17,7 @@ public class Blinky extends AbstractGhost {
         this.x = 112;
         this.y = 115;
         this.Direction = fr.upsaclay.bibs.pacman.model.Direction.LEFT;
-        this.speed = 0.94;
+        this.speed = this.DEFAULT_SPEED;
         TilePosition depart = this.getCurrentTile();
         this.intention = getNextIntention(depart);
     }
@@ -34,7 +29,7 @@ public class Blinky extends AbstractGhost {
      */
 
     public double getDefaultSpeed() {
-        return 0.94;
+        return this.DEFAULT_SPEED;
     }
 
     /**

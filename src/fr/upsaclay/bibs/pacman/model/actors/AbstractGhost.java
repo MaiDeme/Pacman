@@ -21,10 +21,16 @@ public abstract class AbstractGhost extends AbstractActor implements Ghost {
 
     @Override
     public void nextMove() {
-
-
-        //TilePosition depart = this.getCurrentTile();
         this.setPosition(this.x + this.getDirection().getDx() * this.getSpeed(), this.y + this.getDirection().getDy() * this.getSpeed());
+        if (this.getBoard().getMaze().getTile(this.getCurrentTile()) == Tile.SL){
+            if (getSpeed() == getDefaultSpeed()) {
+                this.setSpeed(0.5);
+            }
+        } else {
+            if (getSpeed() == 0.5) {
+                this.setSpeed(getDefaultSpeed());
+            }
+        }
 
         // Quand il rejoint le centre d'une tuile :
         if (this.getX() % Maze.TILE_WIDTH == Maze.TITLE_CENTER_X
@@ -33,10 +39,7 @@ public abstract class AbstractGhost extends AbstractActor implements Ghost {
             this.Direction = this.intention;
             //il calcule sa nouvelle intention.
             this.intention = getNextIntention(this.getCurrentTile());//
-
         }
-
-
     }
 
     public fr.upsaclay.bibs.pacman.model.Direction getNextIntention(TilePosition depart) {
@@ -103,6 +106,8 @@ public abstract class AbstractGhost extends AbstractActor implements Ghost {
      */
     @Override
     public abstract TilePosition getTarget();
+
+    public abstract double getDefaultSpeed();
 
     /**
      * Sets the Ghost state, which defines in particular its target and moves
