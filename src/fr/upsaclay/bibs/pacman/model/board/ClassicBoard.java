@@ -9,6 +9,7 @@ import fr.upsaclay.bibs.pacman.model.actors.GhostType;
 import fr.upsaclay.bibs.pacman.model.actors.Inky;
 import fr.upsaclay.bibs.pacman.model.actors.Pacman;
 import fr.upsaclay.bibs.pacman.model.actors.Pinky;
+import fr.upsaclay.bibs.pacman.model.actors.Clyde;
 import fr.upsaclay.bibs.pacman.model.maze.Grid;
         import fr.upsaclay.bibs.pacman.model.maze.Maze;
 
@@ -34,9 +35,11 @@ public class ClassicBoard extends AbstractBoard {
         Ghost blinky = new Blinky(this, ActorType.GHOST );
         Ghost pinky = new Pinky(this, ActorType.GHOST);
         Ghost inky = new Inky(this, ActorType.GHOST);
+        Ghost clyde = new Clyde (this, ActorType.GHOST);
         this.ghosts.add(blinky);
         this.ghosts.add(pinky);
         this.ghosts.add(inky);
+        this.ghosts.add(clyde);
         startActors();
     }
 
