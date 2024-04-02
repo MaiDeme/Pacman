@@ -40,8 +40,6 @@ public abstract class AbstractBoard implements Board {
         }
     }
 
-
-
     /**
      * Return the type of game of the board
      * Depending on the type, the maze or other initializations might be different
@@ -85,7 +83,7 @@ public abstract class AbstractBoard implements Board {
         this.ghosts = new ArrayList<Ghost>();
         Ghost blinky = new Blinky(this, ActorType.GHOST);
         this.ghosts.add(blinky);
-    }
+        }
 
     /**
      * Start the actors
@@ -94,7 +92,6 @@ public abstract class AbstractBoard implements Board {
     public void startActors() {
         
         pacman.start();
-        
         for (Ghost g : this.ghosts){
             g.start();
         }
@@ -204,6 +201,8 @@ public abstract class AbstractBoard implements Board {
      * @throws PacManException if anything goes wrong
      */
     public void initializeNewLevel(int level) throws PacManException {
+        this.level++;
+        this.initialize();
 
     }
 

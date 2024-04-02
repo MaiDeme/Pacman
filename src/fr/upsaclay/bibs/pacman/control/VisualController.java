@@ -87,6 +87,21 @@ public class VisualController extends SimpleController {
                 break;
             case NEXT_FRAME:
                 board.nextFrame();
+                switch (board.getBoardState()) {
+                    case GAME_OVER:
+                        view.setLayout(PacManLayout.GAME_OVER);
+                        break;
+                    case LEVEL_OVER:
+                        view.setLayout(PacManLayout.LEVEL_OVER);
+                        board.initializeNewLevel(board.getLevel()+1);
+                        break;
+                    case LIFE_OVER:
+                        view.setLayout(PacManLayout.LIFE_OVER);
+                        break;
+                
+                    default:
+                        break;
+                }
                 break;
             case NEXT_LEVEL:
                 break;
