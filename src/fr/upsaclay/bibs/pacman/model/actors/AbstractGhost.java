@@ -64,12 +64,11 @@ public abstract class AbstractGhost extends AbstractActor implements Ghost {
                 dist[i] = Double.MAX_VALUE;
             } else {
                 TilePosition next_next_tuile = this.getBoard().getMaze().getNeighbourTilePosition(next_tuile, dir);
-                double dist_to_target = Math.sqrt((next_next_tuile.getCol() - target.getCol()) ^ 2 + (next_next_tuile.getLine() - target.getLine()) ^ 2);
+                double dist_to_target = Math.sqrt(Math.pow(next_next_tuile.getCol() - target.getCol(), 2) + Math.pow(next_next_tuile.getLine() - target.getLine(), 2));
                 dist[i] = dist_to_target;
             }
             i++;
         }
-
 
         // On cherche la plus petite distance pour choisir la prochaine intention
         int min = 0;
