@@ -19,6 +19,10 @@ import java.util.List;
 public interface Board {
 
     //rajout
+    void setBoardState();
+
+    void isEaten();
+
     void pause();
     
     void resume();

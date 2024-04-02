@@ -47,6 +47,26 @@ public abstract class AbstractBoard implements Board {
         return soundManager;
     }
 
+    public void setBoardState (){
+        if (this.getMaze().getNumberOfDots() == 0){
+            this.boardState = BoardState.LEVEL_OVER;
+        } else if (this.getNumberOfLives() == -1) {
+            this.boardState = BoardState.LIFE_OVER;
+        }else{
+            this.boardState = BoardState.STARTED;
+        }
+    }
+
+
+    public void isEaten(){
+
+        for (Ghost g : this.ghosts){
+            if(g.getX() == this.pacman.getX() && g.getY() == this.pacman.getY()){
+                this.setExtraLifeScore(this.getExtraLifeScore() - 1);
+            }
+        }
+    }
+
 
     /**
      * Return the type of game of the board
@@ -89,7 +109,6 @@ public abstract class AbstractBoard implements Board {
         pacman = new Pacman(this);
         this.ghosts = new ArrayList<Ghost>();
 
-        //startActors();
         }
 
     /**

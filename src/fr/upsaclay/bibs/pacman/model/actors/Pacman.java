@@ -98,7 +98,9 @@ public class Pacman extends AbstractActor {
 
             //Maintenant que l'on a sa position on peut faire des actions par rapport à sa position d'arrivée : Après milieu de tuile (bloqué), milieu de tuile(intention), début de tuile(manger)
 
-            //Tout d'abord on vérifie s'il est bloqué à la fin de son mouvement : Si il arrive après le milieu dune tuile a la fin du deplacement, on  verifie s il est bloque et si oui on le remet a la position de depart
+            //On commence par verifier si Pacman et les fantomes sont sur la meme case
+
+            //Ensuite on vérifie s'il est bloqué à la fin de son mouvement : Si il arrive après le milieu dune tuile a la fin du deplacement, on  verifie s il est bloque et si oui on le remet a la position de depart
             if(arrivee_tuile.isWall() && ((this.getDirection() == fr.upsaclay.bibs.pacman.model.Direction.RIGHT && this.getX() % Maze.TILE_WIDTH > Maze.TITLE_CENTER_X)
                     || (this.getDirection() == fr.upsaclay.bibs.pacman.model.Direction.LEFT && (this.getX()) % Maze.TILE_WIDTH < Maze.TITLE_CENTER_X)
                     ||(this.getDirection() == fr.upsaclay.bibs.pacman.model.Direction.DOWN && this.getY() % Maze.TILE_WIDTH > Maze.TITLE_CENTER_Y)
