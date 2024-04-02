@@ -6,6 +6,7 @@ package fr.upsaclay.bibs.pacman.model.board;
 import fr.upsaclay.bibs.pacman.model.actors.Blinky;
 import fr.upsaclay.bibs.pacman.model.actors.Ghost;
 import fr.upsaclay.bibs.pacman.model.actors.GhostType;
+import fr.upsaclay.bibs.pacman.model.actors.Inky;
 import fr.upsaclay.bibs.pacman.model.actors.Pacman;
 import fr.upsaclay.bibs.pacman.model.actors.Pinky;
 import fr.upsaclay.bibs.pacman.model.maze.Grid;
@@ -32,8 +33,10 @@ public class ClassicBoard extends AbstractBoard {
         //this.ghosts = new ArrayList<Ghost>();
         Ghost blinky = new Blinky(this, ActorType.GHOST );
         Ghost pinky = new Pinky(this, ActorType.GHOST);
+        Ghost inky = new Inky(this, ActorType.GHOST);
         this.ghosts.add(blinky);
         this.ghosts.add(pinky);
+        this.ghosts.add(inky);
         startActors();
     }
 

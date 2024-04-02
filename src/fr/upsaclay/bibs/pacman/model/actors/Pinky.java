@@ -14,7 +14,7 @@ public class Pinky extends AbstractGhost{
 
     public Pinky(Board board, ActorType type) {
         super(board, type);
-        setGhostPenState(GhostPenState.OUT);
+        setGhostPenState(GhostPenState.IN);
 
     }
 
