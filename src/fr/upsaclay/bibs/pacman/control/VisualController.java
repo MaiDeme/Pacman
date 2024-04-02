@@ -96,6 +96,7 @@ public class VisualController extends SimpleController {
                         board.initializeNewLevel(board.getLevel()+1);
                         break;
                     case LIFE_OVER:
+                        board.setNumberOfLives(board.getNumberOfLives() - 1);
                         view.setLayout(PacManLayout.LIFE_OVER);
                         break;
                 
@@ -104,6 +105,7 @@ public class VisualController extends SimpleController {
                 }
                 break;
             case NEXT_LEVEL:
+                board.setBoardState();
                 break;
             case NEW_GAME:
                 view.setLayout(PacManLayout.GAME_ON);
@@ -111,9 +113,7 @@ public class VisualController extends SimpleController {
             case NEW_LIFE:
                 break;
             case START:
-                if (board.getBoardState() == BoardState.STARTED) {
-                    throw new ForbiddenActionException(action);
-                }
+
                 initializeNewGame();
                 board.start();
                 break;

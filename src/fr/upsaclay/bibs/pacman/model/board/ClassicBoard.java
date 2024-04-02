@@ -46,11 +46,13 @@ public class ClassicBoard extends AbstractBoard {
 
     @Override
     public void nextFrame(){
-        super.nextFrame();
+        this.pacman.nextFrame();
 
         for (Ghost g : this.ghosts){
             g.nextFrame();
         }
+
+        this.setBoardState();
 
     }
 }

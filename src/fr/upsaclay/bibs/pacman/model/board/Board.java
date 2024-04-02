@@ -21,7 +21,7 @@ public interface Board {
     //rajout
     void setBoardState();
 
-    void isEaten();
+    boolean isEaten();
 
     void pause();
     
