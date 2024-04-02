@@ -15,8 +15,8 @@ public abstract class AbstractBoard implements Board {
 
     // Etape 1
     protected final GameType gameType;
-    protected Maze maze;
-    protected Actor pacman;
+    public Maze maze;
+    public Actor pacman;
     public BoardState boardState;
     //
 
@@ -25,7 +25,7 @@ public abstract class AbstractBoard implements Board {
     protected int extraLifeScore;
     protected int extraLives = 2;
     protected int level;
-    protected List<Ghost> ghosts;
+    public List<Ghost> ghosts;
     protected int score;
 
 
@@ -39,8 +39,6 @@ public abstract class AbstractBoard implements Board {
             e.printStackTrace();
         }
     }
-
-
 
     /**
      * Return the type of game of the board
@@ -68,14 +66,12 @@ public abstract class AbstractBoard implements Board {
         if (gameType == GameType.TEST) {
             try {
                 this.maze = Maze.loadFromFile("resources/test.txt");
-
             } catch (FileNotFoundException e) {
                 e.printStackTrace();
             }
         } else {
             try {
                 this.maze = Maze.loadFromFile("resources/maze.txt");
-
             } catch (FileNotFoundException e) {
                 e.printStackTrace();
             }
@@ -87,9 +83,7 @@ public abstract class AbstractBoard implements Board {
         this.ghosts = new ArrayList<Ghost>();
         Ghost blinky = new Blinky(this, ActorType.GHOST);
         this.ghosts.add(blinky);
-
-        startActors();
-    }
+        }
 
     /**
      * Start the actors
@@ -98,16 +92,17 @@ public abstract class AbstractBoard implements Board {
     public void startActors() {
         
         pacman.start();
-        
         for (Ghost g : this.ghosts){
             g.start();
         }
-       //this.boardState=BoardState.STARTED;
+        //this.boardState=BoardState.STARTED;
 
     }
 
 
-
+    public void start() {
+        this.boardState = BoardState.STARTED;
+    }
     /**
      * Return the maze
      *
@@ -124,7 +119,7 @@ public abstract class AbstractBoard implements Board {
      */
     @Override
     public void nextFrame() {
-        pacman.nextFrame();
+        this.pacman.nextFrame();
         for (Ghost g : this.ghosts){
             g.nextFrame();
         }
@@ -210,6 +205,8 @@ public abstract class AbstractBoard implements Board {
      * @throws PacManException if anything goes wrong
      */
     public void initializeNewLevel(int level) throws PacManException {
+        this.level++;
+        this.initialize();
 
     }
 

@@ -45,6 +45,10 @@ public interface Board {
      */
     void startActors();
 
+
+    void start();
+
+
     /**
      * Return the maze
      *
