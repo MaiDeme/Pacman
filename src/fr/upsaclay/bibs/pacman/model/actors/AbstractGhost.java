@@ -21,26 +21,31 @@ public abstract class AbstractGhost extends AbstractActor implements Ghost {
 
     @Override
     public void nextMove() {
+        this.setPosition(this.x + this.getDirection().getDx() * this.getSpeed(), this.y + this.getDirection().getDy() * this.getSpeed());
+        if (this.getBoard().getMaze().getTile(this.getCurrentTile()) == Tile.SL){
+            if (getSpeed() == getDefaultSpeed()) {
+                this.setSpeed(0.5);
+            }
+        } else {
+            if (getSpeed() == 0.5) {
+                this.setSpeed(getDefaultSpeed());
+            }
+        }
 
-    // Quand il rejoint le centre d'une tuile :
+        // Quand il rejoint le centre d'une tuile :
         if (this.getX() % Maze.TILE_WIDTH == Maze.TITLE_CENTER_X
                 && this.getY() % Maze.TILE_HEIGHT == Maze.TITLE_CENTER_Y) {
             //il applique son intention et met donc à jour sa direction
             this.Direction = this.intention;
             //il calcule sa nouvelle intention.
             this.intention = getNextIntention(this.getCurrentTile());//
-
-        //TilePosition depart = this.getCurrentTile();
-        this.setPosition(this.x + this.getDirection().getDx() * this.getSpeed(), this.y + this.getDirection().getDy() * this.getSpeed());
-
         }
-
     }
 
     public fr.upsaclay.bibs.pacman.model.Direction getNextIntention(TilePosition depart) {
         // Pour Blinky la target est la position de PacMan
 
-        //Il choisit la tuile qui le rapproche le plus de sa tuile cible (selon la distance euclidienne)
+        //Il choisit la tuile possible qui le rapproche le plus de sa tuile cible (selon la distance euclidienne)
         //Pour cela, il regarde où il peut aller à partir de la prochaine tuile sachant qu'il n'a pas le droit de revenir en arrière ni de traverser les murs
 
         TilePosition target = this.getTarget();
@@ -78,7 +83,7 @@ public abstract class AbstractGhost extends AbstractActor implements Ghost {
             }
         }
 
-        return directions[min];
+            return directions[min];
 
     }
 
@@ -101,6 +106,8 @@ public abstract class AbstractGhost extends AbstractActor implements Ghost {
      */
     @Override
     public abstract TilePosition getTarget();
+
+    public abstract double getDefaultSpeed();
 
     /**
      * Sets the Ghost state, which defines in particular its target and moves

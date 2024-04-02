@@ -1,5 +1,7 @@
 package fr.upsaclay.bibs.pacman.model.actors;
 
+import javax.sound.sampled.Clip;
+
 import fr.upsaclay.bibs.pacman.GameType;
 import fr.upsaclay.bibs.pacman.model.Direction;
 import fr.upsaclay.bibs.pacman.model.board.Board;
@@ -11,15 +13,17 @@ import fr.upsaclay.bibs.pacman.audio.SoundManager;
 
 
 public class Pacman extends AbstractActor {
-    private SoundManager soundManager;
+    
 
 
     public Pacman(Board board) {
         super(board, ActorType.PACMAN);
         setDirection(Direction.LEFT);
-        soundManager = new SoundManager();  
+        
 
     }
+
+
 
 
 
@@ -131,19 +135,16 @@ public class Pacman extends AbstractActor {
                     this.getBoard().setScore(score + 10);
                     this.getBoard().getMaze().setTile(pos.getLine(), pos.getCol(), Tile.EE);
                     setStopTime(1);
-                    soundManager.play("PACMAN_CHOMP");
 
                 } else if (this.getBoard().getMaze().getTile(this.getCurrentTile()) == Tile.ND) {
                     this.getBoard().setScore(score + 10);
                     this.getBoard().getMaze().setTile(pos.getLine(), pos.getCol(), Tile.NT);
                     setStopTime(1);
-                    soundManager.play("PACMAN_CHOMP");
 
                 } else if (this.getBoard().getMaze().getTile(this.getCurrentTile()) == Tile.BD) {
                     this.getBoard().setScore(score + 50);
                     this.getBoard().getMaze().setTile(pos.getLine(), pos.getCol(), Tile.EE);
                     setStopTime(3);
-                    soundManager.play("PACMAN_CHOMP");
                 }
                 this.getBoard().getMaze().setHigh_score(this.getBoard().getScore());
             }

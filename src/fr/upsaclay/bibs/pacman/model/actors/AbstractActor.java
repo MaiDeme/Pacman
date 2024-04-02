@@ -1,10 +1,11 @@
 package fr.upsaclay.bibs.pacman.model.actors;
 
+import fr.upsaclay.bibs.pacman.audio.SoundManager;
 import fr.upsaclay.bibs.pacman.model.Direction;
 import fr.upsaclay.bibs.pacman.model.board.Board;
 import fr.upsaclay.bibs.pacman.model.maze.TilePosition;
 
-
+import fr.upsaclay.bibs.pacman.audio.SoundManager;
 
 public abstract class AbstractActor implements Actor{
 
@@ -17,6 +18,7 @@ public abstract class AbstractActor implements Actor{
     protected double speed;
     protected int stopTime;
     String test;
+    private SoundManager soundManager;
 
 
     public ActorType type;
