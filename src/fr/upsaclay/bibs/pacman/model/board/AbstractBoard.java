@@ -6,6 +6,8 @@ import fr.upsaclay.bibs.pacman.model.Direction;
 import fr.upsaclay.bibs.pacman.model.actors.*;
 import fr.upsaclay.bibs.pacman.model.maze.Maze;
 import fr.upsaclay.bibs.pacman.model.maze.TilePosition;
+import fr.upsaclay.bibs.pacman.audio.SoundManager;
+
 
 import java.io.FileNotFoundException;
 import java.util.ArrayList;
@@ -19,7 +21,7 @@ public abstract class AbstractBoard implements Board {
     public Actor pacman;
     public BoardState boardState;
     //
-
+    private SoundManager soundManager;
     // Pour les étapes 2 à 4 :
     protected Bonus bonus;
     protected int extraLifeScore;
@@ -33,12 +35,18 @@ public abstract class AbstractBoard implements Board {
 
         this.gameType = gameType;
         this.boardState = BoardState.INITIAL;
+        soundManager = new SoundManager();
         try {
             initialize();
         } catch (PacManException e) {
             e.printStackTrace();
         }
     }
+
+    public SoundManager getSoundManager() {
+        return soundManager;
+    }
+
 
     /**
      * Return the type of game of the board
