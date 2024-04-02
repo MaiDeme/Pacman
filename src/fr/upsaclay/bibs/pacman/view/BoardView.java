@@ -40,7 +40,7 @@ public class BoardView extends JFrame implements PacManView {
         drawPanel = new DrawPanel(width, height);
 
         // Create the timer
-        this.timer = new Timer(1/60, null);
+        this.timer = new Timer(17, null);
 
     }
 
@@ -154,12 +154,12 @@ public class BoardView extends JFrame implements PacManView {
         keylist = new KeyMove(controller);
 
 
-        // Game Over Panel
-        gameOverPanel = new JPanel(new GridBagLayout());
+        //Game over panel
+        gameOverPanel= new GameOver();
         gameOverPanel.setPreferredSize(
                 new Dimension(drawPanel.getPreferredSize().width, drawPanel.getPreferredSize().height));
         drawPanel.add(gameOverPanel);
-
+        gameOverPanel.setFont(arcadeFont);
 
         pack();
         setVisible(true);
@@ -248,14 +248,14 @@ public class BoardView extends JFrame implements PacManView {
     }
 
     private void drawGameOverView() {
-    timer.stop();
-    drawPanel.removeKeyListener(keylist);
-    drawPanel.setFocusable(false);
-    add(drawPanel, BorderLayout.CENTER);
-    drawPanel.setVisible(true);
-    initialPanel.setVisible(false);
-    playPanel.setVisible(false);
-    pausePanel.setVisible(false);
-    gameOverPanel.setVisible(true);
-}
+    
+        drawPanel.removeKeyListener(keylist);
+        drawPanel.setFocusable(false);
+        add(drawPanel, BorderLayout.CENTER);
+        drawPanel.setVisible(true);
+        initialPanel.setVisible(false);
+        playPanel.setVisible(false);
+        pausePanel.setVisible(false);
+        gameOverPanel.setVisible(true);
+    }
 }
