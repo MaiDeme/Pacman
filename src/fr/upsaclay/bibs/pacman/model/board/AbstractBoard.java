@@ -6,6 +6,8 @@ import fr.upsaclay.bibs.pacman.model.Direction;
 import fr.upsaclay.bibs.pacman.model.actors.*;
 import fr.upsaclay.bibs.pacman.model.maze.Maze;
 import fr.upsaclay.bibs.pacman.model.maze.TilePosition;
+import fr.upsaclay.bibs.pacman.audio.SoundManager;
+
 
 import java.io.FileNotFoundException;
 import java.util.ArrayList;
@@ -19,7 +21,7 @@ public abstract class AbstractBoard implements Board {
     public Actor pacman;
     public BoardState boardState;
     //
-
+    private SoundManager soundManager;
     // Pour les étapes 2 à 4 :
     protected Bonus bonus;
     protected int extraLifeScore;
@@ -33,6 +35,7 @@ public abstract class AbstractBoard implements Board {
 
         this.gameType = gameType;
         this.boardState = BoardState.INITIAL;
+        soundManager = new SoundManager();
         try {
             initialize();
         } catch (PacManException e) {
@@ -40,6 +43,9 @@ public abstract class AbstractBoard implements Board {
         }
     }
 
+    public SoundManager getSoundManager() {
+        return soundManager;
+    }
 
 
     /**
@@ -82,26 +88,22 @@ public abstract class AbstractBoard implements Board {
         //create the actors
         pacman = new Pacman(this);
 
-        this.ghosts = new ArrayList<Ghost>();
-        Ghost blinky = new Blinky(this, ActorType.GHOST);
-        this.ghosts.add(blinky);
-    }
+        //startActors();
+        }
 
     /**
      * Start the actors
      * Perform all necessary actions to start actors at the beginning of the game
      */
     public void startActors() {
-        
         pacman.start();
-        
-        for (Ghost g : this.ghosts){
-            g.start();
-        }
-        this.boardState=BoardState.STARTED;
-
+   
     }
 
+
+    public void start() {
+        this.boardState = BoardState.STARTED;
+    }
     /**
      * Return the maze
      *
@@ -204,6 +206,8 @@ public abstract class AbstractBoard implements Board {
      * @throws PacManException if anything goes wrong
      */
     public void initializeNewLevel(int level) throws PacManException {
+        this.level++;
+        this.initialize();
 
     }
 
