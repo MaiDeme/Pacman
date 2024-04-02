@@ -118,6 +118,7 @@ public class VisualController extends SimpleController {
                     throw new ForbiddenActionException(action);
                 }
                 initializeNewGame();
+                board.start();
                 break;
             case RESUME:
                 if (board.getBoardState() != BoardState.PAUSED) {
