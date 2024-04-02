@@ -28,6 +28,16 @@ public class Blinky extends AbstractGhost {
     }
 
     /**
+     * Return the default speed of this type of ghost
+     *
+     * @return a double
+     */
+
+    public double getDefaultSpeed() {
+        return 0.94;
+    }
+
+    /**
      * Return the type of ghost it is
      *
      * @return a ghost type

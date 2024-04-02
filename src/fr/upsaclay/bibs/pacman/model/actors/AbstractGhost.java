@@ -32,13 +32,16 @@ public abstract class AbstractGhost extends AbstractActor implements Ghost {
             //il applique son intention et met donc à jour sa direction
             this.Direction = this.intention;
             //il calcule sa nouvelle intention.
-            this.intention = getNextIntention(this.getCurrentTile());
+            this.intention = getNextIntention(this.getCurrentTile());//
 
         }
+
+
     }
 
     public fr.upsaclay.bibs.pacman.model.Direction getNextIntention(TilePosition depart) {
         // Pour Blinky la target est la position de PacMan
+
         //Il choisit la tuile possible qui le rapproche le plus de sa tuile cible (selon la distance euclidienne)
         //Pour cela, il regarde où il peut aller à partir de la prochaine tuile sachant qu'il n'a pas le droit de revenir en arrière ni de traverser les murs
 
