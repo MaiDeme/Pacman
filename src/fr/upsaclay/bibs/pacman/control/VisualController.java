@@ -4,7 +4,7 @@ import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 import java.io.File;
 import java.io.IOException;
-
+import fr.upsaclay.bibs.pacman.audio.SoundManager;
 import fr.upsaclay.bibs.pacman.GameType;
 import fr.upsaclay.bibs.pacman.PacManException;
 import fr.upsaclay.bibs.pacman.model.board.Board;
@@ -22,9 +22,11 @@ import fr.upsaclay.bibs.pacman.model.maze.Tile;
 public class VisualController extends SimpleController {
 
     private BoardView view;
-
+    private SoundManager soundManager;
+    
     VisualController() {
-        super();        
+        super();      
+        soundManager = new SoundManager();  
     }
 
     @Override
@@ -55,6 +57,7 @@ public class VisualController extends SimpleController {
         view.setBoard(this.board);
         board.getMaze().setHigh_score(HS);
         view.setLayout(PacManLayout.GAME_ON);
+        soundManager.play("PACMAN_BEGINNING");
         }
 
     @Override
