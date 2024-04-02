@@ -7,9 +7,12 @@ import fr.upsaclay.bibs.pacman.model.maze.TilePosition;
 
 public class Inky extends AbstractGhost {
     final double DEFAULT_SPEED = 0.94;
+    final TilePosition scattertarget = new TilePosition(this.getBoard().getMaze().getHeight()-2, this.getBoard().getMaze().getWidth()-1);
 
     public Inky(Board board, ActorType type) {
         super(board, type);
+        setGhostPenState(GhostPenState.IN);
+
     }
 
     @Override

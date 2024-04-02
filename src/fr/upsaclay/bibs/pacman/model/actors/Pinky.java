@@ -9,12 +9,13 @@ public class Pinky extends AbstractGhost{
 
     TilePosition target;
     final double DEFAULT_SPEED = 0.94;
+    final TilePosition scattertarget = new TilePosition(0, 3);
     public Counter dotCounter=new Counter(0);
 
 
     public Pinky(Board board, ActorType type) {
         super(board, type);
-        setGhostPenState(GhostPenState.OUT);
+        setGhostPenState(GhostPenState.IN);
 
     }
 

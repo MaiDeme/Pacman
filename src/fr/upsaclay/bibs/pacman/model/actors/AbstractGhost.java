@@ -164,7 +164,7 @@ public abstract class AbstractGhost extends AbstractActor implements Ghost {
      */
     @Override
     public void setGhostPenState(GhostPenState state) {
-
+        this.currentPenState = state;
     }
 
     /**

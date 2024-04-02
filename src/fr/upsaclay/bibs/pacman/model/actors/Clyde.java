@@ -1,18 +1,17 @@
-package fr.upsaclay.bibs.pacman.test.step3;
+package fr.upsaclay.bibs.pacman.model.actors;
 
-import fr.upsaclay.bibs.pacman.model.actors.AbstractGhost;
-import fr.upsaclay.bibs.pacman.model.actors.ActorType;
-import fr.upsaclay.bibs.pacman.model.actors.GhostState;
-import fr.upsaclay.bibs.pacman.model.actors.GhostType;
 import fr.upsaclay.bibs.pacman.model.board.Board;
 import fr.upsaclay.bibs.pacman.model.board.Counter;
 import fr.upsaclay.bibs.pacman.model.maze.TilePosition;
 
 public class Clyde extends AbstractGhost {
     final double DEFAULT_SPEED = 0.94;
+    final TilePosition scattertarget = new TilePosition(this.getBoard().getMaze().getHeight()-2, 0);
 
     public Clyde(Board board, ActorType type) {
         super(board, type);
+        setGhostPenState(GhostPenState.IN);
+
     }
 
     @Override
