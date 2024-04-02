@@ -17,7 +17,7 @@ public class Clyde extends AbstractGhost {
 
     @Override
     public void start() {
-        this.x = 96;
+        this.x = 128;
         this.y = 139;
         this.Direction = fr.upsaclay.bibs.pacman.model.Direction.LEFT;
         this.speed = this.DEFAULT_SPEED;
