@@ -147,6 +147,7 @@ public class Pacman extends AbstractActor {
                     for (Ghost g : this.getBoard().getGhosts()) {
                         g.setPreviousGhostState(g.getGhostState());
                         g.changeGhostState(GhostState.FRIGHTENED);
+                        this.getBoard().setEatGhost(0);
                     }
                     this.getBoard().setFrightenedCounter(0);
                 }

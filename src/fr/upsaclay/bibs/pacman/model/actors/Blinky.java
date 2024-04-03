@@ -56,10 +56,11 @@ public class Blinky extends AbstractGhost {
     @Override
     public TilePosition getTarget() {
         switch (this.getGhostState()) {
-            case CHASE:
+            default:
                 return board.getMaze().getTilePosition(this.getBoard().getPacMan().getX(), this.getBoard().getPacMan().getY());
             case SCATTER:
-                return this.scattertarget;
+                //return this.scattertarget;
+                return new TilePosition(11,9);
             case FRIGHTENED:
             case FRIGHTENED_END:
                 fr.upsaclay.bibs.pacman.model.Direction dir = this.getBoard().getRandomDirection();
@@ -69,9 +70,8 @@ public class Blinky extends AbstractGhost {
                     return this.getBoard().getMaze().getNeighbourTilePosition(this.getCurrentTile(),this.getDirection());
                 }
             case DEAD:
-                break;
+                return new TilePosition(11,9);
         }
-        return this.scattertarget;
 
     }
 

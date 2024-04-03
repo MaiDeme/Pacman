@@ -374,4 +374,7 @@ public interface Board {
     int getFrightenedtime(int level);
     int getNbFlashes(int level);
 
+    int getEatGhost();
+    void setEatGhost(int nb);
+
 }

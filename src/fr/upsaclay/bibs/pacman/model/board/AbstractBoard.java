@@ -32,6 +32,8 @@ public abstract class AbstractBoard implements Board {
     protected int score;
     protected int stateCounter;
     protected int frigthenedCounter;
+    protected int eatGhost;
+    int allfour;
 
 
     public AbstractBoard(GameType gameType) {
@@ -45,6 +47,7 @@ public abstract class AbstractBoard implements Board {
             e.printStackTrace();
         }
     }
+
 
     public SoundManager getSoundManager() {
         return soundManager;
@@ -116,7 +119,7 @@ public abstract class AbstractBoard implements Board {
         setBoardState(BoardState.INITIAL);
         this.intitStateCounter();
         this.frigthenedCounter = 0;
-
+        allfour = 0;
 
         }
 
@@ -161,8 +164,26 @@ public abstract class AbstractBoard implements Board {
         if (this.getMaze().getNumberOfDots() == 0) {
             setBoardState(BoardState.LEVEL_OVER);
         } else if (this.isEaten()) {
-            setBoardState(BoardState.LIFE_OVER);
-            this.intitStateCounter();
+            if (this.getGhost(GhostType.BLINKY).getGhostState().equals(GhostState.FRIGHTENED) || this.getGhost(GhostType.BLINKY).getGhostState().equals(GhostState.FRIGHTENED)) {
+                for (Ghost g : this.ghosts) {
+                    if (pacman.getCurrentTile().equals(g.getCurrentTile())) {
+                        g.setGhostState(GhostState.DEAD);
+                        eatGhost++;
+                        this.setScore(this.getScore() + 200 * this.eatGhost);
+                        if(eatGhost == 4){
+                            allfour++;
+                        }
+                        if(allfour == 4){
+                            this.setScore(this.getScore() + 12000);
+                        }
+
+                    }
+                }
+            }else {
+                setBoardState(BoardState.LIFE_OVER);
+                this.intitStateCounter();
+            }
+
         } else if (this.getNumberOfLives() == 0) {
             setBoardState(BoardState.GAME_OVER);
         }
@@ -180,6 +201,7 @@ public abstract class AbstractBoard implements Board {
                         g.changeGhostState(g.getPreviousGhostState());
                     }
                     frigthenedCounter = 0;
+                    eatGhost = 0;
                 }
 
         }else {
@@ -721,6 +743,13 @@ public abstract class AbstractBoard implements Board {
             default:
                 return 0;
         }
+    }
+
+    public int getEatGhost(){
+        return this.eatGhost;
+    }
+    public void setEatGhost(int nb){
+        this.eatGhost = nb;
     }
 
 }
