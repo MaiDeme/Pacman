@@ -161,6 +161,14 @@ public class BoardView extends JFrame implements PacManView {
         drawPanel.add(gameOverPanel);
         gameOverPanel.setFont(arcadeFont);
 
+
+        //Dying animation panel
+        DeathAnimation deathPanel = new DeathAnimation();
+        deathPanel.setPreferredSize(
+                new Dimension(drawPanel.getPreferredSize().width, drawPanel.getPreferredSize().height));
+        drawPanel.add(deathPanel);
+
+
         pack();
         setVisible(true);
 
@@ -195,6 +203,7 @@ public class BoardView extends JFrame implements PacManView {
             case LEVEL_OVER:
                 break;
             case LIFE_OVER:
+                drawDeathAnimation();
                 break;
         }
 
@@ -258,4 +267,10 @@ public class BoardView extends JFrame implements PacManView {
         pausePanel.setVisible(false);
         gameOverPanel.setVisible(true);
     }
+
+    private void drawDeathAnimation() {
+        // TODO
+    }
+
+    
 }
