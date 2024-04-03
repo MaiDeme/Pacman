@@ -18,6 +18,10 @@ public interface Ghost extends Actor {
      * @return a double
      */
     double getDefaultSpeed();
+    void setPreviousGhostState(GhostState previousGhostState);
+
+    GhostState getPreviousGhostState();
+
 
 
     /**

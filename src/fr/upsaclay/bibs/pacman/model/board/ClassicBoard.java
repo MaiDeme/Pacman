@@ -42,34 +42,4 @@ public class ClassicBoard extends AbstractBoard {
         startActors();
     }
 
-    @Override
-    public void startActors() {
-
-        //On réinitialise la vitesse pour le cas ou le start actor se fait quand les fantomes sont sur des cases lentes
-        super.startActors();
-
-        for (Ghost ghost : this.ghosts) {
-            ghost.start();
-        }
-    }
-
-
-    @Override
-    public void nextFrame(){
-        this.pacman.nextFrame();
-
-        for (Ghost g : this.ghosts){
-            g.nextFrame();
-        }
-
-        if (this.getMaze().getNumberOfDots() == 0) {
-            setBoardState(BoardState.LEVEL_OVER);
-        } else if (this.isEaten()) {
-            setBoardState(BoardState.LIFE_OVER);
-        } else if (this.getNumberOfLives() == 0) {
-            setBoardState(BoardState.GAME_OVER);
-        }
-    }
-
-    
 }

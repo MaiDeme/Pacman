@@ -145,37 +145,125 @@ public class DrawPanel extends JPanel {
         i = i * size;
         j = j * size;
         Direction dir=ghost.getDirection();
-        String filename= "resources/ghosts/"+dir+".txt";
-        try (Scanner scanner = new Scanner(new File(filename))) {
-            int y = 0;
-            while (scanner.hasNextLine()) {
-                String line = scanner.nextLine();
-                String[] chars = line.split(" ");
-                for (int x = 0; x < chars.length; x++) {
-                    if (chars[x].equals("1")) {
-                        switch (ghost.getGhostType()) {
-                            case BLINKY:
-                                g.setColor(Color.RED);break;
-                            case PINKY:
-                                g.setColor(Color.PINK);break;
-                            case INKY:
-                                g.setColor(Color.CYAN);break;
-                            case CLYDE:
-                                g.setColor(Color.ORANGE);break;                                
+
+        if (board.getGhost(GhostType.BLINKY).getGhostState().equals(GhostState.FRIGHTENED)) {
+
+            String filename = "resources/ghosts/frightened.txt";
+            try (Scanner scanner = new Scanner(new File(filename))) {
+                int y = 0;
+                while (scanner.hasNextLine()) {
+                    String line = scanner.nextLine();
+                    String[] chars = line.split(" ");
+                    for (int x = 0; x < chars.length; x++) {
+                        if (chars[x].equals("1")) {
+                            g.setColor(Color.BLUE);
+                            g.fillRect(x * size + i, y * size + j, size, size);
+                        } else if (chars[x].equals("2")) {
+                            g.setColor(Color.WHITE);
+                            g.fillRect(x * size + i, y * size + j, size, size);
                         }
-                        g.fillRect(x * size + i, y * size + j, size, size);
-                    } else if (chars[x].equals("2")) {
-                        g.setColor(Color.WHITE);
-                        g.fillRect(x * size + i, y * size + j, size, size);
-                    }if (chars[x].equals("3")) {
-                        g.setColor(Color.BLACK);
-                        g.fillRect(x * size + i, y * size + j, size, size);
+                        if (chars[x].equals("3")) {
+                            g.setColor(Color.BLACK);
+                            g.fillRect(x * size + i, y * size + j, size, size);
+                        }
                     }
+                    y++;
                 }
-                y++;
+            } catch (FileNotFoundException e) {
+                e.printStackTrace();
             }
-        } catch (FileNotFoundException e) {
-            e.printStackTrace();
+        } else if (board.getGhost(GhostType.BLINKY).getGhostState().equals(GhostState.FRIGHTENED_END)) {
+            String filename = "resources/ghosts/frightened.txt";
+            if (board.getFrightenedCounter()%10 > 0 && board.getFrightenedCounter()%10 < 5){
+                try (Scanner scanner = new Scanner(new File(filename))) {
+                    int y = 0;
+                    while (scanner.hasNextLine()) {
+                        String line = scanner.nextLine();
+                        String[] chars = line.split(" ");
+                        for (int x = 0; x < chars.length; x++) {
+                            if (chars[x].equals("1")) {
+                                g.setColor(Color.WHITE);
+                                g.fillRect(x * size + i, y * size + j, size, size);
+                            } else if (chars[x].equals("2")) {
+                                g.setColor(Color.WHITE);
+                                g.fillRect(x * size + i, y * size + j, size, size);
+                            }
+                            if (chars[x].equals("3")) {
+                                g.setColor(Color.BLACK);
+                                g.fillRect(x * size + i, y * size + j, size, size);
+                            }
+                        }
+                        y++;
+                    }
+                } catch (FileNotFoundException e) {
+                    e.printStackTrace();
+                }
+
+            }else {
+                try (Scanner scanner = new Scanner(new File(filename))) {
+                    int y = 0;
+                    while (scanner.hasNextLine()) {
+                        String line = scanner.nextLine();
+                        String[] chars = line.split(" ");
+                        for (int x = 0; x < chars.length; x++) {
+                            if (chars[x].equals("1")) {
+                                g.setColor(Color.BLUE);
+                                g.fillRect(x * size + i, y * size + j, size, size);
+                            } else if (chars[x].equals("2")) {
+                                g.setColor(Color.WHITE);
+                                g.fillRect(x * size + i, y * size + j, size, size);
+                            }
+                            if (chars[x].equals("3")) {
+                                g.setColor(Color.BLACK);
+                                g.fillRect(x * size + i, y * size + j, size, size);
+                            }
+                        }
+                        y++;
+                    }
+                } catch (FileNotFoundException e) {
+                    e.printStackTrace();
+                }
+            }
+
+        }else {
+
+            String filename = "resources/ghosts/" + dir.toString() + ".txt";
+            try (Scanner scanner = new Scanner(new File(filename))) {
+                int y = 0;
+                while (scanner.hasNextLine()) {
+                    String line = scanner.nextLine();
+                    String[] chars = line.split(" ");
+                    for (int x = 0; x < chars.length; x++) {
+                        if (chars[x].equals("1")) {
+                            switch (ghost.getGhostType()) {
+                                case BLINKY:
+                                    g.setColor(Color.RED);
+                                    break;
+                                case PINKY:
+                                    g.setColor(Color.PINK);
+                                    break;
+                                case INKY:
+                                    g.setColor(Color.CYAN);
+                                    break;
+                                case CLYDE:
+                                    g.setColor(Color.ORANGE);
+                                    break;
+                            }
+                            g.fillRect(x * size + i, y * size + j, size, size);
+                        } else if (chars[x].equals("2")) {
+                            g.setColor(Color.WHITE);
+                            g.fillRect(x * size + i, y * size + j, size, size);
+                        }
+                        if (chars[x].equals("3")) {
+                            g.setColor(Color.BLACK);
+                            g.fillRect(x * size + i, y * size + j, size, size);
+                        }
+                    }
+                    y++;
+                }
+            } catch (FileNotFoundException e) {
+                e.printStackTrace();
+            }
         }
     }
 

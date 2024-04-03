@@ -19,6 +19,12 @@ import java.util.List;
 public interface Board {
 
     //rajout
+    void intitStateCounter();
+    int getStateCounter();
+
+    int getFrightenedCounter();
+    void setFrightenedCounter(int Counter);
+
     void setBoardState(BoardState boardState);
 
     boolean isEaten();
@@ -364,5 +370,8 @@ public interface Board {
      *
      * @author Viviane Pons
      * */
+
+    int getFrightenedtime(int level);
+    int getNbFlashes(int level);
 
 }

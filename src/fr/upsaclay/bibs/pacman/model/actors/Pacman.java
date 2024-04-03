@@ -96,13 +96,12 @@ public class Pacman extends AbstractActor {
                 //Il fait un mouvement circulaire par la droite, sa nouvelle position x est 0 + différence largeur du plateau et arrivée
                 this.x = (x_arrivee - getBoard().getMaze().getPixelWidth());
             }else {
-                //Il ne fait pas de mouvement circulaire, on calcule sa position normalement en multipliant ar la vitesse
+                //Il ne fait pas de mouvement circulaire, on calcule sa position normalement en multipliant par la vitesse
                 this.setPosition(this.x + this.getDirection().getDx() * this.getSpeed(), this.y + this.getDirection().getDy() * this.getSpeed());
             }
 
             //Maintenant que l'on a sa position on peut faire des actions par rapport à sa position d'arrivée : Après milieu de tuile (bloqué), milieu de tuile(intention), début de tuile(manger)
 
-            //On commence par verifier si Pacman et les fantomes sont sur la meme case
 
             //Ensuite on vérifie s'il est bloqué à la fin de son mouvement : Si il arrive après le milieu dune tuile a la fin du deplacement, on  verifie s il est bloque et si oui on le remet a la position de depart
             if(arrivee_tuile.isWall() && ((this.getDirection() == fr.upsaclay.bibs.pacman.model.Direction.RIGHT && this.getX() % Maze.TILE_WIDTH > Maze.TITLE_CENTER_X)
@@ -145,6 +144,11 @@ public class Pacman extends AbstractActor {
                     this.getBoard().setScore(score + 50);
                     this.getBoard().getMaze().setTile(pos.getLine(), pos.getCol(), Tile.EE);
                     setStopTime(3);
+                    for (Ghost g : this.getBoard().getGhosts()) {
+                        g.setPreviousGhostState(g.getGhostState());
+                        g.changeGhostState(GhostState.FRIGHTENED);
+                    }
+                    this.getBoard().setFrightenedCounter(0);
                 }
                 this.getBoard().getMaze().setHigh_score(this.getBoard().getScore());
             }

@@ -12,6 +12,7 @@ import fr.upsaclay.bibs.pacman.audio.SoundManager;
 import java.io.FileNotFoundException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Random;
 
 public abstract class AbstractBoard implements Board {
 
@@ -29,6 +30,8 @@ public abstract class AbstractBoard implements Board {
     protected int level;
     public List<Ghost> ghosts;
     protected int score;
+    protected int stateCounter;
+    protected int frigthenedCounter;
 
 
     public AbstractBoard(GameType gameType) {
@@ -111,6 +114,9 @@ public abstract class AbstractBoard implements Board {
         pacman = new Pacman(this);
         this.ghosts = new ArrayList<Ghost>();
         setBoardState(BoardState.INITIAL);
+        this.intitStateCounter();
+        this.frigthenedCounter = 0;
+
 
         }
 
@@ -120,6 +126,10 @@ public abstract class AbstractBoard implements Board {
      */
     public void startActors() {
         pacman.start();
+        for (Ghost ghost : this.ghosts) {
+            ghost.start();
+        }
+
    
     }
 
@@ -144,6 +154,139 @@ public abstract class AbstractBoard implements Board {
     @Override
     public void nextFrame() {
         this.pacman.nextFrame();
+        for (Ghost g : this.ghosts){
+            g.nextFrame();
+        }
+
+        if (this.getMaze().getNumberOfDots() == 0) {
+            setBoardState(BoardState.LEVEL_OVER);
+        } else if (this.isEaten()) {
+            setBoardState(BoardState.LIFE_OVER);
+            this.intitStateCounter();
+        } else if (this.getNumberOfLives() == 0) {
+            setBoardState(BoardState.GAME_OVER);
+        }
+
+        if(this.getGhost(GhostType.BLINKY).getGhostState().equals(GhostState.FRIGHTENED)
+                || this.getGhost(GhostType.BLINKY).getGhostState().equals(GhostState.FRIGHTENED_END)){
+                frigthenedCounter++;
+
+                if(frigthenedCounter == this.getFrightenedtime(level)*60-this.getNbFlashes(level)*10){
+                    for (Ghost g : ghosts){
+                        g.changeGhostState(GhostState.FRIGHTENED_END);
+                    }
+                }else if (frigthenedCounter == this.getFrightenedtime(level)*60) {
+                    for (Ghost g : ghosts){
+                        g.changeGhostState(g.getPreviousGhostState());
+                    }
+                    frigthenedCounter = 0;
+                }
+
+        }else {
+            this.stateCounter++;
+
+            //Maintenant on regarde l'alternance des phases des fantomes
+            double time = this.getStateCounter() / 60;
+
+            if (level == 1) {
+                if (time == 7) {
+                    for (Ghost g : this.ghosts) {
+                        g.changeGhostState(GhostState.CHASE);
+                    }
+                } else if (time == 27) {
+                    for (Ghost g : this.ghosts) {
+                        g.changeGhostState(GhostState.SCATTER);
+                    }
+                } else if (time == 34) {
+                    for (Ghost g : this.ghosts) {
+                        g.changeGhostState(GhostState.CHASE);
+                    }
+                } else if (time == 54) {
+                    for (Ghost g : this.ghosts) {
+                        g.changeGhostState(GhostState.SCATTER);
+                    }
+                } else if (time == 59) {
+                    for (Ghost g : this.ghosts) {
+                        g.changeGhostState(GhostState.CHASE);
+                    }
+                } else if (time == 79) {
+                    for (Ghost g : this.ghosts) {
+                        g.changeGhostState(GhostState.SCATTER);
+                    }
+                } else if (time == 84) {
+                    for (Ghost g : this.ghosts) {
+                        g.changeGhostState(GhostState.CHASE);
+                    }
+
+                }
+
+            } else if (level > 1 && level < 5) {
+                if (time == 7) {
+                    for (Ghost g : this.ghosts) {
+                        g.changeGhostState(GhostState.CHASE);
+                    }
+                } else if (time == 27) {
+                    for (Ghost g : this.ghosts) {
+                        g.changeGhostState(GhostState.SCATTER);
+                    }
+                } else if (time == 34) {
+                    for (Ghost g : this.ghosts) {
+                        g.changeGhostState(GhostState.CHASE);
+                    }
+                } else if (time == 54) {
+                    for (Ghost g : this.ghosts) {
+                        g.changeGhostState(GhostState.SCATTER);
+                    }
+                } else if (time == 59) {
+                    for (Ghost g : this.ghosts) {
+                        g.changeGhostState(GhostState.CHASE);
+                    }
+                } else if (time == 1092) {
+                    for (Ghost g : this.ghosts) {
+                        g.changeGhostState(GhostState.SCATTER);
+                    }
+                } else if (time == (1092 + 1 / 60)) {
+                    for (Ghost g : this.ghosts) {
+                        g.changeGhostState(GhostState.CHASE);
+                    }
+
+                }
+
+            } else {
+                if (time == 5) {
+                    for (Ghost g : this.ghosts) {
+                        g.changeGhostState(GhostState.CHASE);
+                    }
+                } else if (time == 25) {
+                    for (Ghost g : this.ghosts) {
+                        g.changeGhostState(GhostState.SCATTER);
+                    }
+                } else if (time == 30) {
+                    for (Ghost g : this.ghosts) {
+                        g.changeGhostState(GhostState.CHASE);
+                    }
+                } else if (time == 50) {
+                    for (Ghost g : this.ghosts) {
+                        g.changeGhostState(GhostState.SCATTER);
+                    }
+                } else if (time == 55) {
+                    for (Ghost g : this.ghosts) {
+                        g.changeGhostState(GhostState.CHASE);
+                    }
+                } else if (time == 1092) {
+                    for (Ghost g : this.ghosts) {
+                        g.changeGhostState(GhostState.SCATTER);
+                    }
+                } else if (time == (1092 + 1 / 60)) {
+                    for (Ghost g : this.ghosts) {
+                        g.changeGhostState(GhostState.CHASE);
+                    }
+
+                }
+
+            }
+        }
+
 
     }
 
@@ -307,7 +450,19 @@ public abstract class AbstractBoard implements Board {
      * @return a pseudo-random direction
      */
     public Direction getRandomDirection() {
-        return null;
+        Random random = new Random();
+
+        int randomNumber = random.nextInt(4);
+        switch (randomNumber){
+            case 0:
+                return Direction.DOWN;
+            case 1:
+                return Direction.LEFT;
+            case 2:
+                return Direction.UP;
+            default:
+                return Direction.RIGHT;
+        }
     }
 
     /**
@@ -496,6 +651,76 @@ public abstract class AbstractBoard implements Board {
      */
     public void setBonusOnBoard() {
 
+    }
+
+    public void intitStateCounter(){
+        this.stateCounter = 0;
+    }
+    public int getStateCounter(){
+        return this.stateCounter;
+    }
+
+    public int getFrightenedCounter(){
+        return this.frigthenedCounter;
+    }
+
+    public void setFrightenedCounter(int Counter){
+        this.frigthenedCounter = Counter;
+    }
+
+    public int getFrightenedtime(int level){
+        switch (level){
+            case 1:
+                return 6;
+            case 2:
+            case 6:
+            case 10:
+                return 5;
+            case 3:
+                return 4;
+            case 4:
+            case 14:
+                return 3;
+            case 5:
+            case 7:
+            case 8:
+            case 11:
+                return 2;
+            case 9:
+            case 12:
+            case 13:
+            case 15:
+            case 16:
+            case 18:
+                return 1;
+            default:
+                return 0;
+        }
+    }
+    public int getNbFlashes(int level) {
+        switch (level) {
+            case 1:
+            case 2:
+            case 3:
+            case 4:
+            case 5:
+            case 6:
+            case 7:
+            case 8:
+            case 10:
+            case 11:
+            case 14:
+                return 5;
+            case 9:
+            case 12:
+            case 13:
+            case 15:
+            case 16:
+            case 18:
+                return 3;
+            default:
+                return 0;
+        }
     }
 
 }

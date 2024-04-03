@@ -275,7 +275,7 @@ public class BoardTest {
         //On commence le jeu en meme temps qu on initialise le board
         Board board = Board.createBoard(GameType.CLASSIC);
         board.initialize();
-        assertEquals(board.getBoardState(), BoardState.STARTED);
+        assertEquals(board.getBoardState(), BoardState.INITIAL);
         board.startActors();
         assertEquals(board.getBoardState(), BoardState.STARTED);
     }
