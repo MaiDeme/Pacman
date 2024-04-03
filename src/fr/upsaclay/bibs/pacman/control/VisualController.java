@@ -89,6 +89,7 @@ public class VisualController extends SimpleController {
                 switch (board.getBoardState()) {
                     case GAME_OVER:
                         view.setLayout(PacManLayout.GAME_OVER);
+                        
                         break;
                     case LEVEL_OVER:
                         view.setLayout(PacManLayout.LEVEL_OVER);
@@ -98,6 +99,7 @@ public class VisualController extends SimpleController {
                         view.setLayout(PacManLayout.LIFE_OVER);
                         //board.setNumberOfLives(board.getNumberOfLives());
                         board.setNumberOfLives(board.getNumberOfLives() -1);
+                        board.initializeNewLife();
                         break;                        
                 
                     default:

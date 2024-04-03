@@ -23,9 +23,9 @@ public class BoardView extends JFrame implements PacManView {
     Timer timer;
 
     JPanel initialPanel;
-    JPanel playPanel;
     JPanel pausePanel;
     JPanel gameOverPanel;
+    ActorPanel actorPanel;
     Font arcadeFont;
 
     KeyStart startkey;
@@ -38,6 +38,7 @@ public class BoardView extends JFrame implements PacManView {
 
         // Create the drawPanel (where we draw the board)
         drawPanel = new DrawPanel(width, height);
+        actorPanel = new ActorPanel();
 
         // Create the timer
         this.timer = new Timer(17, null);
@@ -47,6 +48,7 @@ public class BoardView extends JFrame implements PacManView {
     @Override
     public void setBoard(Board board) {
         drawPanel.setBoard(board);
+        actorPanel.setBoard(board);
     }
 
     @Override
@@ -86,19 +88,12 @@ public class BoardView extends JFrame implements PacManView {
         // Start key Listener
         startkey = new KeyStart(controller);
 
-        drawPanel.add(initialPanel);
+        add(initialPanel);
         drawPanel.setFont(arcadeFont);
 
         // Timer initialization
         timer.addActionListener(new ButtonListener(controller, GameAction.NEXT_FRAME));
 
-        // The play panel (when the game is running)
-        playPanel = new JPanel();
-        playPanel.setPreferredSize(
-                new Dimension(drawPanel.getPreferredSize().width, drawPanel.getPreferredSize().height));
-
-        playPanel.setBackground(new Color(0, 0, 0, 0)); // panel transparent mais les boutons sont visibles
-        drawPanel.add(playPanel);
 
         // The pause panel (when the game is on pause)
         pausePanel = new JPanel(new GridBagLayout());
@@ -161,13 +156,11 @@ public class BoardView extends JFrame implements PacManView {
         drawPanel.add(gameOverPanel);
         gameOverPanel.setFont(arcadeFont);
 
+        //Pacman panel
+        actorPanel.setPreferredSize(new Dimension(drawPanel.getPreferredSize().width,drawPanel.getPreferredSize().height));
+        drawPanel.add(actorPanel);
 
-        //Dying animation panel
-        DeathAnimation deathPanel = new DeathAnimation();
-        deathPanel.setPreferredSize(
-                new Dimension(drawPanel.getPreferredSize().width, drawPanel.getPreferredSize().height));
-        drawPanel.add(deathPanel);
-
+       
 
         pack();
         setVisible(true);
@@ -222,26 +215,31 @@ public class BoardView extends JFrame implements PacManView {
         initialPanel.setFocusable(true);
         initialPanel.requestFocusInWindow();
         add(drawPanel, BorderLayout.CENTER);
-        drawPanel.setVisible(true);
-        playPanel.setVisible(false);
+
+        drawPanel.setVisible(false);
+        actorPanel.setVisible(false);
         pausePanel.setVisible(false);
         gameOverPanel.setVisible(false);
 
     }
 
     private void drawPlayView() {
+        timer.start();
+        add(drawPanel, BorderLayout.CENTER);
+
         initialPanel.removeKeyListener(startkey);
         initialPanel.setFocusable(false);
+        initialPanel.setVisible(false);
+
+        drawPanel.setVisible(true);
+
         drawPanel.addKeyListener(keylist);
         drawPanel.setFocusable(true);
         drawPanel.requestFocusInWindow();
-        timer.start();
-        add(drawPanel, BorderLayout.CENTER);
-        drawPanel.setVisible(true);
-        initialPanel.setVisible(false);
-        playPanel.setVisible(true);
+        actorPanel.setVisible(true);
         pausePanel.setVisible(false);
         gameOverPanel.setVisible(false);
+       
 
     }
 
@@ -250,11 +248,8 @@ public class BoardView extends JFrame implements PacManView {
         drawPanel.removeKeyListener(keylist);
         drawPanel.setFocusable(false);
         add(drawPanel, BorderLayout.CENTER);
-        drawPanel.setVisible(true);
         initialPanel.setVisible(false);
-        playPanel.setVisible(false);
         pausePanel.setVisible(true);
-        gameOverPanel.setVisible(false);
     }
 
     private void drawGameOverView() {
@@ -264,13 +259,19 @@ public class BoardView extends JFrame implements PacManView {
         add(drawPanel, BorderLayout.CENTER);
         drawPanel.setVisible(true);
         initialPanel.setVisible(false);
-        playPanel.setVisible(false);
         pausePanel.setVisible(false);
         gameOverPanel.setVisible(true);
     }
 
     private void drawDeathAnimation() {
-        // TODO
+
+        drawPanel.removeKeyListener(keylist);
+        drawPanel.setFocusable(false);
+        add(drawPanel, BorderLayout.CENTER);
+        drawPanel.setVisible(true);
+        initialPanel.setVisible(false);
+        pausePanel.setVisible(false);
+        gameOverPanel.setVisible(false);
     }
 
     

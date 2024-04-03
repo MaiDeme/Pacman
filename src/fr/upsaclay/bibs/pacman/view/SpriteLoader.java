@@ -6,21 +6,29 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class SpriteLoader {
-    public List<String[]> loadSprites(String filename) {
-        List<String[]> frames = new ArrayList<String[]>();
+    public String[][] loadSprites(String filename) {
+        List<String[]> framesList = new ArrayList<String[]>();
 
         //Loading frames from text file
         try(BufferedReader reader = new BufferedReader(new FileReader(filename))) {
             String line;
             while ((line = reader.readLine()) != null) {
                 // Splitting line into array of 0 and 1
-                String[] frame =line.split("");
-                frames.add(frame);
+                String[] frame =line.split(" ");
+                framesList.add(frame);
             }
         } catch (Exception e) {
             e.printStackTrace();
         }
-        return frames;
+
+
+        // Converting the list in a 2D array
+
+        String[][] framesArray = new String[framesList.size()][];
+        for (int i = 0; i < framesList.size(); i++) {
+            framesArray[i] = framesList.get(i);
+    }
+        return framesArray;
     }
 }
 
