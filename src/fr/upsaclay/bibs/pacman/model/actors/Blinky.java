@@ -12,7 +12,7 @@ public class Blinky extends AbstractGhost {
     public Blinky(Board board, ActorType type) {
         super(board, type);
         setGhostPenState(GhostPenState.IN);
-
+        setGhostState(GhostState.SCATTER);
     }
 
     @Override

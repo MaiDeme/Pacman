@@ -11,6 +11,8 @@ public class Clyde extends AbstractGhost {
     public Clyde(Board board, ActorType type) {
         super(board, type);
         setGhostPenState(GhostPenState.IN);
+        setGhostState(GhostState.SCATTER);
+
 
     }
 

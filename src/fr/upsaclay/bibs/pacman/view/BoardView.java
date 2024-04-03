@@ -12,8 +12,6 @@ import java.io.File;
 import java.io.IOException;
 
 import javax.swing.border.Border;
-import java.awt.Font;
-import java.awt.FontFormatException;
 
 public class BoardView extends JFrame implements PacManView {
 
@@ -26,12 +24,12 @@ public class BoardView extends JFrame implements PacManView {
 
     JPanel initialPanel;
     JPanel playPanel;
-
-    JPanel GOPanel;
     JPanel pausePanel;
+    JPanel gameOverPanel;
     Font arcadeFont;
 
     KeyStart startkey;
+    KeyMove keylist;
 
     public BoardView(String name, int width, int height) {
         super(name);
@@ -42,7 +40,7 @@ public class BoardView extends JFrame implements PacManView {
         drawPanel = new DrawPanel(width, height);
 
         // Create the timer
-        this.timer = new Timer(1, null);
+        this.timer = new Timer(17, null);
 
     }
 
@@ -87,7 +85,6 @@ public class BoardView extends JFrame implements PacManView {
 
         // Start key Listener
         startkey = new KeyStart(controller);
-        initialPanel.addKeyListener(startkey);
 
         drawPanel.add(initialPanel);
         drawPanel.setFont(arcadeFont);
@@ -103,69 +100,66 @@ public class BoardView extends JFrame implements PacManView {
         playPanel.setBackground(new Color(0, 0, 0, 0)); // panel transparent mais les boutons sont visibles
         drawPanel.add(playPanel);
 
-//-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------//
-
-// The pause panel (when the game is on pause)
+        // The pause panel (when the game is on pause)
         pausePanel = new JPanel(new GridBagLayout());
-        pausePanel.setPreferredSize(new Dimension(drawPanel.getPreferredSize().width, drawPanel.getPreferredSize().height));
+        pausePanel.setPreferredSize(
+                new Dimension(drawPanel.getPreferredSize().width, drawPanel.getPreferredSize().height));
 
         GridBagConstraints gbc = new GridBagConstraints();
 
-        pausePanel.setBackground(new Color(128, 128, 128, 100)); // semi-transparent because the game is paused
-        JLabel pauseLabel = new JLabel("Game Paused");
-        pauseLabel.setForeground(Color.WHITE);
-        gbc.gridy = 0;
-        pausePanel.add(pauseLabel, gbc);
-
-        JButton ResumeButton = new JButton("Resume");
+        JButton ResumeButton;
+        ResumeButton = new JButton("Resume");
         ResumeButton.addActionListener(new ButtonListener(controller, GameAction.RESUME));
         gbc.gridx = 0;
-        gbc.gridy = 1;
+        gbc.gridy = 0;
+
         gbc.insets = new Insets(10, 0, 10, 0); // 10 pixels of padding above and below
+
         pausePanel.add(ResumeButton, gbc);
 
-        JButton RestartButton = new JButton("Start New Game");
+        JButton RestartButton;
+        RestartButton = new JButton("Start New Game");
         RestartButton.addActionListener(new ButtonListener(controller, GameAction.NEW_GAME));
         gbc.gridx = 0;
-        gbc.gridy = 2;
+        gbc.gridy = 30;
         gbc.insets = new Insets(10, 0, 10, 0); // 10 pixels of padding above and below
+
         pausePanel.add(RestartButton, gbc);
 
-        JButton TitleButton = new JButton("Back to title screen");
+        JButton TitleButton;
+        TitleButton = new JButton("Back to title screen");
         TitleButton.addActionListener(new ButtonListener(controller, GameAction.TITLE_SCREEN));
         gbc.gridx = 0;
-        gbc.gridy = 3;
+        gbc.gridy = 40;
         gbc.insets = new Insets(10, 0, 10, 0); // 10 pixels of padding above and below
+
         pausePanel.add(TitleButton, gbc);
 
-        JButton QuitButton = new JButton("Quit");
+        pausePanel.setBackground(new Color(128, 128, 128, 100)); // semi transparent parce que le jeu est en pause
+        JLabel pauseLabel = new JLabel("Game Paused");
+        pauseLabel.setForeground(Color.WHITE);
+        gbc.gridy = 1;
+
+        pausePanel.add(pauseLabel, gbc);
+
+        drawPanel.add(pausePanel);
+        gbc.gridy = 2;
+
+        JButton QuitButton;
+
+        QuitButton = new JButton("Quit");
         QuitButton.addActionListener(new ButtonListener(controller, GameAction.QUIT));
-        gbc.gridx = 0;
-        gbc.gridy = 4;
-        gbc.insets = new Insets(10, 0, 10, 0); // 10 pixels of padding above and below
         pausePanel.add(QuitButton, gbc);
 
-        add(drawPanel, BorderLayout.CENTER);
-        drawPanel.add(pausePanel);
-
-        KeyMove keylist = new KeyMove(controller);
-        drawPanel.addKeyListener(keylist);
-
-//-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------//
-
-// Panel de Game Over
-
-        GOPanel = new JPanel();
-        GOPanel.setPreferredSize(new Dimension(drawPanel.getPreferredSize().width, drawPanel.getPreferredSize().height));
-        GOPanel.setBackground(new Color(128, 128, 128, 100)); // semi-transparent because the game is paused
-
-        JButton New_GameButton = new JButton("Restart");
-        New_GameButton.addActionListener(new ButtonListener(controller, GameAction.START));
-        GOPanel.add(New_GameButton);
-
-        add(GOPanel); // Add GOPanel directly to the frame or container, not to drawPanel
+        keylist = new KeyMove(controller);
 
 
+        //Game over panel
+        gameOverPanel= new GameOver();
+        gameOverPanel.setPreferredSize(
+                new Dimension(drawPanel.getPreferredSize().width, drawPanel.getPreferredSize().height));
+        drawPanel.add(gameOverPanel);
+        gameOverPanel.setFont(arcadeFont);
 
         pack();
         setVisible(true);
@@ -196,8 +190,7 @@ public class BoardView extends JFrame implements PacManView {
                 pause();
                 break;
             case GAME_OVER:
-                Game_OverView();
-                pause();
+                drawGameOverView();
                 break;
             case LEVEL_OVER:
                 break;
@@ -207,26 +200,14 @@ public class BoardView extends JFrame implements PacManView {
 
     }
 
-
     @Override
     public void update() {
         repaint();
 
     }
 
-    private void Game_OverView() {
-
-        add(drawPanel, BorderLayout.CENTER);
-        initialPanel.setVisible(false);
-        drawPanel.setVisible(false);
-        playPanel.setVisible(false);
-        pausePanel.setVisible(false);
-        GOPanel.setVisible(true);
-
-
-    }
-
     private void drawInitView() {
+        initialPanel.addKeyListener(startkey);
         initialPanel.setVisible(true);
         initialPanel.setFocusable(true);
         initialPanel.requestFocusInWindow();
@@ -234,13 +215,14 @@ public class BoardView extends JFrame implements PacManView {
         drawPanel.setVisible(true);
         playPanel.setVisible(false);
         pausePanel.setVisible(false);
-        GOPanel.setVisible(false);
+        gameOverPanel.setVisible(false);
 
     }
 
     private void drawPlayView() {
         initialPanel.removeKeyListener(startkey);
         initialPanel.setFocusable(false);
+        drawPanel.addKeyListener(keylist);
         drawPanel.setFocusable(true);
         drawPanel.requestFocusInWindow();
         timer.start();
@@ -249,16 +231,31 @@ public class BoardView extends JFrame implements PacManView {
         initialPanel.setVisible(false);
         playPanel.setVisible(true);
         pausePanel.setVisible(false);
-        GOPanel.setVisible(false);
+        gameOverPanel.setVisible(false);
 
     }
 
     private void drawPauseView() {
+        timer.stop();
+        drawPanel.removeKeyListener(keylist);
+        drawPanel.setFocusable(false);
         add(drawPanel, BorderLayout.CENTER);
         drawPanel.setVisible(true);
         initialPanel.setVisible(false);
         playPanel.setVisible(false);
         pausePanel.setVisible(true);
-        GOPanel.setVisible(false);
+        gameOverPanel.setVisible(false);
+    }
+
+    private void drawGameOverView() {
+    
+        drawPanel.removeKeyListener(keylist);
+        drawPanel.setFocusable(false);
+        add(drawPanel, BorderLayout.CENTER);
+        drawPanel.setVisible(true);
+        initialPanel.setVisible(false);
+        playPanel.setVisible(false);
+        pausePanel.setVisible(false);
+        gameOverPanel.setVisible(true);
     }
 }

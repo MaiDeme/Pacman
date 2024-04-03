@@ -1,8 +1,8 @@
 package fr.upsaclay.bibs.pacman.model.board;
 
-        import fr.upsaclay.bibs.pacman.GameType;
-        import fr.upsaclay.bibs.pacman.PacManException;
-        import fr.upsaclay.bibs.pacman.model.actors.ActorType;
+import fr.upsaclay.bibs.pacman.GameType;
+import fr.upsaclay.bibs.pacman.PacManException;
+import fr.upsaclay.bibs.pacman.model.actors.ActorType;
 import fr.upsaclay.bibs.pacman.model.actors.Blinky;
 import fr.upsaclay.bibs.pacman.model.actors.Ghost;
 import fr.upsaclay.bibs.pacman.model.actors.GhostType;
@@ -11,9 +11,9 @@ import fr.upsaclay.bibs.pacman.model.actors.Pacman;
 import fr.upsaclay.bibs.pacman.model.actors.Pinky;
 import fr.upsaclay.bibs.pacman.model.actors.Clyde;
 import fr.upsaclay.bibs.pacman.model.maze.Grid;
-        import fr.upsaclay.bibs.pacman.model.maze.Maze;
+import fr.upsaclay.bibs.pacman.model.maze.Maze;
 
-        import java.io.FileNotFoundException;
+import java.io.FileNotFoundException;
 import java.util.ArrayList;
 
 public class ClassicBoard extends AbstractBoard {
@@ -64,7 +64,14 @@ public class ClassicBoard extends AbstractBoard {
             g.nextFrame();
         }
 
-        this.setBoardState();
-
+        if (this.getMaze().getNumberOfDots() == 0) {
+            setBoardState(BoardState.LEVEL_OVER);
+        } else if (this.isEaten()) {
+            setBoardState(BoardState.LIFE_OVER);
+        } else if (this.getNumberOfLives() == 0) {
+            setBoardState(BoardState.GAME_OVER);
+        }
     }
+
+    
 }

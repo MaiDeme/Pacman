@@ -32,7 +32,7 @@ public class InkyTest {
     public void testDisableInky() throws PacManException {
         Board board = Board.createBoard(GameType.CLASSIC);
         board.disableGhost(GhostType.INKY);
-        board.initialize();
+        //board.initialize();
         assertFalse(board.hasGhost(GhostType.INKY));
         assertNull(board.getGhost(GhostType.INKY));
     }

@@ -47,28 +47,20 @@ public abstract class AbstractBoard implements Board {
         return soundManager;
     }
 
+   
 
-    public void setBoardState (){
-
-        if (this.getMaze().getNumberOfDots() == 0) {
-            this.boardState = BoardState.LEVEL_OVER;
-        } else if (this.isEaten()) {
-            this.boardState = BoardState.LIFE_OVER;
-        } else if (this.getNumberOfLives() == 0) {
-            this.boardState = BoardState.GAME_OVER;
-        }else{
-            this.boardState = BoardState.STARTED;
-        }
-
-    }
+    @Override
     public void initBoardState (){
         this.boardState = BoardState.INITIAL;
+    }
+    public void setBoardState (BoardState boardState){
+        this.boardState = boardState;
+
     }
 
 
 
     public boolean isEaten() {
-
         for (Ghost g : this.ghosts) {
             if (pacman.getCurrentTile().equals(g.getCurrentTile())) {
                 return true;
@@ -118,7 +110,7 @@ public abstract class AbstractBoard implements Board {
         //create the actors
         pacman = new Pacman(this);
         this.ghosts = new ArrayList<Ghost>();
-        this.setBoardState();
+        setBoardState(BoardState.INITIAL);
 
         }
 
@@ -152,7 +144,6 @@ public abstract class AbstractBoard implements Board {
     @Override
     public void nextFrame() {
         this.pacman.nextFrame();
-        setBoardState();
 
     }
 

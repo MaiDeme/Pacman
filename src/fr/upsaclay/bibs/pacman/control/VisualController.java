@@ -30,7 +30,6 @@ public class VisualController extends SimpleController {
     @Override
     public void initialize() throws PacManException {
 
-   
         board = Board.createBoard(this.getGameType());
 
         view = new BoardView("PACMAN", board.getMaze().getPixelWidth()*BoardView.PIXELS_PER_CELLS, board.getMaze().getPixelHeight()*BoardView.PIXELS_PER_CELLS+this.board.getMaze().TILE_HEIGHT);
@@ -99,7 +98,7 @@ public class VisualController extends SimpleController {
                         //board.setNumberOfLives(board.getNumberOfLives());
                         board.setNumberOfLives(board.getNumberOfLives() -1);
                         board.startActors();
-                        break;
+                        break;                        
                 
                     default:
                         view.setLayout(PacManLayout.LIFE_OVER);
@@ -107,7 +106,7 @@ public class VisualController extends SimpleController {
                 }
                 break;
             case NEXT_LEVEL:
-                board.setBoardState();
+                board.setBoardState(BoardState.LEVEL_OVER);
                 break;
             case NEW_GAME:
                 view.setLayout(PacManLayout.GAME_ON);

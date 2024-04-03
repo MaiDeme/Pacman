@@ -19,7 +19,7 @@ import java.util.List;
 public interface Board {
 
     //rajout
-    void setBoardState();
+    void setBoardState(BoardState boardState);
 
     boolean isEaten();
 
@@ -28,6 +28,8 @@ public interface Board {
     void resume();
 
     void initBoardState ();
+
+    //void setBoardState(BoardState state);
 
     /**
      * Return the type of game of the board
@@ -53,6 +55,7 @@ public interface Board {
 
 
     void start();
+
 
 
     /**
