@@ -97,7 +97,7 @@ public class VisualController extends SimpleController {
                     case LIFE_OVER:
                         //board.setNumberOfLives(board.getNumberOfLives());
                         board.setNumberOfLives(board.getNumberOfLives() -1);
-                        board.startActors();
+                        board.initializeNewLife();
                         break;                        
                 
                     default:

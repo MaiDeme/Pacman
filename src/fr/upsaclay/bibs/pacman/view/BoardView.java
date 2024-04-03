@@ -190,6 +190,7 @@ public class BoardView extends JFrame implements PacManView {
                 pause();
                 break;
             case GAME_OVER:
+                pause();
                 drawGameOverView();
                 break;
             case LEVEL_OVER:

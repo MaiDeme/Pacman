@@ -255,6 +255,12 @@ public abstract class AbstractBoard implements Board {
      * (reduce the nb of lives, replace the actors, re-initialize certain values)
      */
     public void initializeNewLife() {
+        startActors();
+        pacman.setSpeed(1);
+
+        for(Ghost g : ghosts){
+            g.setSpeed(g.getDefaultSpeed());
+        }
 
     }
 
