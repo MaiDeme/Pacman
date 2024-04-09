@@ -28,8 +28,6 @@ public class DrawPanel extends JPanel {
 
     private Board board;
     private int score;
-    private int frameCounter;
-    private int openMouth = 1;
 
 
     public DrawPanel(int width, int height) {
@@ -63,44 +61,7 @@ public class DrawPanel extends JPanel {
         }
     }
 
-    public void paintPacMan(Graphics g, int i, int j) {
-        int size = BoardView.PIXELS_PER_CELLS;
-        i = i * size;
-        j = j * size;
-        String filename;
-        Actor Pacman = this.board.getPacMan();
-        int x_pac = Pacman.getX();
-        int y_pac = Pacman.getY();
-        switch (openMouth) {
-            case 1:
-                filename = "resources/pacman_closedmouth.txt";
-                break;
-            case 2:
-                filename = "resources/pacman_"+Pacman.getDirection()+".txt";
-                break;
-            case 3:
-                filename= "resources/pacmanbigmouthopen_"+Pacman.getDirection()+".txt";
-                break;
-            default:
-                filename = "resources/pacman_closedmouth.txt";
-        }
-        try (Scanner scanner = new Scanner(new File(filename))) {
-            int y = 0;
-            while (scanner.hasNextLine()) {
-                String line = scanner.nextLine();
-                String[] chars = line.split(" ");
-                for (int x = 0; x < chars.length; x++) {
-                    if (chars[x].equals("1")) {
-                        g.setColor(Color.YELLOW);
-                        g.fillRect(x * size + i, y * size + j, size, size);
-                    }
-                }
-                y++;
-            }
-        } catch (FileNotFoundException e) {
-            e.printStackTrace();
-        }
-    }
+
 
     public void paintDot(Graphics g, int i, int j, Tile texture) {
         int size = BoardView.PIXELS_PER_CELLS;
@@ -271,7 +232,6 @@ public class DrawPanel extends JPanel {
     }
 
     public void paintLives(Graphics g) {
-
     int lives = board.getNumberOfLives();
     int size = 20; 
     int padding = 5;
@@ -291,22 +251,10 @@ public class DrawPanel extends JPanel {
         super.paintComponent(g);
 
         Maze maze = board.getMaze();
-        TilePosition Pacpos = board.getPacMan().getCurrentTile();
-        List<Ghost> ghosts = board.getGhosts();
         updateScore(board.getScore());
         paintScore(g);
         paintHighScore(g);
         paintLives(g);
-
-        frameCounter++;
-        if (frameCounter % 6 == 0) {
-            openMouth++;
-            if (openMouth > 3) {
-                openMouth = 1;
-                frameCounter = 0;
-            }
-
-        }
 
         if (board != null && board.getBoardState() != BoardState.INITIAL) {
             for (int i = 0; i < maze.getPixelHeight(); i += 8) {
@@ -327,30 +275,6 @@ public class DrawPanel extends JPanel {
                     Tile tile = maze.getTile(pos);
                     if (tile.hasDot()) {
                         paintDot(g, j, i, tile);
-                    }
-                }
-            }
-        }
-
-        if (board != null && board.getBoardState() != BoardState.INITIAL) {
-            for (int i = 0; i < maze.getPixelHeight(); i += 8) {
-                for (int j = 0; j < maze.getPixelWidth(); j += 8) {
-                    TilePosition pos = maze.getTilePosition(j, i);
-                    if (pos.equals(Pacpos)) {
-                        paintPacMan(g, j, i);
-                    }
-                }
-            }
-        }
-
-        if (board != null && board.getBoardState() != BoardState.INITIAL) {
-            for (int i = 0; i < maze.getPixelHeight(); i += 8) {
-                for (int j = 0; j < maze.getPixelWidth(); j += 8) {
-                    TilePosition pos = maze.getTilePosition(j, i);
-                    for (Ghost ghost : ghosts) {
-                        if (pos.equals(ghost.getCurrentTile())) {
-                            paintGhost(g, j, i, ghost);
-                        }
                     }
                 }
             }

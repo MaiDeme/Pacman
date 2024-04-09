@@ -89,19 +89,20 @@ public class VisualController extends SimpleController {
                 switch (board.getBoardState()) {
                     case GAME_OVER:
                         view.setLayout(PacManLayout.GAME_OVER);
+                        
                         break;
                     case LEVEL_OVER:
                         view.setLayout(PacManLayout.LEVEL_OVER);
                         board.initializeNewLevel(board.getLevel()+1);
                         break;
                     case LIFE_OVER:
+                        view.setLayout(PacManLayout.LIFE_OVER);
                         //board.setNumberOfLives(board.getNumberOfLives());
                         board.setNumberOfLives(board.getNumberOfLives() -1);
                         board.initializeNewLife();
                         break;                        
                 
                     default:
-                        view.setLayout(PacManLayout.LIFE_OVER);
                         break;
                 }
                 break;
@@ -112,6 +113,8 @@ public class VisualController extends SimpleController {
                 view.setLayout(PacManLayout.GAME_ON);
                 initializeNewGame();
             case NEW_LIFE:
+                view.setLayout(PacManLayout.GAME_ON);
+                board.startActors();
                 break;
             case START:
                 initializeNewGame();
