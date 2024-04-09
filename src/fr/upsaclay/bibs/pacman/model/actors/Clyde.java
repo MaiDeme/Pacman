@@ -13,7 +13,6 @@ public class Clyde extends AbstractGhost {
         setGhostPenState(GhostPenState.IN);
         setGhostState(GhostState.SCATTER);
 
-
     }
 
     @Override

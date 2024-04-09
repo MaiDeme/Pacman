@@ -97,8 +97,6 @@ public class VisualController extends SimpleController {
                         break;
                     case LIFE_OVER:
                         view.setLayout(PacManLayout.LIFE_OVER);
-                        //board.setNumberOfLives(board.getNumberOfLives());
-                        board.setNumberOfLives(board.getNumberOfLives() -1);
                         board.initializeNewLife();
                         break;                        
                 

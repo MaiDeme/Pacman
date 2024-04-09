@@ -182,6 +182,7 @@ public abstract class AbstractBoard implements Board {
                             }
                         case SCATTER:
                         case CHASE:
+                            this.setNumberOfLives(this.getNumberOfLives() -1);
                             setBoardState(BoardState.LIFE_OVER);
                             this.setStateCounter(0);
                     }
