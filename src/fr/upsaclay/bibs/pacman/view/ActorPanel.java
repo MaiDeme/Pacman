@@ -15,6 +15,7 @@ import javax.swing.*;
 import fr.upsaclay.bibs.pacman.model.Direction;
 import fr.upsaclay.bibs.pacman.model.actors.Actor;
 import fr.upsaclay.bibs.pacman.model.actors.Ghost;
+import fr.upsaclay.bibs.pacman.model.actors.GhostState;
 import fr.upsaclay.bibs.pacman.model.board.Board;
 import fr.upsaclay.bibs.pacman.model.board.BoardState;
 import fr.upsaclay.bibs.pacman.model.maze.Maze;
@@ -73,6 +74,7 @@ public class ActorPanel extends JPanel {
         GhostSprites.put("ghost_LEFT",loader.loadSprites("resources/ghosts/LEFT.txt"));
         GhostSprites.put("ghost_DOWN",loader.loadSprites("resources/ghosts/DOWN.txt"));
         GhostSprites.put("ghost_RIGHT",loader.loadSprites("resources/ghosts/RIGHT.txt"));
+        GhostSprites.put("ghost_frightened",loader.loadSprites("resources/ghosts/frightened.txt"));
 
 
 
@@ -105,32 +107,71 @@ public class ActorPanel extends JPanel {
         int size = BoardView.PIXELS_PER_CELLS;
         Direction dir=ghost.getDirection();
 
-        
-        String[][] sprite = GhostSprites.get("ghost_"+dir);
-        
 
-        
-        // Draw the sprite
-        for (int y = 0; y < sprite.length; y++) {
-            for (int x = 0; x < sprite[y].length; x++) {
-                if (sprite[y][x].equals("1")) {
-                    switch (ghost.getGhostType()) {
-                        case BLINKY:
-                            g.setColor(Color.RED);break;
-                        case PINKY:
-                            g.setColor(Color.PINK);break;
-                        case INKY:
-                            g.setColor(Color.CYAN);break;
-                        case CLYDE:
-                            g.setColor(Color.ORANGE);break;                                
+        if (ghost.getGhostState().equals(GhostState.FRIGHTENED)) {
+            String[][] sprite = GhostSprites.get( "ghost_"+"frightened");
+            for (int y = 0; y < sprite.length; y++) {
+                for (int x = 0; x < sprite[y].length; x++) {
+                    if (sprite[y][x].equals("1")) {
+                        g.setColor(Color.BLUE);
+                        g.fillRect( (x+i)*size ,  (y+j)*size,size,size);
+                    } else if (sprite[y][x].equals("2")) {
+                        g.setColor(Color.WHITE);
+                        g.fillRect( (x+i)*size ,  (y+j)*size,size,size);
+                    }else if (sprite[y][x].equals("3")){
+                        g.setColor(Color.BLACK);
+                        g.fillRect( (x+i)*size ,  (y+j)*size,size,size);
                     }
-                    g.fillRect( (x+i)*size ,  (y+j)*size,size,size);
-                } else if (sprite[y][x].equals("2")) {
-                    g.setColor(Color.WHITE);
-                    g.fillRect( (x+i)*size ,  (y+j)*size,size,size);
-                }else if (sprite[y][x].equals("3")){
-                    g.setColor(Color.BLACK);
-                    g.fillRect( (x+i)*size ,  (y+j)*size,size,size);
+                }
+            }
+
+        } else if (ghost.getGhostState().equals(GhostState.FRIGHTENED_END)) {
+            String[][] sprite = GhostSprites.get( "ghost_"+"frightened");
+            if (ghost.getFrightenedCounter() % 10 > 0 && ghost.getFrightenedCounter() % 10 < 5) {
+                for (int y = 0; y < sprite.length; y++) {
+                    for (int x = 0; x < sprite[y].length; x++) {
+                        if (sprite[y][x].equals("1")) {
+                            g.setColor(Color.BLUE);
+                            g.fillRect((x + i) * size, (y + j) * size, size, size);
+                        } else if (sprite[y][x].equals("2")) {
+                            g.setColor(Color.WHITE);
+                            g.fillRect((x + i) * size, (y + j) * size, size, size);
+                        } else if (sprite[y][x].equals("3")) {
+                            g.setColor(Color.BLACK);
+                            g.fillRect((x + i) * size, (y + j) * size, size, size);
+                        }
+                    }
+                }
+            }
+
+        }else {
+            String[][] sprite = GhostSprites.get("ghost_"+dir);
+            // Draw the sprite
+            for (int y = 0; y < sprite.length; y++) {
+                for (int x = 0; x < sprite[y].length; x++) {
+                    if (sprite[y][x].equals("1")) {
+                        switch (ghost.getGhostType()) {
+                            case BLINKY:
+                                g.setColor(Color.RED);
+                                break;
+                            case PINKY:
+                                g.setColor(Color.PINK);
+                                break;
+                            case INKY:
+                                g.setColor(Color.CYAN);
+                                break;
+                            case CLYDE:
+                                g.setColor(Color.ORANGE);
+                                break;
+                        }
+                        g.fillRect((x + i) * size, (y + j) * size, size, size);
+                    } else if (sprite[y][x].equals("2")) {
+                        g.setColor(Color.WHITE);
+                        g.fillRect((x + i) * size, (y + j) * size, size, size);
+                    } else if (sprite[y][x].equals("3")) {
+                        g.setColor(Color.BLACK);
+                        g.fillRect((x + i) * size, (y + j) * size, size, size);
+                    }
                 }
             }
         }

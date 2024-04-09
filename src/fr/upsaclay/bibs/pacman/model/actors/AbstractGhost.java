@@ -38,10 +38,12 @@ public abstract class AbstractGhost extends AbstractActor implements Ghost {
     @Override
     public void nextMove() {
 
-
-
+            double x_depart = this.x;
+            double y_depart = this.y;
             double x_arrivee = this.x + this.getDirection().getDx() * this.getSpeed();
             double y_arrivee = this.y + this.getDirection().getDy() * this.getSpeed();
+            Tile arrivee_tuile = this.getBoard().getMaze().getTile(this.getCurrentTile());
+
 
             // on vérifie s'il fait un mouvement circulaire
             if (Direction == fr.upsaclay.bibs.pacman.model.Direction.LEFT && x_arrivee < 0) {
@@ -54,6 +56,18 @@ public abstract class AbstractGhost extends AbstractActor implements Ghost {
                 //Il ne fait pas de mouvement circulaire, on calcule sa position normalement en multipliant par la vitesse
                 this.setPosition(x_arrivee, y_arrivee);
             }
+
+
+        /*
+        //On vérifie s'il ets bloiqué à la fin d'un mouvement
+        if(arrivee_tuile.isWall() && ((this.getDirection() == fr.upsaclay.bibs.pacman.model.Direction.RIGHT && this.getX() % Maze.TILE_WIDTH > Maze.TITLE_CENTER_X)
+                || (this.getDirection() == fr.upsaclay.bibs.pacman.model.Direction.LEFT && (this.getX()) % Maze.TILE_WIDTH < Maze.TITLE_CENTER_X)
+                ||(this.getDirection() == fr.upsaclay.bibs.pacman.model.Direction.DOWN && this.getY() % Maze.TILE_WIDTH > Maze.TITLE_CENTER_Y)
+                ||(this.getDirection() == fr.upsaclay.bibs.pacman.model.Direction.UP && (this.getY()) % Maze.TILE_WIDTH < Maze.TITLE_CENTER_Y))) {
+            this.setPosition(x_depart, y_depart);
+        }
+
+         */
 
 
 
