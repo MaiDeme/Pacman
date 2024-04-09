@@ -2,6 +2,7 @@ package fr.upsaclay.bibs.pacman.model.actors;
 
 import fr.upsaclay.bibs.pacman.model.Direction;
 import fr.upsaclay.bibs.pacman.model.board.Board;
+import fr.upsaclay.bibs.pacman.model.board.BoardState;
 import fr.upsaclay.bibs.pacman.model.board.Counter;
 import fr.upsaclay.bibs.pacman.model.maze.Maze;
 import fr.upsaclay.bibs.pacman.model.maze.Tile;
@@ -12,6 +13,7 @@ public abstract class AbstractGhost extends AbstractActor implements Ghost {
     protected GhostState currentState;
     protected GhostState previousState;
     protected  GhostPenState currentPenState;
+    protected int FrightenedCounter;
 
 
     public AbstractGhost(Board board, ActorType type) {
@@ -37,50 +39,65 @@ public abstract class AbstractGhost extends AbstractActor implements Ghost {
     public void nextMove() {
 
 
-        double x_arrivee = this.x + this.getDirection().getDx() * this.getSpeed();
-        double y_arrivee = this.y + this.getDirection().getDy() * this.getSpeed();
 
-        // on vérifie s'il fait un mouvement circulaire
-        if(Direction == fr.upsaclay.bibs.pacman.model.Direction.LEFT && x_arrivee < 0){
-            //Il fait un mouvement circulaire par la gauche, sa nouvelle position x est la largeur du plateau moins la différence entre l'arrivée et -1
-            this.setPosition(getBoard().getMaze().getPixelWidth()-1 - (x_arrivee +1), y_arrivee);
-        } else if (Direction == fr.upsaclay.bibs.pacman.model.Direction.RIGHT && x_arrivee > (getBoard().getMaze().getPixelWidth()-1)) {
-            //Il fait un mouvement circulaire par la droite, sa nouvelle position x est 0 + différence largeur du plateau et arrivée
-            this.setPosition((x_arrivee - getBoard().getMaze().getPixelWidth()), y_arrivee);
-        } else {
-            //Il ne fait pas de mouvement circulaire, on calcule sa position normalement en multipliant ar la vitesse
-            this.setPosition(x_arrivee, y_arrivee);
-        }
+            double x_arrivee = this.x + this.getDirection().getDx() * this.getSpeed();
+            double y_arrivee = this.y + this.getDirection().getDy() * this.getSpeed();
 
-
-
-        //S'il est sur une tuile à vitesse lente
-        if (this.getBoard().getMaze().getTile(this.getCurrentTile()) == Tile.SL){
-            if (getSpeed() == getDefaultSpeed()) {
-                this.setSpeed(0.5);
+            // on vérifie s'il fait un mouvement circulaire
+            if (Direction == fr.upsaclay.bibs.pacman.model.Direction.LEFT && x_arrivee < 0) {
+                //Il fait un mouvement circulaire par la gauche, sa nouvelle position x est la largeur du plateau moins la différence entre l'arrivée et -1
+                this.setPosition(getBoard().getMaze().getPixelWidth() - 1 - (x_arrivee + 1), y_arrivee);
+            } else if (Direction == fr.upsaclay.bibs.pacman.model.Direction.RIGHT && x_arrivee > (getBoard().getMaze().getPixelWidth() - 1)) {
+                //Il fait un mouvement circulaire par la droite, sa nouvelle position x est 0 + différence largeur du plateau et arrivée
+                this.setPosition((x_arrivee - getBoard().getMaze().getPixelWidth()), y_arrivee);
+            } else {
+                //Il ne fait pas de mouvement circulaire, on calcule sa position normalement en multipliant par la vitesse
+                this.setPosition(x_arrivee, y_arrivee);
             }
-        } else {
-            if (getSpeed() == 0.5) {
-                this.setSpeed(getDefaultSpeed());
+
+
+
+            //S'il est sur une tuile à vitesse lente
+            if (this.getBoard().getMaze().getTile(this.getCurrentTile()) == Tile.SL) {
+                if (getSpeed() == getDefaultSpeed()) {
+                    this.setSpeed(0.5);
+                }
+            } else {
+                if (getSpeed() == 0.5) {
+                    this.setSpeed(getDefaultSpeed());
+                }
             }
-        }
 
-        // Quand il rejoint le centre d'une tuile :
-        if (this.getX() % Maze.TILE_WIDTH == Maze.TITLE_CENTER_X
-                && this.getY() % Maze.TILE_HEIGHT == Maze.TITLE_CENTER_Y) {
-            //il applique son intention et met donc à jour sa direction
-            this.Direction = this.intention;
-            //il calcule sa nouvelle intention.
-            this.intention = getNextIntention(this.getCurrentTile());
+            // Quand il rejoint le centre d'une tuile :  il calcule sa nouvelle intention ou direction
+            if (this.getX() % Maze.TILE_WIDTH == Maze.TITLE_CENTER_X
+                    && this.getY() % Maze.TILE_HEIGHT == Maze.TITLE_CENTER_Y) {
+                this.Direction = this.intention;
 
+                if (this.getGhostState().equals(GhostState.FRIGHTENED_END) || this.getGhostState().equals(GhostState.FRIGHTENED)) {
+                    if (this.getBoard().getMaze().IsIntersection(this.getCurrentTile(), this.getDirection())){
+                        fr.upsaclay.bibs.pacman.model.Direction dir = this.getDirection().reverse();
+
+                        while (dir.reverse().equals(this.getDirection()) || this.getBoard().getMaze().getNeighbourTile(this.getCurrentTile(), dir).isWall()) {
+                            dir = this.getBoard().getRandomDirection();
+                        }
+                        this.setIntention(dir);
+                        this.Direction = this.intention;
+                    }
+                }else{
+                    //il applique son intention et met donc à jour sa direction
+                this.intention = getNextIntention(this.getCurrentTile());
+            }
         }
     }
 
     public fr.upsaclay.bibs.pacman.model.Direction getNextIntention(TilePosition depart) {
 
+        if (this.getGhostState().equals(GhostState.FRIGHTENED_END) || this.getGhostState().equals(GhostState.FRIGHTENED)){
+            return null;
+        }
+
         //Il choisit la tuile possible qui le rapproche le plus de sa tuile cible (selon la distance euclidienne)
         //Pour cela, il regarde où il peut aller à partir de la prochaine tuile sachant qu'il n'a pas le droit de revenir en arrière ni de traverser les murs
-
         TilePosition target = this.getTarget();
 
         // Liste avec les 4 directions dans l'ordre de préférence des fantômes
@@ -118,6 +135,89 @@ public abstract class AbstractGhost extends AbstractActor implements Ghost {
 
             return directions[min];
 
+    }
+
+    @Override
+    public void nextFrame() {
+
+        this.nextMove();
+        if (this.getGhostState().equals(GhostState.FRIGHTENED) || this.getGhostState().equals(GhostState.FRIGHTENED_END)) {
+
+            this.setFrightenedCounter(this.getFrightenedCounter() +1);
+
+            if (this.getFrightenedCounter() == this.getBoard().getFrightenedtime() * 60 - this.getBoard().getNbFlashes() * 10) {
+                    this.changeGhostState(GhostState.FRIGHTENED_END);
+            } else if (this.getFrightenedCounter() == this.getBoard().getFrightenedtime() * 60) {
+                this.changeGhostState(this.getPreviousGhostState());
+                this.setFrightenedCounter(0);
+                this.getBoard().setEatGhost(0);
+
+            }
+
+        } else {
+            this.getBoard().setStateCounter(this.getBoard().getStateCounter() +1);
+
+            //Maintenant on regarde l'alternance des phases des fantomes
+            double time = this.getBoard().getStateCounter() /(60*4);
+
+            int level = this.getBoard().getLevel();
+
+            if (level >= 1) {
+                if (time == 7) {
+                    this.changeGhostState(GhostState.CHASE);
+                } else if (time == 27) {
+                    this.changeGhostState(GhostState.SCATTER);
+                } else if (time == 34) {
+                    this.changeGhostState(GhostState.CHASE);
+                } else if (time == 54) {
+                    this.changeGhostState(GhostState.SCATTER);
+                } else if (time == 59) {
+                    this.changeGhostState(GhostState.CHASE);
+
+                } else if (time == 79) {
+                    this.changeGhostState(GhostState.SCATTER);
+                } else if (time == 84) {
+                    this.changeGhostState(GhostState.CHASE);
+                }
+
+            } else if (level > 1 && level < 5) {
+                if (time == 7) {
+                    this.changeGhostState(GhostState.CHASE);
+                } else if (time == 27) {
+                    this.changeGhostState(GhostState.SCATTER);
+                } else if (time == 34) {
+                    this.changeGhostState(GhostState.CHASE);
+                } else if (time == 54) {
+                    this.changeGhostState(GhostState.SCATTER);
+                } else if (time == 59) {
+                    this.changeGhostState(GhostState.CHASE);
+                } else if (time == 1092) {
+                    this.changeGhostState(GhostState.SCATTER);
+                } else if (time == (1092 + 1 / 60)) {
+                    this.changeGhostState(GhostState.CHASE);
+
+                }
+
+            } else {
+                if (time == 5) {
+                    this.changeGhostState(GhostState.CHASE);
+                } else if (time == 25) {
+                    this.changeGhostState(GhostState.SCATTER);
+                } else if (time == 30) {
+                    this.changeGhostState(GhostState.CHASE);
+                } else if (time == 50) {
+                    this.changeGhostState(GhostState.SCATTER);
+                } else if (time == 55) {
+                    this.changeGhostState(GhostState.CHASE);
+                } else if (time == 1092) {
+                    this.changeGhostState(GhostState.SCATTER);
+                } else if (time == (1092 + 1 / 60)) {
+                    this.changeGhostState(GhostState.CHASE);
+
+                }
+
+            }
+        }
     }
 
 
@@ -257,5 +357,13 @@ public abstract class AbstractGhost extends AbstractActor implements Ghost {
     @Override
     public int getElroy() {
         return 0;
+    }
+
+
+    public void setFrightenedCounter(int nb){
+        this.FrightenedCounter = nb;
+    }
+    public int getFrightenedCounter(){
+        return this.FrightenedCounter;
     }
 }

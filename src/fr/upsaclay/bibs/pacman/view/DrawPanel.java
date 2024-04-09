@@ -146,7 +146,7 @@ public class DrawPanel extends JPanel {
         j = j * size;
         Direction dir=ghost.getDirection();
 
-        if (board.getGhost(GhostType.BLINKY).getGhostState().equals(GhostState.FRIGHTENED)) {
+        if (ghost.getGhostState().equals(GhostState.FRIGHTENED)) {
 
             String filename = "resources/ghosts/frightened.txt";
             try (Scanner scanner = new Scanner(new File(filename))) {
@@ -172,9 +172,9 @@ public class DrawPanel extends JPanel {
             } catch (FileNotFoundException e) {
                 e.printStackTrace();
             }
-        } else if (board.getGhost(GhostType.BLINKY).getGhostState().equals(GhostState.FRIGHTENED_END)) {
+        } else if (ghost.getGhostState().equals(GhostState.FRIGHTENED_END)) {
             String filename = "resources/ghosts/frightened.txt";
-            if (board.getFrightenedCounter()%10 > 0 && board.getFrightenedCounter()%10 < 5){
+            if (ghost.getFrightenedCounter() % 10 > 0 && ghost.getFrightenedCounter() % 10 < 5) {
                 try (Scanner scanner = new Scanner(new File(filename))) {
                     int y = 0;
                     while (scanner.hasNextLine()) {
@@ -199,7 +199,7 @@ public class DrawPanel extends JPanel {
                     e.printStackTrace();
                 }
 
-            }else {
+            } else {
                 try (Scanner scanner = new Scanner(new File(filename))) {
                     int y = 0;
                     while (scanner.hasNextLine()) {
@@ -224,7 +224,6 @@ public class DrawPanel extends JPanel {
                     e.printStackTrace();
                 }
             }
-
         }else {
 
             String filename = "resources/ghosts/" + dir.toString() + ".txt";

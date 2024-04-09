@@ -46,13 +46,20 @@ public class Pinky extends AbstractGhost{
     public TilePosition getTarget() {
 
         Actor pacman = this.getBoard().getPacMan();
-        
-        if (pacman.getDirection() == Direction.UP) {
-            return new TilePosition(pacman.getX()+ 4*Direction.LEFT.getDx(), pacman.getY() + 4*Direction.UP.getDy());
+        switch (this.getGhostState()) {
+            case CHASE :
+                if (pacman.getDirection() == Direction.UP) {
+                    return new TilePosition(pacman.getX() + 4 * Direction.LEFT.getDx(), pacman.getY() + 4 * Direction.UP.getDy());
+                }
+                return new TilePosition(pacman.getX() + 4 * pacman.getDirection().getDx(), pacman.getY() + 4 * pacman.getDirection().getDy());
+            case SCATTER:
+                return this.scattertarget;
+            case FRIGHTENED:
+            case FRIGHTENED_END:
+                return null;
+            default:
+                return new TilePosition(11,9);
         }
-        return new TilePosition(pacman.getX() + 4*pacman.getDirection().getDx(), pacman.getY() + 4*pacman.getDirection().getDy());
-
-
 
 
     }
@@ -60,6 +67,15 @@ public class Pinky extends AbstractGhost{
     
    @Override
    public void changeGhostState(GhostState state) {
+       GhostState actualState = this.getGhostState();
+
+       //On s'occupe de changer leur intention, la target étant changée automatiquement en fonction de leur état dans la fonction get target
+       if ((actualState == GhostState.CHASE || actualState == GhostState.SCATTER) && !actualState.equals(state)) {
+           this.setIntention(this.Direction.reverse());
+       }
+
+       //Ensuite on change leur état
+       this.setGhostState(state);
 
    }
 

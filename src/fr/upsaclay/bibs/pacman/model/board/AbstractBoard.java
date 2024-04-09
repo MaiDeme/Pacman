@@ -31,16 +31,22 @@ public abstract class AbstractBoard implements Board {
     public List<Ghost> ghosts;
     protected int score;
     protected int stateCounter;
-    protected int frigthenedCounter;
     protected int eatGhost;
     int allfour;
 
 
     public AbstractBoard(GameType gameType) {
 
+        //create the actors
+        pacman = new Pacman(this);
+        this.ghosts = new ArrayList<Ghost>();
+        setBoardState(BoardState.INITIAL);
+        this.setStateCounter(0);
+        allfour = 0;
         this.gameType = gameType;
         this.boardState = BoardState.INITIAL;
         soundManager = new SoundManager();
+        this.level = 1;
         try {
             initialize();
         } catch (PacManException e) {
@@ -113,15 +119,7 @@ public abstract class AbstractBoard implements Board {
             }
         }
 
-        //create the actors
-        pacman = new Pacman(this);
-        this.ghosts = new ArrayList<Ghost>();
-        setBoardState(BoardState.INITIAL);
-        this.intitStateCounter();
-        this.frigthenedCounter = 0;
-        allfour = 0;
-
-        }
+    }
 
     /**
      * Start the actors
@@ -157,158 +155,43 @@ public abstract class AbstractBoard implements Board {
     @Override
     public void nextFrame() {
         this.pacman.nextFrame();
-        for (Ghost g : this.ghosts){
+        for (Ghost g : this.ghosts) {
             g.nextFrame();
         }
 
         if (this.getMaze().getNumberOfDots() == 0) {
-            setBoardState(BoardState.LEVEL_OVER);
-        } else if (this.isEaten()) {
-            if (this.getGhost(GhostType.BLINKY).getGhostState().equals(GhostState.FRIGHTENED) || this.getGhost(GhostType.BLINKY).getGhostState().equals(GhostState.FRIGHTENED)) {
-                for (Ghost g : this.ghosts) {
-                    if (pacman.getCurrentTile().equals(g.getCurrentTile())) {
-                        g.setGhostState(GhostState.DEAD);
-                        eatGhost++;
-                        this.setScore(this.getScore() + 200 * this.eatGhost);
-                        if(eatGhost == 4){
-                            allfour++;
-                        }
-                        if(allfour == 4){
-                            this.setScore(this.getScore() + 12000);
-                        }
+            this.setBoardState(BoardState.LEVEL_OVER);
 
+        } else if (this.isEaten()) {
+            for (Ghost g : this.ghosts) {
+                if (pacman.getCurrentTile().equals(g.getCurrentTile())) {
+                    switch (g.getGhostState()){
+                        case FRIGHTENED_END :
+                        case FRIGHTENED:
+                            g.setGhostState(GhostState.DEAD);
+                            eatGhost++;
+                            this.setScore(this.getScore() + 200 * this.eatGhost);
+
+                            if (eatGhost == 4) {
+                                allfour++;
+                            }
+
+                            if (allfour == 4) {
+                                this.setScore(this.getScore() + 12000);
+                                allfour = 0;
+                            }
+                        case SCATTER:
+                        case CHASE:
+                            setBoardState(BoardState.LIFE_OVER);
+                            this.setStateCounter(0);
                     }
                 }
-            }else {
-                setBoardState(BoardState.LIFE_OVER);
-                this.intitStateCounter();
             }
+        }
 
-        } else if (this.getNumberOfLives() == 0) {
+        if (this.getNumberOfLives() == 0) {
             setBoardState(BoardState.GAME_OVER);
         }
-
-        if(this.getGhost(GhostType.BLINKY).getGhostState().equals(GhostState.FRIGHTENED)
-                || this.getGhost(GhostType.BLINKY).getGhostState().equals(GhostState.FRIGHTENED_END)){
-                frigthenedCounter++;
-
-                if(frigthenedCounter == this.getFrightenedtime(level)*60-this.getNbFlashes(level)*10){
-                    for (Ghost g : ghosts){
-                        g.changeGhostState(GhostState.FRIGHTENED_END);
-                    }
-                }else if (frigthenedCounter == this.getFrightenedtime(level)*60) {
-                    for (Ghost g : ghosts){
-                        g.changeGhostState(g.getPreviousGhostState());
-                    }
-                    frigthenedCounter = 0;
-                    eatGhost = 0;
-                }
-
-        }else {
-            this.stateCounter++;
-
-            //Maintenant on regarde l'alternance des phases des fantomes
-            double time = this.getStateCounter() / 60;
-
-            if (level == 1) {
-                if (time == 7) {
-                    for (Ghost g : this.ghosts) {
-                        g.changeGhostState(GhostState.CHASE);
-                    }
-                } else if (time == 27) {
-                    for (Ghost g : this.ghosts) {
-                        g.changeGhostState(GhostState.SCATTER);
-                    }
-                } else if (time == 34) {
-                    for (Ghost g : this.ghosts) {
-                        g.changeGhostState(GhostState.CHASE);
-                    }
-                } else if (time == 54) {
-                    for (Ghost g : this.ghosts) {
-                        g.changeGhostState(GhostState.SCATTER);
-                    }
-                } else if (time == 59) {
-                    for (Ghost g : this.ghosts) {
-                        g.changeGhostState(GhostState.CHASE);
-                    }
-                } else if (time == 79) {
-                    for (Ghost g : this.ghosts) {
-                        g.changeGhostState(GhostState.SCATTER);
-                    }
-                } else if (time == 84) {
-                    for (Ghost g : this.ghosts) {
-                        g.changeGhostState(GhostState.CHASE);
-                    }
-
-                }
-
-            } else if (level > 1 && level < 5) {
-                if (time == 7) {
-                    for (Ghost g : this.ghosts) {
-                        g.changeGhostState(GhostState.CHASE);
-                    }
-                } else if (time == 27) {
-                    for (Ghost g : this.ghosts) {
-                        g.changeGhostState(GhostState.SCATTER);
-                    }
-                } else if (time == 34) {
-                    for (Ghost g : this.ghosts) {
-                        g.changeGhostState(GhostState.CHASE);
-                    }
-                } else if (time == 54) {
-                    for (Ghost g : this.ghosts) {
-                        g.changeGhostState(GhostState.SCATTER);
-                    }
-                } else if (time == 59) {
-                    for (Ghost g : this.ghosts) {
-                        g.changeGhostState(GhostState.CHASE);
-                    }
-                } else if (time == 1092) {
-                    for (Ghost g : this.ghosts) {
-                        g.changeGhostState(GhostState.SCATTER);
-                    }
-                } else if (time == (1092 + 1 / 60)) {
-                    for (Ghost g : this.ghosts) {
-                        g.changeGhostState(GhostState.CHASE);
-                    }
-
-                }
-
-            } else {
-                if (time == 5) {
-                    for (Ghost g : this.ghosts) {
-                        g.changeGhostState(GhostState.CHASE);
-                    }
-                } else if (time == 25) {
-                    for (Ghost g : this.ghosts) {
-                        g.changeGhostState(GhostState.SCATTER);
-                    }
-                } else if (time == 30) {
-                    for (Ghost g : this.ghosts) {
-                        g.changeGhostState(GhostState.CHASE);
-                    }
-                } else if (time == 50) {
-                    for (Ghost g : this.ghosts) {
-                        g.changeGhostState(GhostState.SCATTER);
-                    }
-                } else if (time == 55) {
-                    for (Ghost g : this.ghosts) {
-                        g.changeGhostState(GhostState.CHASE);
-                    }
-                } else if (time == 1092) {
-                    for (Ghost g : this.ghosts) {
-                        g.changeGhostState(GhostState.SCATTER);
-                    }
-                } else if (time == (1092 + 1 / 60)) {
-                    for (Ghost g : this.ghosts) {
-                        g.changeGhostState(GhostState.CHASE);
-                    }
-
-                }
-
-            }
-        }
-
 
     }
 
@@ -485,6 +368,8 @@ public abstract class AbstractBoard implements Board {
             default:
                 return Direction.RIGHT;
         }
+
+
     }
 
     /**
@@ -675,22 +560,14 @@ public abstract class AbstractBoard implements Board {
 
     }
 
-    public void intitStateCounter(){
-        this.stateCounter = 0;
+    public void setStateCounter(int nb){
+        this.stateCounter = nb;
     }
     public int getStateCounter(){
         return this.stateCounter;
     }
 
-    public int getFrightenedCounter(){
-        return this.frigthenedCounter;
-    }
-
-    public void setFrightenedCounter(int Counter){
-        this.frigthenedCounter = Counter;
-    }
-
-    public int getFrightenedtime(int level){
+    public int getFrightenedtime(){
         switch (level){
             case 1:
                 return 6;
@@ -719,7 +596,7 @@ public abstract class AbstractBoard implements Board {
                 return 0;
         }
     }
-    public int getNbFlashes(int level) {
+    public int getNbFlashes() {
         switch (level) {
             case 1:
             case 2:

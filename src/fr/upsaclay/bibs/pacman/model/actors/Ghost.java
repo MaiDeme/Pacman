@@ -118,4 +118,7 @@ public interface Ghost extends Actor {
      * @return the Elroy value
      */
     int getElroy();
+
+    void setFrightenedCounter(int nb);
+    int getFrightenedCounter();
 }

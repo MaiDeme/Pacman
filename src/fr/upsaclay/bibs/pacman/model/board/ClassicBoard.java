@@ -21,16 +21,6 @@ public class ClassicBoard extends AbstractBoard {
 
     public ClassicBoard() {
         super(GameType.CLASSIC);
-    }
-
-    @Override
-    public void setScore(int score) {
-        this.score = score;
-    }
-
-    @Override
-    public void initialize() throws PacManException {
-        super.initialize();
         Ghost blinky = new Blinky(this, ActorType.GHOST);
         Ghost pinky = new Pinky(this, ActorType.GHOST);
         Ghost inky = new Inky(this, ActorType.GHOST);
@@ -39,6 +29,17 @@ public class ClassicBoard extends AbstractBoard {
         this.ghosts.add(pinky);
         this.ghosts.add(inky);
         this.ghosts.add(clyde);
+    }
+
+    @Override
+    public void setScore(int score) {
+        this.score = score;
+    }
+
+
+    @Override
+    public void initialize() throws PacManException {
+        super.initialize();
         startActors();
     }
 

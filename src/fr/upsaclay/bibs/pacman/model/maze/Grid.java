@@ -179,5 +179,28 @@ public class Grid implements Maze {
         return this.number_of_dots;
     }
 
+    public boolean IsIntersection(TilePosition tile, Direction dir){
+        Tile Up = getNeighbourTile(tile, Direction.UP);
+        Tile Down = getNeighbourTile(tile, Direction.DOWN);
+        Tile Left = getNeighbourTile(tile, Direction.LEFT);
+        Tile Right = getNeighbourTile(tile, Direction.RIGHT);
+
+        switch (dir){
+            case DOWN:
+            case UP:
+                if (!Left.isWall() || !Right.isWall()){
+                    return true;
+                }else{
+                    return false;
+                }
+            default:
+                if (!Down.isWall() || !Up.isWall()){
+                    return true;
+                }else{
+                    return false;
+                }
+        }
+    }
+
 
 }

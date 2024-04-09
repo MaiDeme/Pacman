@@ -59,16 +59,10 @@ public class Blinky extends AbstractGhost {
             default:
                 return board.getMaze().getTilePosition(this.getBoard().getPacMan().getX(), this.getBoard().getPacMan().getY());
             case SCATTER:
-                //return this.scattertarget;
-                return new TilePosition(11,9);
+                return this.scattertarget;
             case FRIGHTENED:
             case FRIGHTENED_END:
-                fr.upsaclay.bibs.pacman.model.Direction dir = this.getBoard().getRandomDirection();
-                if(!dir.reverse().equals(this.Direction) && !this.getBoard().getMaze().getNeighbourTile(this.getCurrentTile(),dir).isWall()){
-                    return this.getBoard().getMaze().getNeighbourTilePosition(this.getCurrentTile(),dir);
-                }else{
-                    return this.getBoard().getMaze().getNeighbourTilePosition(this.getCurrentTile(),this.getDirection());
-                }
+                return null;
             case DEAD:
                 return new TilePosition(11,9);
         }
@@ -87,7 +81,6 @@ public class Blinky extends AbstractGhost {
         GhostState actualState = this.getGhostState();
 
         //On s'occupe de changer leur intention, la target étant changée automatiquement en fonction de leur état dans la fonction get target
-        //Ghosts are forced to reverse direction by the system anytime the mode changes from: chase-to-scatter, chase-to-frightened, scatter-to-chase, and scatter-to-frightened
         if ((actualState == GhostState.CHASE || actualState == GhostState.SCATTER) && !actualState.equals(state)) {
             this.setIntention(this.Direction.reverse());
         }

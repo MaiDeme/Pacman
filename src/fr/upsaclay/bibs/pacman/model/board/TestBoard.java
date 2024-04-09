@@ -21,6 +21,7 @@ public class TestBoard extends AbstractBoard {
         this.score = score;
     }
 
+
     @Override
     public void initialize() throws PacManException {
         super.initialize();

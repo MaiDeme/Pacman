@@ -187,5 +187,6 @@ public interface Maze {
     int getHigh_score();
 
     void setHigh_score(int score) ;
+    boolean IsIntersection(TilePosition tile, Direction dir);
 
 }

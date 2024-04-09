@@ -47,29 +47,52 @@ public class Inky extends AbstractGhost {
      */
     @Override
     public TilePosition getTarget() {
-        Actor pacman = this.getBoard().getPacMan();
-        Actor blinky = this.getBoard().getGhost(GhostType.BLINKY);
 
-        int x_offset = 0;
-        int y_offset = 0;
-        switch (pacman.getDirection()) {
-            case DOWN -> {y_offset += 2;}
-            case RIGHT -> {x_offset += 2;}
-            case UP -> {y_offset -= 2;x_offset -= 2;}
-            case LEFT -> {x_offset -= 2;}
+
+        switch (this.getGhostState()) {
+            case CHASE:
+
+                Actor pacman = this.getBoard().getPacMan();
+                Actor blinky = this.getBoard().getGhost(GhostType.BLINKY);
+
+                int x_offset = 0;
+                int y_offset = 0;
+                switch (pacman.getDirection()) {
+                    case DOWN -> {
+                        y_offset += 2;
+                    }
+                    case RIGHT -> {
+                        x_offset += 2;
+                    }
+                    case UP -> {
+                        y_offset -= 2;
+                        x_offset -= 2;
+                    }
+                    case LEFT -> {
+                        x_offset -= 2;
+                    }
+                }
+
+                TilePosition pacman_tile = pacman.getCurrentTile();
+
+                TilePosition mid_tile = this.getBoard().getMaze().getTilePosition((pacman_tile.getCol() + x_offset) * Maze.TILE_WIDTH,
+                        (pacman_tile.getLine() + y_offset) * Maze.TILE_HEIGHT);
+
+                TilePosition blinky_tile = blinky.getCurrentTile();
+
+                TilePosition target = new TilePosition(mid_tile.getLine() + (mid_tile.getLine() - blinky_tile.getLine()),
+                        mid_tile.getCol() + (mid_tile.getCol() - blinky_tile.getCol()));
+
+                return target;
+
+            case SCATTER:
+                return this.scattertarget;
+            case FRIGHTENED:
+            case FRIGHTENED_END:
+                return null;
+            default:
+                return new TilePosition(11, 9);
         }
-
-        TilePosition pacman_tile = pacman.getCurrentTile();
-
-        TilePosition mid_tile = this.getBoard().getMaze().getTilePosition((pacman_tile.getCol() + x_offset) * Maze.TILE_WIDTH,
-                (pacman_tile.getLine() + y_offset) * Maze.TILE_HEIGHT);
-
-        TilePosition blinky_tile = blinky.getCurrentTile();
-
-       TilePosition target = new TilePosition(mid_tile.getLine() + (mid_tile.getLine() - blinky_tile.getLine()),
-               mid_tile.getCol() + (mid_tile.getCol() - blinky_tile.getCol()));
-
-        return target;
     }
 
     @Override
@@ -84,6 +107,15 @@ public class Inky extends AbstractGhost {
      */
     @Override
     public void changeGhostState(GhostState state) {
+        GhostState actualState = this.getGhostState();
+
+        //On s'occupe de changer leur intention, la target étant changée automatiquement en fonction de leur état dans la fonction get target
+        if ((actualState == GhostState.CHASE || actualState == GhostState.SCATTER) && !actualState.equals(state)) {
+            this.setIntention(this.Direction.reverse());
+        }
+
+        //Ensuite on change leur état
+        this.setGhostState(state);
 
     }
 

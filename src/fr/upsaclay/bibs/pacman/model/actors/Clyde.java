@@ -46,18 +46,29 @@ public class Clyde extends AbstractGhost {
      */
     @Override
     public TilePosition getTarget() {
-        TilePosition pacman_tile = this.getBoard().getPacMan().getCurrentTile();
-        TilePosition current_tile = this.getCurrentTile();
 
-        double dist = Math.sqrt(Math.pow(pacman_tile.getCol() - current_tile.getCol(), 2) + Math.pow(pacman_tile.getLine() - current_tile.getLine(), 2));
-        TilePosition target;
-        if (dist < 8) {
-            target = new TilePosition(0, this.board.getMaze().getHeight()-1);
-        } else {
-            target = pacman_tile;
+        switch (this.getGhostState()) {
+            case CHASE:
+                TilePosition pacman_tile = this.getBoard().getPacMan().getCurrentTile();
+                TilePosition current_tile = this.getCurrentTile();
+
+                double dist = Math.sqrt(Math.pow(pacman_tile.getCol() - current_tile.getCol(), 2) + Math.pow(pacman_tile.getLine() - current_tile.getLine(), 2));
+                TilePosition target;
+                if (dist < 8) {
+                    target = new TilePosition(0, this.board.getMaze().getHeight() - 1);
+                } else {
+                    target = pacman_tile;
+                }
+
+                return target;
+            case SCATTER:
+                return this.scattertarget;
+            case FRIGHTENED:
+            case FRIGHTENED_END:
+                return null;
+            default:
+                return new TilePosition(11,9);
         }
-
-        return target;
     }
 
     @Override
@@ -72,6 +83,15 @@ public class Clyde extends AbstractGhost {
      */
     @Override
     public void changeGhostState(GhostState state) {
+        GhostState actualState = this.getGhostState();
+
+        //On s'occupe de changer leur intention, la target étant changée automatiquement en fonction de leur état dans la fonction get target
+        if ((actualState == GhostState.CHASE || actualState == GhostState.SCATTER) && !actualState.equals(state)) {
+            this.setIntention(this.Direction.reverse());
+        }
+
+        //Ensuite on change leur état
+        this.setGhostState(state);
 
     }
 
