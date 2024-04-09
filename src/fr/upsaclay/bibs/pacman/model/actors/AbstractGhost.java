@@ -37,71 +37,59 @@ public abstract class AbstractGhost extends AbstractActor implements Ghost {
 
     @Override
     public void nextMove() {
-
-            double x_depart = this.x;
-            double y_depart = this.y;
-            double x_arrivee = this.x + this.getDirection().getDx() * this.getSpeed();
-            double y_arrivee = this.y + this.getDirection().getDy() * this.getSpeed();
-            Tile arrivee_tuile = this.getBoard().getMaze().getTile(this.getCurrentTile());
-
-
-            // on vérifie s'il fait un mouvement circulaire
-            if (Direction == fr.upsaclay.bibs.pacman.model.Direction.LEFT && x_arrivee < 0) {
-                //Il fait un mouvement circulaire par la gauche, sa nouvelle position x est la largeur du plateau moins la différence entre l'arrivée et -1
-                this.setPosition(getBoard().getMaze().getPixelWidth() - 1 - (x_arrivee + 1), y_arrivee);
-            } else if (Direction == fr.upsaclay.bibs.pacman.model.Direction.RIGHT && x_arrivee > (getBoard().getMaze().getPixelWidth() - 1)) {
-                //Il fait un mouvement circulaire par la droite, sa nouvelle position x est 0 + différence largeur du plateau et arrivée
-                this.setPosition((x_arrivee - getBoard().getMaze().getPixelWidth()), y_arrivee);
-            } else {
-                //Il ne fait pas de mouvement circulaire, on calcule sa position normalement en multipliant par la vitesse
-                this.setPosition(x_arrivee, y_arrivee);
-            }
+            if (!this.getGhostPenState().equals(GhostPenState.IN)) {
+                double x_depart = this.x;
+                double y_depart = this.y;
+                double x_arrivee = this.x + this.getDirection().getDx() * this.getSpeed();
+                double y_arrivee = this.y + this.getDirection().getDy() * this.getSpeed();
+                Tile arrivee_tuile = this.getBoard().getMaze().getTile(this.getCurrentTile());
 
 
-        /*
-        //On vérifie s'il ets bloiqué à la fin d'un mouvement
-        if(arrivee_tuile.isWall() && ((this.getDirection() == fr.upsaclay.bibs.pacman.model.Direction.RIGHT && this.getX() % Maze.TILE_WIDTH > Maze.TITLE_CENTER_X)
-                || (this.getDirection() == fr.upsaclay.bibs.pacman.model.Direction.LEFT && (this.getX()) % Maze.TILE_WIDTH < Maze.TITLE_CENTER_X)
-                ||(this.getDirection() == fr.upsaclay.bibs.pacman.model.Direction.DOWN && this.getY() % Maze.TILE_WIDTH > Maze.TITLE_CENTER_Y)
-                ||(this.getDirection() == fr.upsaclay.bibs.pacman.model.Direction.UP && (this.getY()) % Maze.TILE_WIDTH < Maze.TITLE_CENTER_Y))) {
-            this.setPosition(x_depart, y_depart);
-        }
-
-         */
-
-
-
-            //S'il est sur une tuile à vitesse lente
-            if (this.getBoard().getMaze().getTile(this.getCurrentTile()) == Tile.SL) {
-                if (getSpeed() == getDefaultSpeed()) {
-                    this.setSpeed(0.5);
+                // on vérifie s'il fait un mouvement circulaire
+                if (Direction == fr.upsaclay.bibs.pacman.model.Direction.LEFT && x_arrivee < 0) {
+                    //Il fait un mouvement circulaire par la gauche, sa nouvelle position x est la largeur du plateau moins la différence entre l'arrivée et -1
+                    this.setPosition(getBoard().getMaze().getPixelWidth() - 1 - (x_arrivee + 1), y_arrivee);
+                } else if (Direction == fr.upsaclay.bibs.pacman.model.Direction.RIGHT && x_arrivee > (getBoard().getMaze().getPixelWidth() - 1)) {
+                    //Il fait un mouvement circulaire par la droite, sa nouvelle position x est 0 + différence largeur du plateau et arrivée
+                    this.setPosition((x_arrivee - getBoard().getMaze().getPixelWidth()), y_arrivee);
+                } else {
+                    //Il ne fait pas de mouvement circulaire, on calcule sa position normalement en multipliant par la vitesse
+                    this.setPosition(x_arrivee, y_arrivee);
                 }
-            } else {
-                if (getSpeed() == 0.5) {
-                    this.setSpeed(getDefaultSpeed());
-                }
-            }
 
-            // Quand il rejoint le centre d'une tuile :  il calcule sa nouvelle intention ou direction
-            if (this.getX() % Maze.TILE_WIDTH == Maze.TITLE_CENTER_X
-                    && this.getY() % Maze.TILE_HEIGHT == Maze.TITLE_CENTER_Y) {
-                this.Direction = this.intention;
 
-                if (this.getGhostState().equals(GhostState.FRIGHTENED_END) || this.getGhostState().equals(GhostState.FRIGHTENED)) {
-                    if (this.getBoard().getMaze().IsIntersection(this.getCurrentTile(), this.getDirection())){
-                        fr.upsaclay.bibs.pacman.model.Direction dir = this.getDirection().reverse();
-
-                        while (dir.reverse().equals(this.getDirection()) || this.getBoard().getMaze().getNeighbourTile(this.getCurrentTile(), dir).isWall()) {
-                            dir = this.getBoard().getRandomDirection();
-                        }
-                        this.setIntention(dir);
-                        this.Direction = this.intention;
+                //S'il est sur une tuile à vitesse lente
+                if (this.getBoard().getMaze().getTile(this.getCurrentTile()) == Tile.SL) {
+                    if (getSpeed() == getDefaultSpeed()) {
+                        this.setSpeed(0.5);
                     }
-                }else{
-                    //il applique son intention et met donc à jour sa direction
-                this.intention = getNextIntention(this.getCurrentTile());
+                } else {
+                    if (getSpeed() == 0.5) {
+                        this.setSpeed(getDefaultSpeed());
+                    }
+                }
+
+                // Quand il rejoint le centre d'une tuile :  il calcule sa nouvelle intention ou direction
+                if (this.getX() % Maze.TILE_WIDTH == Maze.TITLE_CENTER_X
+                        && this.getY() % Maze.TILE_HEIGHT == Maze.TITLE_CENTER_Y) {
+                    this.Direction = this.intention;
+
+                    if (this.getGhostState().equals(GhostState.FRIGHTENED_END) || this.getGhostState().equals(GhostState.FRIGHTENED)) {
+                        if (this.getBoard().getMaze().IsIntersection(this.getCurrentTile(), this.getDirection())) {
+                            fr.upsaclay.bibs.pacman.model.Direction dir = this.getDirection().reverse();
+
+                            while (dir.reverse().equals(this.getDirection()) || this.getBoard().getMaze().getNeighbourTile(this.getCurrentTile(), dir).isWall()) {
+                                dir = this.getBoard().getRandomDirection();
+                            }
+                            this.setIntention(dir);
+                            this.Direction = this.intention;
+                        }
+                    } else {
+                        //il applique son intention et met donc à jour sa direction
+                        this.intention = getNextIntention(this.getCurrentTile());
+                    }
+                }
             }
-        }
     }
 
     public fr.upsaclay.bibs.pacman.model.Direction getNextIntention(TilePosition depart) {
@@ -155,82 +143,90 @@ public abstract class AbstractGhost extends AbstractActor implements Ghost {
     public void nextFrame() {
 
         this.nextMove();
-        if (this.getGhostState().equals(GhostState.FRIGHTENED) || this.getGhostState().equals(GhostState.FRIGHTENED_END)) {
+        switch (this.getGhostState()){
+            case FRIGHTENED:
+            case FRIGHTENED_END:
 
-            this.setFrightenedCounter(this.getFrightenedCounter() +1);
+                this.setFrightenedCounter(this.getFrightenedCounter() +1);
 
-            if (this.getFrightenedCounter() == this.getBoard().getFrightenedtime() * 60 - this.getBoard().getNbFlashes() * 10) {
-                    this.changeGhostState(GhostState.FRIGHTENED_END);
-            } else if (this.getFrightenedCounter() == this.getBoard().getFrightenedtime() * 60) {
-                this.changeGhostState(this.getPreviousGhostState());
-                this.setFrightenedCounter(0);
-                this.getBoard().setEatGhost(0);
-
-            }
-
-        } else {
-            this.getBoard().setStateCounter(this.getBoard().getStateCounter() +1);
-
-            //Maintenant on regarde l'alternance des phases des fantomes
-            double time = this.getBoard().getStateCounter() /(60*4);
-
-            int level = this.getBoard().getLevel();
-
-            if (level >= 1) {
-                if (time == 7) {
-                    this.changeGhostState(GhostState.CHASE);
-                } else if (time == 27) {
-                    this.changeGhostState(GhostState.SCATTER);
-                } else if (time == 34) {
-                    this.changeGhostState(GhostState.CHASE);
-                } else if (time == 54) {
-                    this.changeGhostState(GhostState.SCATTER);
-                } else if (time == 59) {
-                    this.changeGhostState(GhostState.CHASE);
-
-                } else if (time == 79) {
-                    this.changeGhostState(GhostState.SCATTER);
-                } else if (time == 84) {
-                    this.changeGhostState(GhostState.CHASE);
-                }
-
-            } else if (level > 1 && level < 5) {
-                if (time == 7) {
-                    this.changeGhostState(GhostState.CHASE);
-                } else if (time == 27) {
-                    this.changeGhostState(GhostState.SCATTER);
-                } else if (time == 34) {
-                    this.changeGhostState(GhostState.CHASE);
-                } else if (time == 54) {
-                    this.changeGhostState(GhostState.SCATTER);
-                } else if (time == 59) {
-                    this.changeGhostState(GhostState.CHASE);
-                } else if (time == 1092) {
-                    this.changeGhostState(GhostState.SCATTER);
-                } else if (time == (1092 + 1 / 60)) {
-                    this.changeGhostState(GhostState.CHASE);
+                if (this.getFrightenedCounter() == this.getBoard().getFrightenedtime() * 60 - this.getBoard().getNbFlashes() * 10) {
+                        this.changeGhostState(GhostState.FRIGHTENED_END);
+                } else if (this.getFrightenedCounter() == this.getBoard().getFrightenedtime() * 60) {
+                    this.changeGhostState(this.getPreviousGhostState());
+                    this.setFrightenedCounter(0);
+                    this.getBoard().setEatGhost(0);
 
                 }
+                break;
 
-            } else {
-                if (time == 5) {
-                    this.changeGhostState(GhostState.CHASE);
-                } else if (time == 25) {
-                    this.changeGhostState(GhostState.SCATTER);
-                } else if (time == 30) {
-                    this.changeGhostState(GhostState.CHASE);
-                } else if (time == 50) {
-                    this.changeGhostState(GhostState.SCATTER);
-                } else if (time == 55) {
-                    this.changeGhostState(GhostState.CHASE);
-                } else if (time == 1092) {
-                    this.changeGhostState(GhostState.SCATTER);
-                } else if (time == (1092 + 1 / 60)) {
-                    this.changeGhostState(GhostState.CHASE);
+            case SCATTER:
+            case CHASE:
+                this.getBoard().setStateCounter(this.getBoard().getStateCounter() +1);
+                double time = this.getBoard().getStateCounter() /(60*4);
+
+                int level = this.getBoard().getLevel();
+
+                if (level >= 1) {
+                    if (time == 7) {
+                        this.changeGhostState(GhostState.CHASE);
+                    } else if (time == 27) {
+                        this.changeGhostState(GhostState.SCATTER);
+                    } else if (time == 34) {
+                        this.changeGhostState(GhostState.CHASE);
+                    } else if (time == 54) {
+                        this.changeGhostState(GhostState.SCATTER);
+                    } else if (time == 59) {
+                        this.changeGhostState(GhostState.CHASE);
+
+                    } else if (time == 79) {
+                        this.changeGhostState(GhostState.SCATTER);
+                    } else if (time == 84) {
+                        this.changeGhostState(GhostState.CHASE);
+                    }
+
+                } else if (level > 1 && level < 5) {
+                    if (time == 7) {
+                        this.changeGhostState(GhostState.CHASE);
+                    } else if (time == 27) {
+                        this.changeGhostState(GhostState.SCATTER);
+                    } else if (time == 34) {
+                        this.changeGhostState(GhostState.CHASE);
+                    } else if (time == 54) {
+                        this.changeGhostState(GhostState.SCATTER);
+                    } else if (time == 59) {
+                        this.changeGhostState(GhostState.CHASE);
+                    } else if (time == 1092) {
+                        this.changeGhostState(GhostState.SCATTER);
+                    } else if (time == (1092 + 1 / 60)) {
+                        this.changeGhostState(GhostState.CHASE);
+
+                    }
+
+                } else {
+                    if (time == 5) {
+                        this.changeGhostState(GhostState.CHASE);
+                    } else if (time == 25) {
+                        this.changeGhostState(GhostState.SCATTER);
+                    } else if (time == 30) {
+                        this.changeGhostState(GhostState.CHASE);
+                    } else if (time == 50) {
+                        this.changeGhostState(GhostState.SCATTER);
+                    } else if (time == 55) {
+                        this.changeGhostState(GhostState.CHASE);
+                    } else if (time == 1092) {
+                        this.changeGhostState(GhostState.SCATTER);
+                    } else if (time == (1092 + 1 / 60)) {
+                        this.changeGhostState(GhostState.CHASE);
+
+                    }
 
                 }
-
-            }
+                break;
+            default:
+                if (this.getCurrentTile().equals(this.getTarget())){
+                    changeGhostState(this.previousState);
+                }
+                break;
         }
     }
 

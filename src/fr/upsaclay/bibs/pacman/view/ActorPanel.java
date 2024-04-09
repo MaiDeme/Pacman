@@ -75,6 +75,7 @@ public class ActorPanel extends JPanel {
         GhostSprites.put("ghost_DOWN",loader.loadSprites("resources/ghosts/DOWN.txt"));
         GhostSprites.put("ghost_RIGHT",loader.loadSprites("resources/ghosts/RIGHT.txt"));
         GhostSprites.put("ghost_frightened",loader.loadSprites("resources/ghosts/frightened.txt"));
+        GhostSprites.put("ghost_dead",loader.loadSprites("resources/ghosts/dead.txt"));
 
 
 
@@ -126,7 +127,7 @@ public class ActorPanel extends JPanel {
             }
 
         } else if (ghost.getGhostState().equals(GhostState.FRIGHTENED_END)) {
-            String[][] sprite = GhostSprites.get( "ghost_"+"frightened");
+            String[][] sprite = GhostSprites.get("ghost_" + "frightened");
             if (ghost.getFrightenedCounter() % 10 > 0 && ghost.getFrightenedCounter() % 10 < 5) {
                 for (int y = 0; y < sprite.length; y++) {
                     for (int x = 0; x < sprite[y].length; x++) {
@@ -141,6 +142,23 @@ public class ActorPanel extends JPanel {
                             g.fillRect((x + i) * size, (y + j) * size, size, size);
                         }
                     }
+                }
+            }
+        }else if (ghost.getGhostState().equals(GhostState.DEAD)){
+            String[][] sprite = GhostSprites.get( "ghost_"+"dead");
+            for (int y = 0; y < sprite.length; y++) {
+                for (int x = 0; x < sprite[y].length; x++) {
+                    if (sprite[y][x].equals("1")) {
+                        g.setColor(new Color(236,212,83));
+                        g.fillRect((x + i) * size, (y + j) * size, size, size);
+                    } else if (sprite[y][x].equals("2")) {
+                        g.setColor(Color.WHITE);
+                        g.fillRect((x + i) * size, (y + j) * size, size, size);
+                    } else if (sprite[y][x].equals("3")) {
+                        g.setColor(Color.BLACK);
+                        g.fillRect((x + i) * size, (y + j) * size, size, size);
+                    }
+
                 }
             }
 

@@ -12,7 +12,7 @@ public class Blinky extends AbstractGhost {
 
     public Blinky(Board board, ActorType type) {
         super(board, type);
-        setGhostPenState(GhostPenState.IN);
+        setGhostPenState(GhostPenState.OUT);
         setGhostState(GhostState.SCATTER);
     }
 
@@ -64,7 +64,7 @@ public class Blinky extends AbstractGhost {
             case FRIGHTENED_END:
                 return null;
             case DEAD:
-                return new TilePosition(11,9);
+                return new TilePosition(14,13);
         }
 
     }

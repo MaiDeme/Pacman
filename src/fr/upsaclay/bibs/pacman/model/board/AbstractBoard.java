@@ -180,11 +180,14 @@ public abstract class AbstractBoard implements Board {
                                 this.setScore(this.getScore() + 12000);
                                 allfour = 0;
                             }
+                            break;
                         case SCATTER:
                         case CHASE:
                             this.setNumberOfLives(this.getNumberOfLives() -1);
                             setBoardState(BoardState.LIFE_OVER);
-                            this.setStateCounter(0);
+                            break;
+                        default:
+                            break;
                     }
                 }
             }
@@ -304,12 +307,12 @@ public abstract class AbstractBoard implements Board {
      * (reduce the nb of lives, replace the actors, re-initialize certain values)
      */
     public void initializeNewLife() {
-        startActors();
-        pacman.setSpeed(1);
-
         for(Ghost g : ghosts){
             g.setSpeed(g.getDefaultSpeed());
         }
+        pacman.setSpeed(1);
+        this.setStateCounter(0);
+        startActors();
 
     }
 

@@ -91,7 +91,7 @@ public class Inky extends AbstractGhost {
             case FRIGHTENED_END:
                 return null;
             default:
-                return new TilePosition(11, 9);
+                return new TilePosition(14,13);
         }
     }
 
