@@ -18,5 +18,6 @@ public enum BoardState {
     /** PacMan looses a life (eaten by a ghost) **/
     LIFE_OVER,
     /** PacMan has lost all his lives **/
-    GAME_OVER
+    GAME_OVER,
+
 }

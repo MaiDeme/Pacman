@@ -38,4 +38,5 @@ public enum GameAction {
     /** Ask  the controller to load the board after pac man has lost a life **/
     NEW_LIFE;
 
+
 }

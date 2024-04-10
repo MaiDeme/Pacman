@@ -151,7 +151,7 @@ public abstract class AbstractGhost extends AbstractActor implements Ghost {
 
                 if (this.getFrightenedCounter() == this.getBoard().getFrightenedtime() * 60 - this.getBoard().getNbFlashes() * 10) {
                         this.changeGhostState(GhostState.FRIGHTENED_END);
-                } else if (this.getFrightenedCounter() == this.getBoard().getFrightenedtime() * 60) {
+                } else if (this.getFrightenedCounter() >= this.getBoard().getFrightenedtime() * 60) {
                     this.changeGhostState(this.getPreviousGhostState());
                     this.setFrightenedCounter(0);
                     this.getBoard().setEatGhost(0);
@@ -167,9 +167,8 @@ public abstract class AbstractGhost extends AbstractActor implements Ghost {
                 int level = this.getBoard().getLevel();
 
                 if (level == 1) {
-                    if (time == 7 || time ==2) {
-                        this.getBoard().setBoardState(BoardState.LEVEL_OVER);
-                        //this.changeGhostState(GhostState.CHASE);
+                    if (time == 7) {
+                        this.changeGhostState(GhostState.CHASE);
                     } else if (time == 27) {
                         this.changeGhostState(GhostState.SCATTER);
                     } else if (time == 34) {

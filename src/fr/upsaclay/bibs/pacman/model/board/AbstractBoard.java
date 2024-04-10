@@ -201,6 +201,7 @@ public abstract class AbstractBoard implements Board {
             setBoardState(BoardState.GAME_OVER);
         }
 
+
     }
 
 
@@ -282,7 +283,7 @@ public abstract class AbstractBoard implements Board {
      * @throws PacManException if anything goes wrong
      */
     public void initializeNewLevel(int level) throws PacManException {
-        this.level = level +1 ;
+        this.level = level ;
         this.initialize();
         this.setStateCounter(0);
         allfour = 0;

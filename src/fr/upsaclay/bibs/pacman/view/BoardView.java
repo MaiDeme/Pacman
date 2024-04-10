@@ -164,15 +164,20 @@ public class BoardView extends JFrame implements PacManView {
         nextLevelPanel = new JPanel(new GridBagLayout());
         nextLevelPanel.setPreferredSize(
                 new Dimension(drawPanel.getPreferredSize().width, drawPanel.getPreferredSize().height));
-        nextLevelPanel.setBackground(new Color(128, 128, 128, 100)); // semi transparent parce que le jeu est en pause
-        keyLevel = new KeyLevel(controller);
-        drawPanel.add(nextLevelPanel);
+        nextLevelPanel.setBackground(new Color(128, 128, 128, 100));
 
-        JLabel nextLevelLabel = new JLabel("PRESS SPACE FOR NEXT LEVEL");
+        keyLevel = new KeyLevel(controller);
+
+        JLabel nextLevelLabel = new JLabel("PRESS SPACE TO START THE NEXT LEVEL");
+        Font labelFont = nextLevelLabel.getFont();
+        float fontSize = labelFont.getSize() + 10;
+        nextLevelLabel.setFont(labelFont.deriveFont(fontSize));
         nextLevelLabel.setForeground(Color.WHITE);
         gbc.gridy = 1;
 
         nextLevelPanel.add(nextLevelLabel, gbc);
+
+        drawPanel.add(nextLevelPanel);
 
 
         //Pacman panel
@@ -233,6 +238,7 @@ public class BoardView extends JFrame implements PacManView {
 
     private void drawInitView() {
         initialPanel.addKeyListener(startkey);
+        drawPanel.removeKeyListener(keyLevel);
         initialPanel.setVisible(true);
         initialPanel.setFocusable(true);
         initialPanel.requestFocusInWindow();
@@ -251,6 +257,8 @@ public class BoardView extends JFrame implements PacManView {
         add(drawPanel, BorderLayout.CENTER);
 
         initialPanel.removeKeyListener(startkey);
+        drawPanel.removeKeyListener(keyLevel);
+        drawPanel.removeKeyListener(keylist);
         initialPanel.setFocusable(false);
         initialPanel.setVisible(false);
 
@@ -270,6 +278,7 @@ public class BoardView extends JFrame implements PacManView {
     private void drawPauseView() {
         timer.stop();
         drawPanel.removeKeyListener(keylist);
+        drawPanel.removeKeyListener(keyLevel);
         drawPanel.setFocusable(false);
         add(drawPanel, BorderLayout.CENTER);
         initialPanel.setVisible(false);
@@ -280,6 +289,7 @@ public class BoardView extends JFrame implements PacManView {
     private void drawGameOverView() {
     
         drawPanel.removeKeyListener(keylist);
+        drawPanel.removeKeyListener(keyLevel);
         drawPanel.setFocusable(false);
         add(drawPanel, BorderLayout.CENTER);
         drawPanel.setVisible(true);
@@ -292,6 +302,7 @@ public class BoardView extends JFrame implements PacManView {
     private void drawDeathAnimation() {
 
         drawPanel.removeKeyListener(keylist);
+        drawPanel.removeKeyListener(keyLevel);
         drawPanel.setFocusable(false);
         add(drawPanel, BorderLayout.CENTER);
         drawPanel.setVisible(true);
@@ -303,17 +314,15 @@ public class BoardView extends JFrame implements PacManView {
     private void drawNextLevelView() {
         timer.stop();
         drawPanel.removeKeyListener(keylist);
-        drawPanel.setFocusable(false);
+        drawPanel.addKeyListener(keyLevel);
+        drawPanel.setFocusable(true);
+        drawPanel.requestFocusInWindow();
 
-        nextLevelPanel.addKeyListener(keyLevel);
-        nextLevelPanel.setFocusable(true);
-        nextLevelPanel.requestFocusInWindow();
-        add(drawPanel, BorderLayout.CENTER);
 
         nextLevelPanel.setVisible(true);
-        drawPanel.setVisible(true);
         pausePanel.setVisible(false);
         gameOverPanel.setVisible(false);
         initialPanel.setVisible(false);
+
     }
 }

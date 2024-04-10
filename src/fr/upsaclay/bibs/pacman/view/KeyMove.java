@@ -58,6 +58,14 @@ public class KeyMove implements KeyListener{
                     e1.printStackTrace();
                 }
                 break;
+            case KeyEvent.VK_ENTER:
+                System.out.println("Actual Level : " + Integer.toString(this.controller.getBoard().getLevel()) + "    Next Level : " + Integer.toString(this.controller.getBoard().getLevel()+1));
+                try {
+                    controller.receiveAction(GameAction.NEXT_LEVEL);
+                } catch (PacManException e1) {
+                    e1.printStackTrace();
+                }
+                break;
         
             default:
                 break;

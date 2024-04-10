@@ -19,7 +19,6 @@ public class KeyLevel implements KeyListener{
     public void keyPressed(KeyEvent e){
         switch (e.getKeyCode()) {
             case KeyEvent.VK_SPACE:
-                System.out.println("SPACE key pressed");
                 try {
                     controller.receiveAction(GameAction.NEXT_LEVEL);
                 } catch (PacManException e1) {
