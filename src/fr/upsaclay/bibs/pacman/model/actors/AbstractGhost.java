@@ -166,7 +166,7 @@ public abstract class AbstractGhost extends AbstractActor implements Ghost {
 
                 int level = this.getBoard().getLevel();
 
-                if (level >= 1) {
+                if (level == 1) {
                     if (time == 7) {
                         this.changeGhostState(GhostState.CHASE);
                     } else if (time == 27) {
