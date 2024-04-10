@@ -279,8 +279,10 @@ public abstract class AbstractBoard implements Board {
      * @throws PacManException if anything goes wrong
      */
     public void initializeNewLevel(int level) throws PacManException {
+        startActors();
         this.level++;
         this.initialize();
+        startActors();
 
     }
 
