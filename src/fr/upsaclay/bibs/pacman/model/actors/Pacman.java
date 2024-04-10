@@ -42,7 +42,7 @@ public class Pacman extends AbstractActor {
             this.x = 35;
             this.y = 75;
         }
-
+        this.setDirection(fr.upsaclay.bibs.pacman.model.Direction.LEFT);
     }
 
     @Override

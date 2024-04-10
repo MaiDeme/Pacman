@@ -40,7 +40,8 @@ public abstract class AbstractBoard implements Board {
         //create the actors
         pacman = new Pacman(this);
         this.ghosts = new ArrayList<Ghost>();
-        setBoardState(BoardState.INITIAL);
+
+        //initialize the variables
         this.setStateCounter(0);
         allfour = 0;
         this.gameType = gameType;

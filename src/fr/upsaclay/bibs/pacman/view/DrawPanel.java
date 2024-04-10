@@ -93,6 +93,13 @@ public class DrawPanel extends JPanel {
         g.drawString(Integer.toString(score), 10, 40);
     }
 
+    public void paintLevel(Graphics g) {
+        g.setColor(Color.WHITE);
+        float newSize = 15;
+        g.setFont(getFont().deriveFont(newSize));
+        g.drawString("LEVEL " + Integer.toString(getBoard().getLevel()), 325, 20);
+    }
+
     public void paintHighScore(Graphics g) {
         g.setColor(Color.WHITE);
         float newSize = 15;
@@ -129,6 +136,7 @@ public class DrawPanel extends JPanel {
         paintScore(g);
         paintHighScore(g);
         paintLives(g);
+        paintLevel(g);
 
         if (board != null && board.getBoardState() != BoardState.INITIAL) {
             for (int i = 0; i < maze.getPixelHeight(); i += 8) {

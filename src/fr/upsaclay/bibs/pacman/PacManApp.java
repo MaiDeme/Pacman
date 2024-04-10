@@ -8,6 +8,7 @@ import javax.swing.*;
 
 /**
  * The main application
+ *
  */
 public class PacManApp {
 
