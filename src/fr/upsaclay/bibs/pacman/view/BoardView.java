@@ -25,11 +25,13 @@ public class BoardView extends JFrame implements PacManView {
     JPanel initialPanel;
     JPanel pausePanel;
     JPanel gameOverPanel;
+    JPanel nextLevelPanel;
     ActorPanel actorPanel;
     Font arcadeFont;
 
     KeyStart startkey;
     KeyMove keylist;
+    KeyLevel keyLevel;
 
     public BoardView(String name, int width, int height) {
         super(name);
@@ -156,11 +158,29 @@ public class BoardView extends JFrame implements PacManView {
         drawPanel.add(gameOverPanel);
         gameOverPanel.setFont(arcadeFont);
 
+
+
+        //Next Level Panel
+        nextLevelPanel = new JPanel(new GridBagLayout());
+        nextLevelPanel.setPreferredSize(
+                new Dimension(drawPanel.getPreferredSize().width, drawPanel.getPreferredSize().height));
+        nextLevelPanel.setBackground(new Color(128, 128, 128, 100)); // semi transparent parce que le jeu est en pause
+        keyLevel = new KeyLevel(controller);
+        drawPanel.add(nextLevelPanel);
+
+        JLabel nextLevelLabel = new JLabel("PRESS SPACE FOR NEXT LEVEL");
+        nextLevelLabel.setForeground(Color.WHITE);
+        gbc.gridy = 1;
+
+        nextLevelPanel.add(nextLevelLabel, gbc);
+
+
         //Pacman panel
         actorPanel.setPreferredSize(new Dimension(drawPanel.getPreferredSize().width,drawPanel.getPreferredSize().height));
         drawPanel.add(actorPanel);
 
-       
+
+
 
         pack();
         setVisible(true);
@@ -195,6 +215,8 @@ public class BoardView extends JFrame implements PacManView {
                 drawGameOverView();
                 break;
             case LEVEL_OVER:
+                pause();
+                drawNextLevelView();
                 break;
             case LIFE_OVER:
                 drawDeathAnimation();
@@ -220,6 +242,7 @@ public class BoardView extends JFrame implements PacManView {
         actorPanel.setVisible(false);
         pausePanel.setVisible(false);
         gameOverPanel.setVisible(false);
+        nextLevelPanel.setVisible(false);
 
     }
 
@@ -239,6 +262,7 @@ public class BoardView extends JFrame implements PacManView {
         actorPanel.setVisible(true);
         pausePanel.setVisible(false);
         gameOverPanel.setVisible(false);
+        nextLevelPanel.setVisible(false);
        
 
     }
@@ -250,6 +274,7 @@ public class BoardView extends JFrame implements PacManView {
         add(drawPanel, BorderLayout.CENTER);
         initialPanel.setVisible(false);
         pausePanel.setVisible(true);
+        nextLevelPanel.setVisible(false);
     }
 
     private void drawGameOverView() {
@@ -261,6 +286,7 @@ public class BoardView extends JFrame implements PacManView {
         initialPanel.setVisible(false);
         pausePanel.setVisible(false);
         gameOverPanel.setVisible(true);
+        nextLevelPanel.setVisible(false);
     }
 
     private void drawDeathAnimation() {
@@ -272,7 +298,22 @@ public class BoardView extends JFrame implements PacManView {
         initialPanel.setVisible(false);
         pausePanel.setVisible(false);
         gameOverPanel.setVisible(false);
+        nextLevelPanel.setVisible(false);
     }
+    private void drawNextLevelView() {
+        timer.stop();
+        drawPanel.removeKeyListener(keylist);
+        drawPanel.setFocusable(false);
 
-    
+        nextLevelPanel.addKeyListener(keyLevel);
+        nextLevelPanel.setFocusable(true);
+        nextLevelPanel.requestFocusInWindow();
+        add(drawPanel, BorderLayout.CENTER);
+
+        nextLevelPanel.setVisible(true);
+        drawPanel.setVisible(true);
+        pausePanel.setVisible(false);
+        gameOverPanel.setVisible(false);
+        initialPanel.setVisible(false);
+    }
 }

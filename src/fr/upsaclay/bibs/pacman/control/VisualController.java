@@ -92,7 +92,7 @@ public class VisualController extends SimpleController {
                         break;
                     case LEVEL_OVER:
                         view.setLayout(PacManLayout.LEVEL_OVER);
-                        receiveAction(GameAction.NEXT_LEVEL);
+                        //receiveAction(GameAction.NEXT_LEVEL);
                         break;
                     case LIFE_OVER:
                         view.setLayout(PacManLayout.LIFE_OVER);
