@@ -44,6 +44,8 @@ public abstract class AbstractBoard implements Board {
         //initialize the variables
         this.setStateCounter(0);
         allfour = 0;
+
+
         this.gameType = gameType;
         this.boardState = BoardState.INITIAL;
         soundManager = new SoundManager();
@@ -184,7 +186,8 @@ public abstract class AbstractBoard implements Board {
                             break;
                         case SCATTER:
                         case CHASE:
-                            this.setNumberOfLives(this.getNumberOfLives() -1);
+                            //this.setNumberOfLives(this.getNumberOfLives() -1);
+                            this.setNumberOfLives(this.getNumberOfLives());
                             setBoardState(BoardState.LIFE_OVER);
                             break;
                         default:
@@ -279,9 +282,10 @@ public abstract class AbstractBoard implements Board {
      * @throws PacManException if anything goes wrong
      */
     public void initializeNewLevel(int level) throws PacManException {
-        startActors();
-        this.level++;
+        this.level = level +1 ;
         this.initialize();
+        this.setStateCounter(0);
+        allfour = 0;
         startActors();
 
     }
@@ -310,10 +314,7 @@ public abstract class AbstractBoard implements Board {
      * (reduce the nb of lives, replace the actors, re-initialize certain values)
      */
     public void initializeNewLife() {
-        for(Ghost g : ghosts){
-            g.setSpeed(g.getDefaultSpeed());
-        }
-        pacman.setSpeed(1);
+        startActors();
         this.setStateCounter(0);
         startActors();
 

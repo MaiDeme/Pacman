@@ -20,6 +20,7 @@ public class Inky extends AbstractGhost {
     public void start() {
         this.x = 96;
         this.y = 139;
+        this.setGhostState(GhostState.SCATTER);
         this.Direction = fr.upsaclay.bibs.pacman.model.Direction.LEFT;
         this.speed = this.DEFAULT_SPEED;
         TilePosition depart = this.getCurrentTile();
