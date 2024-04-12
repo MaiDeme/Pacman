@@ -179,8 +179,8 @@ public class BoardTest {
         Board testBoard = Board.createBoard(GameType.TEST);
         testBoard.initialize();
         Actor pacman = testBoard.getPacMan();
-        pacman.setDirection(Direction.RIGHT); // we go right
         testBoard.startActors();
+        pacman.setDirection(Direction.RIGHT);
         Maze maze = testBoard.getMaze();
         int nbdots = maze.getNumberOfDots();
         // Pacman is in (9,4)
@@ -256,8 +256,9 @@ public class BoardTest {
         Board testBoard = Board.createBoard(GameType.TEST);
         testBoard.initialize();
         Actor pacman = testBoard.getPacMan();
-        pacman.setDirection(Direction.UP);
+
         testBoard.startActors();
+        pacman.setDirection(Direction.UP);
         Maze maze = testBoard.getMaze();
         int nbdots = maze.getNumberOfDots();
         // Pacman is in (9,4)
@@ -275,6 +276,7 @@ public class BoardTest {
         board.initialize();
         assertEquals(board.getBoardState(), BoardState.INITIAL);
         board.startActors();
+        board.start();
         assertEquals(board.getBoardState(), BoardState.STARTED);
     }
 
@@ -293,6 +295,7 @@ public class BoardTest {
             }
         }
         testBoard.startActors();
+        testBoard.start();
         assertEquals(testBoard.getBoardState(), BoardState.STARTED);
         while (!pacman.getCurrentTile().equals(new TilePosition(9,2))) {
             testBoard.nextFrame(); // we move until we reach the tile
@@ -343,6 +346,7 @@ public class BoardTest {
         board.initializeNewLevel(2);
         assertEquals(board.getBoardState(), BoardState.INITIAL);
         board.startActors();
+        board.start();
         assertEquals(board.getBoardState(), BoardState.STARTED);
     }
 
@@ -350,7 +354,7 @@ public class BoardTest {
     public void testSetGetNumberOfLives() throws PacManException {
         Board board = Board.createBoard(GameType.CLASSIC);
         board.initialize();
-        assertEquals(board.getNumberOfLives(), 2);
+        assertEquals(board.getNumberOfLives(), 3);  //On commence avec 3 vies poar défaut dans notre code
         board.setNumberOfLives(5);
         assertEquals(board.getNumberOfLives(), 5);
     }
@@ -362,8 +366,9 @@ public class BoardTest {
         board.startActors();
         board.initializeNewLife();
         assertEquals(board.getBoardState(), BoardState.INITIAL);
-        assertEquals(board.getNumberOfLives(), 1);
+        assertEquals(board.getNumberOfLives(), 3);  //on comence avec 3 vies
         board.startActors();
+        board.start();
         assertEquals(board.getBoardState(), BoardState.STARTED);
     }
 
@@ -374,6 +379,7 @@ public class BoardTest {
         Maze maze = board.getMaze();
         Actor pacman = board.getPacMan();
         board.startActors();
+        board.start();
         // At some point, the board state should change to LIFE_OVER
         while(board.getBoardState() == BoardState.STARTED) {
             board.nextFrame();
@@ -382,7 +388,7 @@ public class BoardTest {
         assertEquals(board.getScore(), 70);
         assertEquals(board.getMaze().getNumberOfDots(), 237);
         board.initializeNewLife();
-        assertEquals(board.getNumberOfLives(), 1);
+        assertEquals(board.getNumberOfLives(), 2); //On commence avec 3 vies
         assertEquals(board.getScore(), 70);
         assertEquals(board.getMaze().getNumberOfDots(), 237);
         board.startActors();
