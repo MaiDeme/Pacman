@@ -26,13 +26,14 @@ public abstract class AbstractBoard implements Board {
     // Pour les étapes 2 à 4 :
     protected Bonus bonus;
     protected int extraLifeScore;
-    protected int extraLives = 1;
+    protected int extraLives = 3;
     protected int level;
     public List<Ghost> ghosts;
     protected int score;
     protected int stateCounter;
     protected int eatGhost;
-    int allfour;
+    protected int allfour;
+    protected boolean extraLifeDone;
 
 
     public AbstractBoard(GameType gameType) {
@@ -44,6 +45,9 @@ public abstract class AbstractBoard implements Board {
         //initialize the variables
         this.setStateCounter(0);
         allfour = 0;
+        this.setExtraLifeScore(10000);
+        this.extraLifeDone = false;
+        this.score = 0;
 
 
         this.gameType = gameType;
@@ -200,6 +204,10 @@ public abstract class AbstractBoard implements Board {
             setBoardState(BoardState.GAME_OVER);
         }
 
+        if (this.score >= this.getExtraLifeScore() && !this.extraLifeDone){
+            this.setNumberOfLives(this.extraLives + 1);
+            this.extraLifeDone = true;
+        }
 
     }
 
