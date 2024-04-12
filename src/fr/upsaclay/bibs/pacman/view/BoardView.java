@@ -117,7 +117,7 @@ public class BoardView extends JFrame implements PacManView {
         } catch (FontFormatException | IOException e) {
             e.printStackTrace();
         }
-        pausedLabel.setForeground(Color.WHITE); // Couleur jaune
+        pausedLabel.setForeground(Color.RED); // Couleur jaune
 
     // Positionnement du label en haut du panneau pause
         gbc.gridx = 0;
@@ -355,7 +355,7 @@ public class BoardView extends JFrame implements PacManView {
         button.setOpaque(false);
         button.setContentAreaFilled(false); // Assurez-vous que la zone de contenu est également transparente
         button.setBorderPainted(false); // Masquer le contour
-        button.setForeground(Color.YELLOW); // Couleur du texte
+        button.setForeground(Color.WHITE); // Couleur du texte
     }
 
 }

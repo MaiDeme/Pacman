@@ -10,7 +10,9 @@ public class GameOver extends JPanel {
 
     public GameOver() {
         super();
+
         this.setBackground(new Color(0, 0, 0, 0));
+
 
         Timer timer = new Timer(500, new ActionListener() {
 
@@ -21,7 +23,6 @@ public class GameOver extends JPanel {
                 } else {
                     currentColor = Color.RED;
                 }
-
                 // Redraw the panel
                 repaint();
             }
@@ -35,9 +36,6 @@ public class GameOver extends JPanel {
     protected void paintComponent(Graphics g) {
         super.paintComponent(g);
 
-        g.setFont(getFont().deriveFont(Font.BOLD, 15));
-        g.setColor(currentColor);
-
         String[] lines = {
                 "Game Over",
                 "Space : Start a new Game",
@@ -46,16 +44,28 @@ public class GameOver extends JPanel {
         };
 
         FontMetrics metrics = g.getFontMetrics(g.getFont());
+
         int lineHeight = metrics.getHeight();
 
         int y = (this.getHeight() - (lineHeight * lines.length)) / 2;
 
         // Draw each line separately
         for (String line : lines) {
-            int x = (this.getWidth() - metrics.stringWidth(line)) / 2;
-            g.drawString(line, x, y);
-            y += lineHeight + 20; // Move to the next line
-        }
 
+            if (line.equals("Game Over")) {
+                g.setFont(getFont().deriveFont(Font.BOLD, 30));
+                g.setColor(currentColor);
+                int x = (this.getWidth() - metrics.stringWidth(line)*30) / 2;
+                g.drawString(line, x, y);
+                y += lineHeight + 30; // Move to the next line
+            }else{
+                g.setFont(getFont().deriveFont(Font.PLAIN, 10));
+                int x = (this.getWidth() - metrics.stringWidth(line)*10) / 2;
+                g.setColor(Color.WHITE);
+                g.drawString(line, x, y);
+                y += lineHeight + 30; // Move to the next line
+            }
+        }
     }
+
 }
