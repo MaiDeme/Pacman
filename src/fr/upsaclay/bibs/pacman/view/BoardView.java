@@ -32,6 +32,7 @@ public class BoardView extends JFrame implements PacManView {
     KeyStart startkey;
     KeyMove keylist;
     KeyLevel keyLevel;
+    KeyGameOver keyGameOver;
 
     public BoardView(String name, int width, int height) {
         super(name);
@@ -101,52 +102,58 @@ public class BoardView extends JFrame implements PacManView {
         pausePanel = new JPanel(new GridBagLayout());
         pausePanel.setPreferredSize(
                 new Dimension(drawPanel.getPreferredSize().width, drawPanel.getPreferredSize().height));
+        pausePanel.setBackground(new Color(128, 128, 128, 100));
+        drawPanel.add(pausePanel);
 
         GridBagConstraints gbc = new GridBagConstraints();
 
-        JButton ResumeButton;
-        ResumeButton = new JButton("Resume");
-        ResumeButton.addActionListener(new ButtonListener(controller, GameAction.RESUME));
+
+        /// Création du label pour afficher "GAME PAUSED"
+        JLabel pausedLabel = new JLabel("GAME PAUSED");
+        try {
+            Font arcadeFont = Font.createFont(Font.TRUETYPE_FONT, new File("resources/Emulogic-zrEw.ttf")).deriveFont(30f);
+            // Définir la taille de la police à 30
+            pausedLabel.setFont(arcadeFont); // Police en gras, taille 30
+        } catch (FontFormatException | IOException e) {
+            e.printStackTrace();
+        }
+        pausedLabel.setForeground(Color.WHITE); // Couleur jaune
+
+    // Positionnement du label en haut du panneau pause
         gbc.gridx = 0;
         gbc.gridy = 0;
+        gbc.anchor = GridBagConstraints.PAGE_START; // Ancrer en haut du panneau
+        pausePanel.add(pausedLabel, gbc);
 
-        gbc.insets = new Insets(10, 0, 10, 0); // 10 pixels of padding above and below
-
-        pausePanel.add(ResumeButton, gbc);
-
-        JButton RestartButton;
-        RestartButton = new JButton("Start New Game");
-        RestartButton.addActionListener(new ButtonListener(controller, GameAction.NEW_GAME));
-        gbc.gridx = 0;
-        gbc.gridy = 30;
-        gbc.insets = new Insets(10, 0, 10, 0); // 10 pixels of padding above and below
-
-        pausePanel.add(RestartButton, gbc);
-
-        JButton TitleButton;
-        TitleButton = new JButton("Back to title screen");
-        TitleButton.addActionListener(new ButtonListener(controller, GameAction.TITLE_SCREEN));
-        gbc.gridx = 0;
-        gbc.gridy = 40;
-        gbc.insets = new Insets(10, 0, 10, 0); // 10 pixels of padding above and below
-
-        pausePanel.add(TitleButton, gbc);
-
-        pausePanel.setBackground(new Color(128, 128, 128, 100)); // semi transparent parce que le jeu est en pause
-        JLabel pauseLabel = new JLabel("Game Paused");
-        pauseLabel.setForeground(Color.WHITE);
+    // Décalage de la position des boutons en dessous du label
         gbc.gridy = 1;
 
-        pausePanel.add(pauseLabel, gbc);
+    // Création des boutons avec une police personnalisée et une taille de police spécifique
+        JButton resumeButton = new JButton("Resume");
+        styleButton(resumeButton);
+        resumeButton.addActionListener(new ButtonListener(controller, GameAction.RESUME));
+        pausePanel.add(resumeButton, gbc);
 
-        drawPanel.add(pausePanel);
-        gbc.gridy = 2;
+        JButton restartButton = new JButton("Start New Game");
+        styleButton(restartButton);
+        restartButton.addActionListener(new ButtonListener(controller, GameAction.NEW_GAME));
+        gbc.gridy++; // Incrémenter la position en y pour le bouton suivant
+        pausePanel.add(restartButton, gbc);
 
-        JButton QuitButton;
+        JButton titleButton = new JButton("Back to title screen");
+        styleButton(titleButton);
+        titleButton.addActionListener(new ButtonListener(controller, GameAction.TITLE_SCREEN));
+        gbc.gridy++; // Incrémenter la position en y pour le bouton suivant
+        pausePanel.add(titleButton, gbc);
 
-        QuitButton = new JButton("Quit");
-        QuitButton.addActionListener(new ButtonListener(controller, GameAction.QUIT));
-        pausePanel.add(QuitButton, gbc);
+        JButton quitButton = new JButton("Quit");
+        styleButton(quitButton);
+        quitButton.addActionListener(new ButtonListener(controller, GameAction.QUIT));
+        gbc.gridy++; // Incrémenter la position en y pour le bouton suivant
+        pausePanel.add(quitButton, gbc);
+
+
+
 
         keylist = new KeyMove(controller);
 
@@ -157,6 +164,7 @@ public class BoardView extends JFrame implements PacManView {
                 new Dimension(drawPanel.getPreferredSize().width, drawPanel.getPreferredSize().height));
         drawPanel.add(gameOverPanel);
         gameOverPanel.setFont(arcadeFont);
+        keyGameOver = new KeyGameOver(controller);
 
 
 
@@ -183,8 +191,6 @@ public class BoardView extends JFrame implements PacManView {
         //Pacman panel
         actorPanel.setPreferredSize(new Dimension(drawPanel.getPreferredSize().width,drawPanel.getPreferredSize().height));
         drawPanel.add(actorPanel);
-
-
 
 
         pack();
@@ -238,7 +244,7 @@ public class BoardView extends JFrame implements PacManView {
 
     private void drawInitView() {
         initialPanel.addKeyListener(startkey);
-        drawPanel.removeKeyListener(keyLevel);
+        drawPanel.removeKeyListener(keyGameOver);
         initialPanel.setVisible(true);
         initialPanel.setFocusable(true);
         initialPanel.requestFocusInWindow();
@@ -250,6 +256,7 @@ public class BoardView extends JFrame implements PacManView {
         gameOverPanel.setVisible(false);
         nextLevelPanel.setVisible(false);
 
+
     }
 
     private void drawPlayView() {
@@ -259,6 +266,7 @@ public class BoardView extends JFrame implements PacManView {
         initialPanel.removeKeyListener(startkey);
         drawPanel.removeKeyListener(keyLevel);
         drawPanel.removeKeyListener(keylist);
+        drawPanel.removeKeyListener(keyGameOver);
         initialPanel.setFocusable(false);
         initialPanel.setVisible(false);
 
@@ -271,7 +279,6 @@ public class BoardView extends JFrame implements PacManView {
         pausePanel.setVisible(false);
         gameOverPanel.setVisible(false);
         nextLevelPanel.setVisible(false);
-       
 
     }
 
@@ -287,22 +294,30 @@ public class BoardView extends JFrame implements PacManView {
     }
 
     private void drawGameOverView() {
-    
+
+        timer.stop();
         drawPanel.removeKeyListener(keylist);
         drawPanel.removeKeyListener(keyLevel);
-        drawPanel.setFocusable(false);
-        add(drawPanel, BorderLayout.CENTER);
-        drawPanel.setVisible(true);
-        initialPanel.setVisible(false);
-        pausePanel.setVisible(false);
+        actorPanel.setFocusable(false);
+
+        add(gameOverPanel, BorderLayout.CENTER);
+
+
+        drawPanel.setFocusable(true);
+        drawPanel.requestFocusInWindow();
+        drawPanel.addKeyListener(keyGameOver);
+
+
         gameOverPanel.setVisible(true);
-        nextLevelPanel.setVisible(false);
+        drawPanel.setVisible(true);
+        System.out.println("KeyGameOver ajoute");
     }
 
     private void drawDeathAnimation() {
 
         drawPanel.removeKeyListener(keylist);
         drawPanel.removeKeyListener(keyLevel);
+        drawPanel.removeKeyListener(keyGameOver);
         drawPanel.setFocusable(false);
         add(drawPanel, BorderLayout.CENTER);
         drawPanel.setVisible(true);
@@ -325,4 +340,22 @@ public class BoardView extends JFrame implements PacManView {
         initialPanel.setVisible(false);
 
     }
+
+
+    // Fonction pour appliquer le style aux boutons
+    private void styleButton(JButton button) {
+        try {
+            Font arcadeFont = Font.createFont(Font.TRUETYPE_FONT, new File("resources/Emulogic-zrEw.ttf")).deriveFont(15f);
+            // Définir la taille de la police à 20
+            button.setFont(arcadeFont); // Définir la police
+        } catch (FontFormatException | IOException e) {
+            e.printStackTrace();
+        }
+
+        button.setOpaque(false);
+        button.setContentAreaFilled(false); // Assurez-vous que la zone de contenu est également transparente
+        button.setBorderPainted(false); // Masquer le contour
+        button.setForeground(Color.YELLOW); // Couleur du texte
+    }
+
 }

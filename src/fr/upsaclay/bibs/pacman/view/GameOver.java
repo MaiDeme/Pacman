@@ -10,7 +10,7 @@ public class GameOver extends JPanel {
 
     public GameOver() {
         super();
-        this.setBackground(new Color(0,0,0,0));
+        this.setBackground(new Color(0, 0, 0, 0));
 
         Timer timer = new Timer(500, new ActionListener() {
 
@@ -38,11 +38,24 @@ public class GameOver extends JPanel {
         g.setFont(getFont().deriveFont(Font.BOLD, 15));
         g.setColor(currentColor);
 
-        String message = "Game Over";
-        FontMetrics metrics = g.getFontMetrics(g.getFont());
-        int x = (this.getWidth() - metrics.stringWidth(message)) / 2;
-        int y = 325;  // Adjust this value to move the text up or down
+        String[] lines = {
+                "Game Over",
+                "Space : Start a new Game",
+                "Escape : Back to Title Screen",
+                "Delete : Quit"
+        };
 
-        g.drawString(message, x, y);
+        FontMetrics metrics = g.getFontMetrics(g.getFont());
+        int lineHeight = metrics.getHeight();
+
+        int y = (this.getHeight() - (lineHeight * lines.length)) / 2;
+
+        // Draw each line separately
+        for (String line : lines) {
+            int x = (this.getWidth() - metrics.stringWidth(line)) / 2;
+            g.drawString(line, x, y);
+            y += lineHeight + 20; // Move to the next line
+        }
+
     }
 }

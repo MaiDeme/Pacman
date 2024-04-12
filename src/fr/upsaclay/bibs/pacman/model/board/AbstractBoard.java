@@ -26,7 +26,7 @@ public abstract class AbstractBoard implements Board {
     // Pour les étapes 2 à 4 :
     protected Bonus bonus;
     protected int extraLifeScore;
-    protected int extraLives = 3;
+    protected int extraLives = 1;
     protected int level;
     public List<Ghost> ghosts;
     protected int score;
