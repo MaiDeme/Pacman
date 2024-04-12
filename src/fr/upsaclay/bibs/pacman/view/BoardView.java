@@ -310,7 +310,6 @@ public class BoardView extends JFrame implements PacManView {
 
         gameOverPanel.setVisible(true);
         drawPanel.setVisible(true);
-        System.out.println("KeyGameOver ajoute");
     }
 
     private void drawDeathAnimation() {

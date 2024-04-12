@@ -103,7 +103,7 @@ public interface Board {
         }
 
     }
-
+    void StartNewBoard();
 
     // Step 2
     // The methods below won't be used / tested before step 2

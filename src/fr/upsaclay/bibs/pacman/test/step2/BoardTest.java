@@ -179,8 +179,9 @@ public class BoardTest {
         Board testBoard = Board.createBoard(GameType.TEST);
         testBoard.initialize();
         Actor pacman = testBoard.getPacMan();
+        testBoard.startActors(); //On échange la place de start Actors car elle initilialise la direction de PAcman à gauche
         pacman.setDirection(Direction.RIGHT); // we go right
-        testBoard.startActors();
+
 
         Maze maze = testBoard.getMaze();
         int nbdots = maze.getNumberOfDots();
@@ -257,8 +258,9 @@ public class BoardTest {
         Board testBoard = Board.createBoard(GameType.TEST);
         testBoard.initialize();
         Actor pacman = testBoard.getPacMan();
-        pacman.setDirection(Direction.UP);
         testBoard.startActors();
+        pacman.setDirection(Direction.UP);
+
         Maze maze = testBoard.getMaze();
         int nbdots = maze.getNumberOfDots();
         // Pacman is in (9,4)
@@ -277,6 +279,7 @@ public class BoardTest {
         board.initialize();
         assertEquals(board.getBoardState(), BoardState.INITIAL);
         board.startActors();
+        board.start(); //C'est cette fonction qui permet de passer de initial à start
         assertEquals(board.getBoardState(), BoardState.STARTED);
     }
 
@@ -295,6 +298,7 @@ public class BoardTest {
             }
         }
         testBoard.startActors();
+        testBoard.start(); //Cette fonction permet de passer à Started
         assertEquals(testBoard.getBoardState(), BoardState.STARTED);
         while (!pacman.getCurrentTile().equals(new TilePosition(9,2))) {
             testBoard.nextFrame(); // we move until we reach the tile
@@ -307,6 +311,9 @@ public class BoardTest {
     public void testCreateGhosts() throws PacManException {
         Board board = Board.createBoard(GameType.CLASSIC);
         board.initialize();
+        board.disableGhost(GhostType.INKY);
+        board.disableGhost(GhostType.CLYDE);
+        board.disableGhost(GhostType.PINKY);
         List<Ghost> ghosts = board.getGhosts();
         assertEquals(ghosts.size(), 1);
         Ghost blinky = board.getGhost(GhostType.BLINKY);

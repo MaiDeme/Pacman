@@ -49,7 +49,10 @@ public class VisualController extends SimpleController {
             initialize();
         }
         int HS = board.getMaze().getHigh_score();
-        board = Board.createBoard(this.getGameType());
+
+
+        board.StartNewBoard();
+        board.initialize();
         board.startActors();
         view.setBoard(this.board);
         board.getMaze().setHigh_score(HS);
@@ -58,33 +61,44 @@ public class VisualController extends SimpleController {
 
     @Override
     public void receiveAction(GameAction action) throws PacManException{
-        if (board.getBoardState()==BoardState.INITIAL && action!=GameAction.START ){
-            throw new ForbiddenActionException(action);
-        }
-        if (board.getBoardState() == BoardState.PAUSED && action != GameAction.RESUME && action != GameAction.TITLE_SCREEN && action != GameAction.QUIT && action != GameAction.NEW_GAME) {
-            throw new ForbiddenActionException(action);
-        }
+
         switch (action) {
             case UP:
+                if (!board.getBoardState().equals(BoardState.STARTED)){
+                    throw new ForbiddenActionException(action);
+                }
                 board.getPacMan().setIntention(Direction.UP);
                 break;
             case DOWN:
+                if (!board.getBoardState().equals(BoardState.STARTED)){
+                    throw new ForbiddenActionException(action);
+                }
                 board.getPacMan().setIntention(Direction.DOWN);
                 break;
             case LEFT:
+                if (!board.getBoardState().equals(BoardState.STARTED)){
+                    throw new ForbiddenActionException(action);
+                }
                 board.getPacMan().setIntention(Direction.LEFT);
                 break;
             case RIGHT:
+                if (!board.getBoardState().equals(BoardState.STARTED)){
+                    throw new ForbiddenActionException(action);
+                }
                 board.getPacMan().setIntention(Direction.RIGHT);
                 break;
             case PAUSE:
-                if (board.getBoardState() == BoardState.PAUSED) {
+                if (!board.getBoardState().equals(BoardState.STARTED)){
                     throw new ForbiddenActionException(action);
                 }
+
                 view.setLayout(PacManLayout.PAUSE);
                 board.pause();
                 break;
             case NEXT_FRAME:
+                if (!board.getBoardState().equals(BoardState.STARTED)){
+                    throw new ForbiddenActionException(action);
+                }
                 board.nextFrame();
                 switch (board.getBoardState()) {
                     case GAME_OVER:
@@ -95,7 +109,6 @@ public class VisualController extends SimpleController {
                         break;
                     case LIFE_OVER:
                         view.setLayout(PacManLayout.LIFE_OVER);
-                        board.initializeNewLife();
                         receiveAction(GameAction.NEW_LIFE);
                         break;                        
                 
@@ -104,23 +117,30 @@ public class VisualController extends SimpleController {
                 }
                 break;
             case NEXT_LEVEL:
+                if (!board.getBoardState().equals(BoardState.LEVEL_OVER)){
+                    throw new ForbiddenActionException(action);
+                }
                 board.initializeNewLevel(this.board.getLevel() + 1);
-                board.start();
-                view.setLayout(PacManLayout.GAME_ON);
+                receiveAction(GameAction.START);
                 break;
             case NEW_GAME:
+                if (!board.getBoardState().equals(BoardState.INITIAL) && !board.getBoardState().equals(BoardState.PAUSED) && !board.getBoardState().equals(BoardState.GAME_OVER)){
+                    throw new ForbiddenActionException(action);
+                }
                 initializeNewGame();
-                board.start();
-                view.setLayout(PacManLayout.GAME_ON);
+                receiveAction(GameAction.START);
                 break;
             case NEW_LIFE:
+                board.setBoardState(BoardState.INITIAL);
+                receiveAction(GameAction.START);
+                break;
+            case START:
+                if (board.getBoardState() != BoardState.INITIAL) {
+                    throw new ForbiddenActionException(action);
+                }
                 board.startActors();
                 board.start();
                 view.setLayout(PacManLayout.GAME_ON);
-                break;
-            case START:
-                initializeNewGame();
-                board.start();
                 break;
             case RESUME:
                 if (board.getBoardState() != BoardState.PAUSED) {

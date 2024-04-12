@@ -19,7 +19,7 @@ public class PacManTest {
 
     /*********************************************************************/
     /**                    Step 1 Tests                                 **/
-    /**              Adapted for speed                                  **/
+    /**              Adapted for speed  and dots                        **/
     /*********************************************************************/
 
     @Test
@@ -42,7 +42,6 @@ public class PacManTest {
         pacman.setPosition(35, 75);
         assertEquals(pacman.getCurrentTile(), new TilePosition(9,4));
     }
-
     @Test
     public void testSetGetDirection() throws PacManException {
         Board testBoard = Board.createBoard(GameType.TEST);
@@ -114,9 +113,9 @@ public class PacManTest {
         Board testBoard = Board.createBoard(GameType.TEST);
         testBoard.initialize();
         Actor pacman = testBoard.getPacMan();
-        pacman.setDirection(Direction.UP); // We set the direction up before starting the actor
         pacman.setSpeed(1);
         testBoard.startActors();
+        pacman.setDirection(Direction.UP); // We set the direction up before starting the actor
 
         Maze maze = testBoard.getMaze();
         int x = pacman.getX(); // x position at start
@@ -192,19 +191,19 @@ public class PacManTest {
         }
         // Pacman should have tried to go up, failed and kept going left
         assertEquals(pacman.getDirection(), Direction.LEFT);
-        assertEquals(pacman.getX(), x-9);
-        assertEquals(pacman.getY(), y);
+        assertEquals(pacman.getX(), x-9); //Pacman a une position x de 26
+        assertEquals(pacman.getY(), y); // Pacman a une position y de 75
         // The intention should be back to null
         assertNull(pacman.getIntention());
         // We ask pacman to go down
         pacman.setIntention(Direction.DOWN);
         // We move enough so that it reaches the next tile and tries its intention
-        for(int i =0; i < 8; i++) {
+        for(int i =0; i < 8 +1; i++) { //On rajoute +1 car se bloque une frame après avoir mangé SD
             pacman.nextMove();;
         }
         // Pacman should have tried to go down, failed and kept going left
         assertEquals(pacman.getDirection(), Direction.LEFT);
-        assertEquals(pacman.getX(), x-17);
+        assertEquals(pacman.getX(), x-17); //Pacman a une position x de 18 au lieu de 19 : il fait un mouvement de trop apparemment.
         assertEquals(pacman.getY(), y);
         // The intention should be back to null
         assertNull(pacman.getIntention());
@@ -223,9 +222,9 @@ public class PacManTest {
         Board testBoard = Board.createBoard(GameType.TEST);
         testBoard.initialize();
         Actor pacman = testBoard.getPacMan();
-        pacman.setDirection(Direction.UP); // We set the direction up before starting the actor
         pacman.setSpeed(1);
         testBoard.startActors();
+        pacman.setDirection(Direction.UP); // In our code start Actors remet la direction à Gauche, permet d'initialiser un nouveau niveau
 
         Maze maze = testBoard.getMaze();
         int x = pacman.getX(); // x position at start
@@ -252,7 +251,7 @@ public class PacManTest {
         // We ask pacman to go right
         pacman.setIntention(Direction.RIGHT);
         // We move enough so that it reaches the next tile and tries its intention
-        for(int i =0; i < 8; i++) {
+        for(int i =0; i < 8 +1; i++) { // Pacman mange 1 dot donc il s'arrête une frame
             pacman.nextMove();;
         }
         // Pacman should have tried to go right, failed and kept going up
@@ -450,9 +449,10 @@ public class PacManTest {
         Board testBoard = Board.createBoard(GameType.TEST);
         testBoard.initialize();
         Actor pacman = testBoard.getPacMan();
+        testBoard.startActors();
         pacman.setDirection(Direction.UP); // We set the direction up before starting the actor
         pacman.setSpeed(1);
-        testBoard.startActors();
+
 
         Maze maze = testBoard.getMaze();
         int x = pacman.getX(); // x position at start
@@ -540,8 +540,9 @@ public class PacManTest {
         testBoard.initialize();
         Actor pacman = testBoard.getPacMan();
         pacman.setSpeed(1);
-        pacman.setDirection(Direction.UP); // We set the direction up before starting the actor
         testBoard.startActors();
+        pacman.setDirection(Direction.UP); // We set the direction up before starting the actor
+
 
         Maze maze = testBoard.getMaze();
         int x = pacman.getX(); // x position at start
@@ -631,7 +632,7 @@ public class PacManTest {
         int x = pacman.getX(); // x position at start
         int y = pacman.getY();
         // We move 4 tiles to the left
-        for(int i = 0; i < 4*Maze.TILE_WIDTH; i ++) {
+        for(int i = 0; i < 4*Maze.TILE_WIDTH +3; i ++) { //Il mange 3 SD : S'arrete 3 fois
             pacman.nextMove();;
         }
         assertEquals(pacman.getX(), x - 4*Maze.TILE_WIDTH);
@@ -664,14 +665,15 @@ public class PacManTest {
         Board testBoard = Board.createBoard(GameType.TEST);
         testBoard.initialize();
         Actor pacman = testBoard.getPacMan();
-        pacman.setDirection(Direction.RIGHT);
         testBoard.startActors();
+        pacman.setDirection(Direction.RIGHT);
+
         pacman.setSpeed(1);
         Maze maze = testBoard.getMaze();
         int x = pacman.getX(); // x position at start
         int y = pacman.getY();
-        // We move 4 tiles to the left
-        for(int i = 0; i < 4*Maze.TILE_WIDTH; i ++) {
+        // We move 4 tiles to the right
+        for(int i = 0; i < 4*Maze.TILE_WIDTH + 3; i ++) { //Il mange 3 petites dot donc s'arrete 3 frames
             pacman.nextMove();;
         }
         assertEquals(pacman.getX(), x + 4*Maze.TILE_WIDTH);
@@ -701,13 +703,14 @@ public class PacManTest {
         Board testBoard = Board.createBoard(GameType.TEST);
         testBoard.initialize();
         Actor pacman = testBoard.getPacMan();
+        testBoard.startActors();
         pacman.setDirection(Direction.UP); // We set the direction up before starting the actor
         pacman.setSpeed(1);
-        testBoard.startActors();
+
         assertFalse(pacman.isBlocked());
         Maze maze = testBoard.getMaze();
         // we move 6 tiles up
-        for(int i =0; i < Maze.TILE_HEIGHT * 6; i++) {
+        for(int i =0; i < Maze.TILE_HEIGHT * 6 + 7; i++) {  // Rajoute +7 car 7 fralmes de stop pour manger des dots
             pacman.nextMove();;
         }
         int x = pacman.getX();
@@ -735,7 +738,7 @@ public class PacManTest {
         assertEquals(pacman.getX(), x);
         assertEquals(pacman.getY(), y+1);
         assertFalse(pacman.isBlocked());
-        // Let's ask him to go up again
+        // Let's ask him to go up again : il revient à la position à laquelle il était bloqué avant
         pacman.setIntention(Direction.UP);
         pacman.nextMove();;
         assertEquals(pacman.getX(), x);
@@ -752,7 +755,7 @@ public class PacManTest {
         assertEquals(pacman.getY(), y);
         assertFalse(pacman.isBlocked());
         // Now let's move to the left wall and get stuck again
-        for(int i = 0; i < Maze.TILE_WIDTH; i++) {
+        for(int i = 0; i < Maze.TILE_WIDTH +1; i++) { //Rajoute 1 frame car il mange 1 dot
             pacman.nextMove();;
         }
         assertEquals(pacman.getX(), x-8);
@@ -768,7 +771,6 @@ public class PacManTest {
 
     /*********************************************************************/
     /**                    Step 2 Tests                                 **/
-    /**                                                                 **/
     /*********************************************************************/
 
     @Test
@@ -838,6 +840,7 @@ public class PacManTest {
         assertEquals(pacman.getX(), x - 2);
         assertEquals(pacman.getY(), y);
     }
+
 
 
     /*********************************************************************/

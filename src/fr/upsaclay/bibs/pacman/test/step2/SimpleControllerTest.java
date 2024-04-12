@@ -202,11 +202,13 @@ public class SimpleControllerTest {
         simple.setGameType(GameType.CLASSIC);
         simple.initialize(); // in my implementation, initizalize calls initializeNewGame by default
         Board board = simple.getBoard();
+        board.setNumberOfLives(1);
         simple.receiveAction(GameAction.START);
         // At some point, the ghost eats pacman
         while(board.getBoardState() == BoardState.STARTED) {
             simple.receiveAction(GameAction.NEXT_FRAME);
         }
+
         // Now all game actions are forbidden
         assertThrows(ForbiddenActionException.class, () -> simple.receiveAction(GameAction.PAUSE));
         assertThrows(ForbiddenActionException.class, () -> simple.receiveAction(GameAction.UP));
@@ -217,6 +219,7 @@ public class SimpleControllerTest {
         assertThrows(ForbiddenActionException.class, () -> simple.receiveAction(GameAction.START));
         assertThrows(ForbiddenActionException.class, () -> simple.receiveAction(GameAction.RESUME));
         // We require a new game action
+        assertEquals(board.getBoardState(), BoardState.GAME_OVER);
         simple.receiveAction(GameAction.NEW_GAME);
         // It is not started yet, so game actions are still forbidden
         assertThrows(ForbiddenActionException.class, () -> simple.receiveAction(GameAction.PAUSE));

@@ -61,6 +61,19 @@ public abstract class AbstractBoard implements Board {
         }
     }
 
+    public void StartNewBoard() {
+
+        //initialize the variables
+        this.setStateCounter(0);
+        this.allfour = 0;
+        this.setExtraLifeScore(10000);
+        this.extraLifeDone = false;
+        this.score = 0;
+        this.boardState = BoardState.INITIAL;
+        this.soundManager = new SoundManager();
+        this.level = 1;
+    }
+
 
     public SoundManager getSoundManager() {
         return soundManager;
@@ -292,6 +305,7 @@ public abstract class AbstractBoard implements Board {
      */
     public void initializeNewLevel(int level) throws PacManException {
         this.level = level ;
+        this.boardState = BoardState.INITIAL;
         this.initialize();
         this.setStateCounter(0);
         allfour = 0;
@@ -323,7 +337,6 @@ public abstract class AbstractBoard implements Board {
      * (reduce the nb of lives, replace the actors, re-initialize certain values)
      */
     public void initializeNewLife() {
-        startActors();
         this.setStateCounter(0);
         startActors();
 

@@ -3,6 +3,7 @@ package fr.upsaclay.bibs.pacman.view;
 import fr.upsaclay.bibs.pacman.control.Controller;
 import fr.upsaclay.bibs.pacman.control.GameAction;
 import fr.upsaclay.bibs.pacman.PacManException;
+import fr.upsaclay.bibs.pacman.model.board.BoardState;
 
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
@@ -20,6 +21,7 @@ public class KeyLevel implements KeyListener{
         switch (e.getKeyCode()) {
             case KeyEvent.VK_SPACE:
                 try {
+
                     controller.receiveAction(GameAction.NEXT_LEVEL);
                 } catch (PacManException e1) {
                     e1.printStackTrace();

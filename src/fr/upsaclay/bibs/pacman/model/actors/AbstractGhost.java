@@ -19,6 +19,7 @@ public abstract class AbstractGhost extends AbstractActor implements Ghost {
     public AbstractGhost(Board board, ActorType type) {
         super(board, type);
         this.currentState = GhostState.SCATTER;
+
     }
 
     @Override
@@ -378,4 +379,5 @@ public abstract class AbstractGhost extends AbstractActor implements Ghost {
     public int getFrightenedCounter(){
         return this.FrightenedCounter;
     }
+
 }

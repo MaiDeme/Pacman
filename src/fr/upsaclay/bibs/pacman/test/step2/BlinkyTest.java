@@ -5,6 +5,7 @@ import fr.upsaclay.bibs.pacman.PacManException;
 import fr.upsaclay.bibs.pacman.model.Direction;
 import fr.upsaclay.bibs.pacman.model.actors.Actor;
 import fr.upsaclay.bibs.pacman.model.actors.Ghost;
+import fr.upsaclay.bibs.pacman.model.actors.GhostState;
 import fr.upsaclay.bibs.pacman.model.actors.GhostType;
 import fr.upsaclay.bibs.pacman.model.board.Board;
 import fr.upsaclay.bibs.pacman.model.maze.Maze;
@@ -76,14 +77,12 @@ public class BlinkyTest {
         board.startActors();
         // Initial target
         TilePosition pacmacPos = board.getMaze().getTilePosition(pacman.getX(), pacman.getY());
+        blinky.setGhostState(GhostState.CHASE); //Rajoute cette ligne pour changer le mode de Scatter à Chase
         assertEquals(blinky.getTarget(), pacmacPos);
         // We move a bit
         for(int i = 0; i < 20; i++) {
             board.nextFrame();
         }
-        //La variable Pacman n'a pas bougé
-        // Pacman position has changed and the target should have also changed
-        //pacmacPos = board.getMaze().getTilePosition(board.getPacMan().getX(), board.getPacMan().getY());
         pacmacPos = board.getMaze().getTilePosition(pacman.getX(), pacman.getY());
         assertEquals(blinky.getTarget(), pacmacPos);
     }
@@ -139,6 +138,7 @@ public class BlinkyTest {
         }
 
         TilePosition pacmacPos = board.getMaze().getTilePosition(pacman.getX(), pacman.getY());
+        blinky.setGhostState(GhostState.CHASE); //Rajoute cette ligne pour changer le mode de Scatter à Chase
         assertEquals(blinky.getTarget(), pacmacPos);
 
         // The next direction should be down
@@ -174,8 +174,8 @@ public class BlinkyTest {
         board.initialize();
         Ghost blinky = board.getGhost(GhostType.BLINKY);
         Actor pacman = board.getPacMan();
-        pacman.setIntention(Direction.RIGHT);
         board.startActors();
+        pacman.setIntention(Direction.RIGHT);
         // We move as long as blinky goes left.
         // If this is an infinite loop, it means something is wrong
         while (blinky.getDirection() == Direction.LEFT) {

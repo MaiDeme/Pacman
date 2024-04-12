@@ -15,7 +15,7 @@ public class PacManTest {
 
     /*********************************************************************/
     /**                    Step 1 Tests                                 **/
-    /**              Adapted for speed                                  **/
+    /**              Adapted for speed  and dots                        **/
     /*********************************************************************/
 
     @Test
@@ -109,9 +109,9 @@ public class PacManTest {
         Board testBoard = Board.createBoard(GameType.TEST);
         testBoard.initialize();
         Actor pacman = testBoard.getPacMan();
-        pacman.setDirection(Direction.UP); // We set the direction up before starting the actor
         pacman.setSpeed(1);
         testBoard.startActors();
+        pacman.setDirection(Direction.UP); // We set the direction up before starting the actor
 
         Maze maze = testBoard.getMaze();
         int x = pacman.getX(); // x position at start
@@ -218,9 +218,9 @@ public class PacManTest {
         Board testBoard = Board.createBoard(GameType.TEST);
         testBoard.initialize();
         Actor pacman = testBoard.getPacMan();
-        pacman.setDirection(Direction.UP); // We set the direction up before starting the actor
         pacman.setSpeed(1);
         testBoard.startActors();
+        pacman.setDirection(Direction.UP); // In our code start Actors remet la direction à Gauche, permet d'initialiser un nouveau niveau
 
         Maze maze = testBoard.getMaze();
         int x = pacman.getX(); // x position at start
@@ -445,9 +445,10 @@ public class PacManTest {
         Board testBoard = Board.createBoard(GameType.TEST);
         testBoard.initialize();
         Actor pacman = testBoard.getPacMan();
+        testBoard.startActors();
         pacman.setDirection(Direction.UP); // We set the direction up before starting the actor
         pacman.setSpeed(1);
-        testBoard.startActors();
+
 
         Maze maze = testBoard.getMaze();
         int x = pacman.getX(); // x position at start
@@ -535,8 +536,9 @@ public class PacManTest {
         testBoard.initialize();
         Actor pacman = testBoard.getPacMan();
         pacman.setSpeed(1);
-        pacman.setDirection(Direction.UP); // We set the direction up before starting the actor
         testBoard.startActors();
+        pacman.setDirection(Direction.UP); // We set the direction up before starting the actor
+
 
         Maze maze = testBoard.getMaze();
         int x = pacman.getX(); // x position at start
@@ -659,8 +661,9 @@ public class PacManTest {
         Board testBoard = Board.createBoard(GameType.TEST);
         testBoard.initialize();
         Actor pacman = testBoard.getPacMan();
-        pacman.setDirection(Direction.RIGHT);
         testBoard.startActors();
+        pacman.setDirection(Direction.RIGHT);
+
         pacman.setSpeed(1);
         Maze maze = testBoard.getMaze();
         int x = pacman.getX(); // x position at start
@@ -696,9 +699,10 @@ public class PacManTest {
         Board testBoard = Board.createBoard(GameType.TEST);
         testBoard.initialize();
         Actor pacman = testBoard.getPacMan();
+        testBoard.startActors();
         pacman.setDirection(Direction.UP); // We set the direction up before starting the actor
         pacman.setSpeed(1);
-        testBoard.startActors();
+
         assertFalse(pacman.isBlocked());
         Maze maze = testBoard.getMaze();
         // we move 6 tiles up
