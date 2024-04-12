@@ -97,12 +97,4 @@ public class Pinky extends AbstractGhost{
     }
 
 
-
-
-
-
-
-
-
-
 }

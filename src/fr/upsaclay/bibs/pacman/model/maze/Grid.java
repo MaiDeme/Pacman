@@ -127,33 +127,21 @@ public class Grid implements Maze {
 
     @Override
     public void setTile(int line, int col, Tile tile) {
+
         if (plateau[line][col] != null){
+
             Tile prev_tile = plateau[line][col];
-            //S'il y a quelque chose sur la case il faut vérifier si elle contient des dots ou pas
 
-            if(prev_tile == Tile.BD || prev_tile == Tile.SD || prev_tile == Tile.ND){
-                //cas ou elle contient des dots.
-
-                // Ne peut que enlever des dots si la nouvelle case n'en n'a pas
-                if(!(tile == Tile.BD || tile == Tile.SD || tile == Tile.ND)) {
-                    this.number_of_dots -= 1;
-                }
-
-            }else{
-                //Cas ou la case precedente ne contient pas de dots, ne peut que en rajouter
-                if(tile == Tile.BD || tile == Tile.SD || tile == Tile.ND){
-                    this.number_of_dots += 1;
-                }
-            }
-
-
-        }else{
-            //Si la case était vide on ne peut que rajouter des dots
-            if(tile == Tile.BD || tile == Tile.SD || tile == Tile.ND){
+            if (prev_tile.hasDot() && !tile.hasDot()){
+                this.number_of_dots -= 1;
+            }else if (!prev_tile.hasDot() && tile.hasDot()){
                 this.number_of_dots += 1;
             }
 
-
+        }else{
+            if (tile.hasDot()){
+                this.number_of_dots += 1;
+            }
         }
 
         plateau[line][col] = tile;

@@ -128,31 +128,46 @@ public class Pacman extends AbstractActor {
                 //Si il arrive au début d'une case : vérifie s'il y a un dot a manger et si oui met a jour score et labyrinthe
 
                 TilePosition pos = this.getCurrentTile();
+                Tile tile = this.getBoard().getMaze().getTile(this.getCurrentTile());
                 int score = this.getBoard().getScore();
 
-                if (this.getBoard().getMaze().getTile(this.getCurrentTile()) == Tile.SD) {
-                    this.getBoard().setScore(score + 10);
-                    this.getBoard().getMaze().setTile(pos.getLine(), pos.getCol(), Tile.EE);
-                    setStopTime(1);
 
-                } else if (this.getBoard().getMaze().getTile(this.getCurrentTile()) == Tile.ND) {
-                    this.getBoard().setScore(score + 10);
-                    this.getBoard().getMaze().setTile(pos.getLine(), pos.getCol(), Tile.NT);
-                    setStopTime(1);
+                if (tile.hasDot()){
 
-                } else if (this.getBoard().getMaze().getTile(this.getCurrentTile()) == Tile.BD) {
-                    this.getBoard().setScore(score + 50);
-                    this.getBoard().getMaze().setTile(pos.getLine(), pos.getCol(), Tile.EE);
-                    setStopTime(3);
-                    for (Ghost g : this.getBoard().getGhosts()) {
-                        g.setPreviousGhostState(g.getGhostState());
-                        g.changeGhostState(GhostState.FRIGHTENED);
-                        this.getBoard().setEatGhost(0);
-                        g.setFrightenedCounter(0);
+                    switch (tile){
+                        case BD :
+                            this.getBoard().setScore(score + 50);
+                            setStopTime(3);
+                            this.getBoard().getMaze().setTile(pos.getLine(), pos.getCol(), Tile.EE);
+
+                            for (Ghost g : this.getBoard().getGhosts()) {
+
+                                if (!g.getGhostState().equals(GhostState.DEAD)){
+                                    g.setPreviousGhostState(g.getGhostState());
+                                    g.changeGhostState(GhostState.FRIGHTENED);
+                                    this.getBoard().setEatGhost(0);
+                                    g.setFrightenedCounter(0);
+                                }
+                            }
+                            break;
+
+                        case SD :
+                            this.getBoard().setScore(score + 10);
+                            setStopTime(1);
+                            this.getBoard().getMaze().setTile(pos.getLine(), pos.getCol(), Tile.EE);
+                            break;
+                        case ND :
+                            this.getBoard().setScore(score + 10);
+                            setStopTime(1);
+                            this.getBoard().getMaze().setTile(pos.getLine(), pos.getCol(), Tile.NT);
+                            break;
                     }
 
+
+                    this.getBoard().getMaze().setHigh_score(this.getBoard().getScore());
                 }
-                this.getBoard().getMaze().setHigh_score(this.getBoard().getScore());
+
+
             }
 
         }else{

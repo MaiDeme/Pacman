@@ -335,6 +335,7 @@ public class BoardView extends JFrame implements PacManView {
 
 
         nextLevelPanel.setVisible(true);
+        actorPanel.setVisible(true);
         pausePanel.setVisible(false);
         gameOverPanel.setVisible(false);
         initialPanel.setVisible(false);
