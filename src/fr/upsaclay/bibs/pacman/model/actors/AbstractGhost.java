@@ -78,7 +78,9 @@ public abstract class AbstractGhost extends AbstractActor implements Ghost {
                         if (this.getBoard().getMaze().IsIntersection(this.getCurrentTile(), this.getDirection())) {
                             fr.upsaclay.bibs.pacman.model.Direction dir = this.getDirection().reverse();
 
-                            while (dir.reverse().equals(this.getDirection()) || this.getBoard().getMaze().getNeighbourTile(this.getCurrentTile(), dir).isWall()) {
+                            while (dir.reverse().equals(this.getDirection())
+                                    || this.getBoard().getMaze().getNeighbourTile(this.getCurrentTile(), dir).isWall()
+                                    || ( dir.equals(fr.upsaclay.bibs.pacman.model.Direction.UP) && !this.getBoard().getMaze().getTile(this.getCurrentTile()).ghostCanGoUp())) {
                                 dir = this.getBoard().getRandomDirection();
                             }
                             this.setIntention(dir);
@@ -116,7 +118,7 @@ public abstract class AbstractGhost extends AbstractActor implements Ghost {
         //On parcoure la liste des directions
         for (fr.upsaclay.bibs.pacman.model.Direction dir : directions) {
             if ((dir == this.Direction.reverse()) // le fantôme essaye de faire demi-tour
-                || (this.getBoard().getMaze().getTile(next_tuile) == Tile.NT && dir == Direction.UP) // il est sur une case où il ne peut pas aller vers le haut
+                || (!this.getBoard().getMaze().getTile(next_tuile).ghostCanGoUp() && dir == Direction.UP) // il est sur une case où il ne peut pas aller vers le haut
                 || (this.getBoard().getMaze().getNeighbourTile(next_tuile, dir).isWall()) ) { // la prochaine case est un mur
                 dist[i] = Double.MAX_VALUE;
             } else {
