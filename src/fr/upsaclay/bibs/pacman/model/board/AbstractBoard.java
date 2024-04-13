@@ -35,7 +35,6 @@ public abstract class AbstractBoard implements Board {
     protected int allfour;
     protected boolean extraLifeDone;
 
-
     public AbstractBoard(GameType gameType) {
 
         //create the actors
@@ -494,8 +493,15 @@ public abstract class AbstractBoard implements Board {
      * @return a speed as a decimal
      */
     public double getLevelPacManSpeed() {
-        return 0;
-    }
+        if (level==1){
+            return 1.;
+        }else if (2 <= level && level <= 4){
+            return 1.14;
+        }else if (level<=20){
+            return 1.26;
+        }else return 1.14;
+         
+    }   
 
     /**
      * Return the speed of pacman in "fright" mode at the board current level
@@ -503,7 +509,12 @@ public abstract class AbstractBoard implements Board {
      * @return a speed as a decimal
      */
     public double getFrightPacManSpeed() {
-        return 0;
+        if (level==1){
+            return 1;
+        }else if (2 <= level && level <= 4){
+            return 1.2;
+        }else return 1.26;
+
     }
 
     /**
@@ -512,7 +523,11 @@ public abstract class AbstractBoard implements Board {
      * @return a speed as a decimal
      */
     public double getLevelGhostSpeed() {
-        return 0;
+        if (level==1){
+            return 0.94;
+        }else if (2 <= level && level <= 4){
+            return 1.07;
+        }else return 1.2;
     }
 
     /**
@@ -521,7 +536,11 @@ public abstract class AbstractBoard implements Board {
      * @return a speed as a decimal
      */
     public double getTunnelGhostSpeed() {
-        return 0;
+        if (level==1){
+            return 0.5;
+        }else if (2 <= level && level <= 4){
+            return 0.57;
+        }else return 0.63;
     }
 
     /**
@@ -530,7 +549,11 @@ public abstract class AbstractBoard implements Board {
      * @return a speed as a decimal
      */
     public double getFrightGhostSpeed() {
-        return 0;
+        if (level==1){
+            return 0.63;
+        }else if (2 <= level && level <= 4){
+            return 0.69;
+        }else return 0.75;
     }
 
     /**
@@ -539,7 +562,7 @@ public abstract class AbstractBoard implements Board {
      * @return a speed as a decimal
      */
     public double getDeadGhostSpeed() {
-        return 0;
+        return 1.26;
     }
 
     // Step 4

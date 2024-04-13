@@ -18,6 +18,7 @@ public abstract class AbstractGhost extends AbstractActor implements Ghost {
 
     public AbstractGhost(Board board, ActorType type) {
         super(board, type);
+        super.setSpeed(board.getLevelGhostSpeed());
         this.currentState = GhostState.SCATTER;
 
     }

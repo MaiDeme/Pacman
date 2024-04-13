@@ -20,14 +20,12 @@ public abstract class AbstractActor implements Actor{
     String test;
     private SoundManager soundManager;
 
-
     public ActorType type;
 
     public AbstractActor(Board board,  ActorType type){
         this.type = type;
         this.board = board;
         this.blocked = false;
-        this.speed = 1;
         this.stopTime = 0;
     }
 
