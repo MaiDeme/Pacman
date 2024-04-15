@@ -20,7 +20,6 @@ public interface Board {
 
     //rajout
 
-    int getStateCounter();
 
     void setBoardState(BoardState boardState);
 
@@ -374,5 +373,4 @@ public interface Board {
     int getEatGhost();
     void setEatGhost(int nb);
 
-    void setStateCounter(int nb);
 }

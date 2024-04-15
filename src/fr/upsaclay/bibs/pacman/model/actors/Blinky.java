@@ -25,6 +25,7 @@ public class Blinky extends AbstractGhost {
         this.speed = this.DEFAULT_SPEED;
         TilePosition depart = this.getCurrentTile();
         this.intention = getNextIntention(depart);
+        this.stateCounter = 0;
     }
 
     /**

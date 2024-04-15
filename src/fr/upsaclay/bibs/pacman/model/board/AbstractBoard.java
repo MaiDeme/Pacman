@@ -1,5 +1,6 @@
 package fr.upsaclay.bibs.pacman.model.board;
 
+import com.sun.jdi.Value;
 import fr.upsaclay.bibs.pacman.GameType;
 import fr.upsaclay.bibs.pacman.PacManException;
 import fr.upsaclay.bibs.pacman.model.Direction;
@@ -13,6 +14,8 @@ import java.io.FileNotFoundException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
+
+import static java.lang.Integer.MAX_VALUE;
 
 public abstract class AbstractBoard implements Board {
 
@@ -43,7 +46,7 @@ public abstract class AbstractBoard implements Board {
         this.ghosts = new ArrayList<Ghost>();
 
         //initialize the variables
-        this.setStateCounter(0);
+
         allfour = 0;
         this.setExtraLifeScore(10000);
         this.extraLifeDone = false;
@@ -64,8 +67,9 @@ public abstract class AbstractBoard implements Board {
     public void StartNewBoard() {
 
         //initialize the variables
-        this.setStateCounter(0);
+
         this.allfour = 0;
+        this.extraLives = 3;
         this.setExtraLifeScore(10000);
         this.extraLifeDone = false;
         this.score = 0;
@@ -190,7 +194,7 @@ public abstract class AbstractBoard implements Board {
                         case FRIGHTENED:
                             g.setGhostState(GhostState.DEAD);
                             eatGhost++;
-                            this.setScore(this.getScore() + 200 * this.eatGhost);
+                            this.setScore((int) (this.getScore() + 200 * Math.pow(2,this.eatGhost-1)));
 
                             if (eatGhost == 4) {
                                 allfour++;
@@ -307,7 +311,7 @@ public abstract class AbstractBoard implements Board {
         this.level = level ;
         this.boardState = BoardState.INITIAL;
         this.initialize();
-        this.setStateCounter(0);
+
         allfour = 0;
         startActors();
 
@@ -337,7 +341,6 @@ public abstract class AbstractBoard implements Board {
      * (reduce the nb of lives, replace the actors, re-initialize certain values)
      */
     public void initializeNewLife() {
-        this.setStateCounter(0);
         startActors();
 
     }
@@ -375,7 +378,10 @@ public abstract class AbstractBoard implements Board {
      * Disable the use of state time before game initialization
      */
     public void disableStateTime() {
-
+        for (Ghost g : ghosts){
+            g.setStateCounter(MAX_VALUE);
+            g.setGhostState(GhostState.CHASE);
+        }
     }
 
     /**
@@ -590,12 +596,6 @@ public abstract class AbstractBoard implements Board {
 
     }
 
-    public void setStateCounter(int nb){
-        this.stateCounter = nb;
-    }
-    public int getStateCounter(){
-        return this.stateCounter;
-    }
 
     public int getFrightenedtime(){
         switch (level){

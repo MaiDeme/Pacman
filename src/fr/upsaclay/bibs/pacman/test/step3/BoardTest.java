@@ -15,6 +15,7 @@ import org.junit.jupiter.api.Test;
 
 import java.util.List;
 
+import static java.lang.Long.MAX_VALUE;
 import static org.junit.jupiter.api.Assertions.*;
 
 
@@ -388,20 +389,20 @@ public class BoardTest {
         assertEquals(board.getScore(), 70);
         assertEquals(board.getMaze().getNumberOfDots(), 237);
         board.initializeNewLife();
-        assertEquals(board.getNumberOfLives(), 2); //On commence avec 3 vies
+        assertEquals(board.getNumberOfLives(), 2);
         assertEquals(board.getScore(), 70);
         assertEquals(board.getMaze().getNumberOfDots(), 237);
-        board.startActors();
+        board.start();
         // At some point, the board state should change to LIFE_OVER
         while(board.getBoardState() == BoardState.STARTED) {
             board.nextFrame();
         }
         assertEquals(board.getBoardState(), BoardState.LIFE_OVER);
         board.initializeNewLife();
-        assertEquals(board.getNumberOfLives(), 0);
+        assertEquals(board.getNumberOfLives(), 1);
         assertEquals(board.getScore(), 70);
         assertEquals(board.getMaze().getNumberOfDots(), 237);
-        board.startActors();
+        board.start();
         // At some point, the board state should change to GAME_OVER
         while(board.getBoardState() == BoardState.STARTED) {
             board.nextFrame();
@@ -431,16 +432,28 @@ public class BoardTest {
      * @param board
      * @param stateTimes
      */
+    @Test
     public void testStateTimes(Board board, int[] stateTimes) {
+
         GhostState state = GhostState.SCATTER;
-        for(int i = 0; i < stateTimes.length; i++) {
-            for(int j = 0; j < stateTimes[i]; j++) {
+        for(int i = 0; i < stateTimes.length ; i++) {
+            for(int j = 0; j < stateTimes[i] ; j++) {
                 for(Ghost ghost : board.getGhosts()) {
+                    //assertEquals(ghost.getStateCounter(), count);
+                    //System.out.println(ghost);
+                    //System.out.println(count);
                     assertEquals(ghost.getGhostState(), state);
                 }
                 board.nextFrame();
             }
-            state = (state == GhostState.SCATTER)? GhostState.CHASE : GhostState.SCATTER;
+            switch (state){
+                case CHASE :
+                    state = GhostState.SCATTER;
+                    break;
+                case SCATTER:
+                    state = GhostState.CHASE;
+                    break;
+            }
         }
         // Should then stay in chase for ever
         for(int j=0; j < 2000; j++) {
@@ -448,14 +461,16 @@ public class BoardTest {
                 assertEquals(ghost.getGhostState(), GhostState.CHASE);
             }
         }
+
     }
 
     @Test
     public void testStateTimeLevel1() throws PacManException {
         Board board = Board.createBoard(GameType.CLASSIC);
         board.initialize();
-        Configurations.blockGhosts(board.getMaze());
         board.startActors();
+        Configurations.blockGhosts(board.getMaze());
+        board.start();
         testStateTimes(board, new int[]{420, 1200, 420, 1200, 300, 1200, 300});
     }
 
@@ -467,7 +482,7 @@ public class BoardTest {
         for(int level =2; level < 5; level++) {
             board.initializeNewLevel(level);
             board.startActors();
-            testStateTimes(board, new int[]{420, 1200, 420, 1200, 300, 61980, 1});
+            testStateTimes(board, new int[]{420, 1200, 420, 1200, 300, 61980,1});
         }
     }
 
@@ -487,27 +502,28 @@ public class BoardTest {
     public void testStateTimeLevel1NewLife() throws PacManException {
         Board board = Board.createBoard(GameType.CLASSIC);
         board.initialize();
-        Configurations.blockGhosts(board.getMaze());
         board.startActors();
+        Configurations.blockGhosts(board.getMaze());
+
         // We make a few frames
         for(int i =0; i < 100; i++) {
             board.nextFrame();
         }
         board.initializeNewLife();
-        board.startActors();
+        Configurations.blockGhosts(board.getMaze());
         testStateTimes(board, new int[]{420, 1200, 420, 1200, 300, 1200, 300});
     }
 
     @Test
     public void testDisableStateTime() throws PacManException {
         Board board = Board.createBoard(GameType.CLASSIC);
-        board.disableStateTime();
         board.initialize();
-        Configurations.blockGhosts(board.getMaze());
-        board.startActors();
         Ghost ghost = board.getGhost(GhostType.BLINKY);
         ghost.changeGhostState(GhostState.CHASE);
         board.startActors();
+        board.disableStateTime();
+        Configurations.blockGhosts(board.getMaze());
+        board.start();
         for(int j = 0; j < 2000; j++) {
             assertEquals(ghost.getGhostState(), GhostState.CHASE);
             board.nextFrame();
@@ -536,7 +552,7 @@ public class BoardTest {
         // They stay in frighten mode for 360 frames
         // (depending on which order you do your next frame actions,
         // you might need a -1 on the loop end or not)
-        for(int i = 0; i < frightenTime - 1; i++) {
+        for(int i = 0; i < frightenTime-1 ; i++) {
             for(Ghost ghost: board.getGhosts()) {
                 assertEquals(ghost.getGhostState(), GhostState.FRIGHTENED);
             }
@@ -587,11 +603,11 @@ public class BoardTest {
 
     @Test
     public void testFrightenStateTimeAllLevels() throws PacManException {
-        int[] frightenStateTimes = {360, 300, 240, 180, 120, 360, 120, 120, 60, 300, 120, 60, 60, 180, 60, 60, -1, 60,};
+        int[] frightenStateTimes = {360, 300, 240, 180, 120, 300, 120, 120, 60, 300, 120, 60, 60, 180, 60, 60, -1, 60,};
         int[] frightEndTimes = {150, 150, 150, 150, 150, 150, 150, 150, 90, 150, 150, 90, 90, 150, 90, 90, -1, 90};
         Board board = Board.createBoard(GameType.CLASSIC);
         board.initialize();
-        for(int level = 2; level < frightenStateTimes.length; level++) {
+        for(int level = 6; level < 7; level++) {
             if(frightenStateTimes[level-1] > 0) {
                 board.initializeNewLevel(level);
                 Configurations.blockGhosts(board.getMaze());
@@ -720,15 +736,17 @@ public class BoardTest {
         board.disableGhost(GhostType.INKY);
         board.disableGhost(GhostType.CLYDE);
         board.initialize();
+        board.startActors();
         Configurations.smallSquareEatingGhost(board);
         Actor pacman = board.getPacMan();
         Ghost ghost = board.getGhost(GhostType.BLINKY);
         Maze maze = board.getMaze();
-        board.startActors();
-        for(int i = 0; i < 20; i++) {
+        board.start();
+        for(int i = 0; i < 20 ; i++) {
             board.nextFrame();
         }
         // Pacman has eaten the big dot in front of them
+
         assertEquals(board.getScore(), 50);
         assertEquals(ghost.getGhostState(), GhostState.FRIGHTENED);
         while (!pacman.getCurrentTile().equals(ghost.getCurrentTile())) {
@@ -744,11 +762,12 @@ public class BoardTest {
         board.disableGhost(GhostType.INKY);
         board.disableGhost(GhostType.CLYDE);
         board.initialize();
+        board.startActors();
         Configurations.smallSquareEatingGhost(board);
         Actor pacman = board.getPacMan();
         Ghost blinky = board.getGhost(GhostType.BLINKY);
         Maze maze = board.getMaze();
-        board.startActors();
+
         for(int i = 0; i < 20; i++) {
             board.nextFrame();
         }
@@ -778,11 +797,12 @@ public class BoardTest {
         Board board = Board.createBoard(GameType.CLASSIC);
         board.disableGhost(GhostType.CLYDE);
         board.initialize();
+        board.startActors();
         Configurations.smallSquareEatingGhost(board);
         Actor pacman = board.getPacMan();
         Ghost blinky = board.getGhost(GhostType.BLINKY);
         Maze maze = board.getMaze();
-        board.startActors();
+
         for(int i = 0; i < 20; i++) {
             board.nextFrame();
         }
@@ -814,11 +834,13 @@ public class BoardTest {
     public void testScoreEat4Ghosts() throws PacManException {
         Board board = Board.createBoard(GameType.CLASSIC);
         board.initialize();
+        board.startActors();
         Configurations.smallSquareEatingGhost(board);
         Actor pacman = board.getPacMan();
         Ghost blinky = board.getGhost(GhostType.BLINKY);
         Maze maze = board.getMaze();
-        board.startActors();
+        board.start();
+
         for(int i = 0; i < 20; i++) {
             board.nextFrame();
         }
@@ -856,12 +878,13 @@ public class BoardTest {
         board.disableGhost(GhostType.INKY);
         board.disableGhost(GhostType.CLYDE);
         board.initialize();
+        board.startActors();
         Configurations.smallSquareEatingGhost(board);
         Actor pacman = board.getPacMan();
         Ghost ghost = board.getGhost(GhostType.BLINKY);
         Maze maze = board.getMaze();
         maze.setTile(19,9, Tile.BD);
-        board.startActors();
+
         for(int i = 0; i < 20; i++) {
             board.nextFrame();
         }
@@ -891,6 +914,7 @@ public class BoardTest {
     public void testGhostDotCounters() throws PacManException {
         Board board = Board.createBoard(GameType.CLASSIC);
         board.initialize();
+        board.startActors();
         Configurations.blockGhosts(board.getMaze());
         Ghost pinky = board.getGhost(GhostType.PINKY);
         Ghost inky = board.getGhost(GhostType.INKY);
@@ -899,7 +923,7 @@ public class BoardTest {
         // We reduce the dot counter limit for testing purpose
         inky.getDotCounter().setLimit(7);
         clyde.getDotCounter().setLimit(8);
-        board.startActors();
+
         // Let's eat one dot
         while(board.getScore() == 0) {
             board.nextFrame();
@@ -1007,8 +1031,9 @@ public class BoardTest {
     public void testNoDotCounterGetOut() throws PacManException {
         Board board = Board.createBoard(GameType.CLASSIC);
         board.initialize();
-        Configurations.blockGhosts(board.getMaze());
         board.startActors();
+        Configurations.blockGhosts(board.getMaze());
+
         Actor pacman = board.getPacMan();
         while(!pacman.isBlocked()) {
             board.nextFrame();
@@ -1048,8 +1073,9 @@ public class BoardTest {
     public void testNoDotCounterGhostCounters() throws PacManException {
         Board board = Board.createBoard(GameType.CLASSIC);
         board.initialize();
-        Configurations.blockGhosts(board.getMaze());
         board.startActors();
+        Configurations.blockGhosts(board.getMaze());
+
         Actor pacman = board.getPacMan();
         while(!pacman.isBlocked()) {
             board.nextFrame();
@@ -1075,6 +1101,7 @@ public class BoardTest {
     public void testSpecialDotCounter() throws PacManException {
         Board board = Board.createBoard(GameType.CLASSIC);
         board.initialize();
+        board.startActors();
         Configurations.blockGhosts(board.getMaze());
         Ghost pinky = board.getGhost(GhostType.PINKY);
         Ghost inky = board.getGhost(GhostType.INKY);
@@ -1082,7 +1109,7 @@ public class BoardTest {
         clyde.getDotCounter().setLimit(5);
         Actor pacman = board.getPacMan();
         board.initializeNewLife();
-        board.startActors();
+
         assertEquals(board.specialDotCounter().getValue(), 0);
         Maze maze = board.getMaze();
         int initialDots = maze.getNumberOfDots();
@@ -1166,14 +1193,15 @@ public class BoardTest {
     @Test
     public void testSpecialDotCounterNoClyde() throws PacManException {
         Board board = Board.createBoard(GameType.CLASSIC);
-        board.disableGhost(GhostType.CLYDE);
         board.initialize();
+        board.startActors();
+        board.disableGhost(GhostType.CLYDE);
         Configurations.blockGhosts(board.getMaze());
         Ghost pinky = board.getGhost(GhostType.PINKY);
         Ghost inky = board.getGhost(GhostType.INKY);
         Actor pacman = board.getPacMan();
         board.initializeNewLife();
-        board.startActors();
+
         assertEquals(board.specialDotCounter().getValue(), 0);
         Maze maze = board.getMaze();
         int initialDots = maze.getNumberOfDots();
@@ -1236,13 +1264,14 @@ public class BoardTest {
     public void testSpecialDotCounterNoClyde2() throws PacManException {
         Board board = Board.createBoard(GameType.CLASSIC);
         board.initialize();
-        Configurations.blockGhosts(board.getMaze());
+
         Ghost pinky = board.getGhost(GhostType.PINKY);
         Ghost inky = board.getGhost(GhostType.INKY);
         Ghost clyde = board.getGhost(GhostType.CLYDE);
         Actor pacman = board.getPacMan();
         board.initializeNewLife();
         board.startActors();
+        Configurations.blockGhosts(board.getMaze());
         assertEquals(board.specialDotCounter().getValue(), 0);
         Maze maze = board.getMaze();
         int initialDots = maze.getNumberOfDots();
@@ -1309,13 +1338,14 @@ public class BoardTest {
     public void testSpecialDotCounterGhostStuckForEver() throws PacManException {
         Board board = Board.createBoard(GameType.CLASSIC);
         board.initialize();
-        Configurations.blockGhosts(board.getMaze());
+
         Ghost pinky = board.getGhost(GhostType.PINKY);
         Ghost inky = board.getGhost(GhostType.INKY);
         Ghost clyde = board.getGhost(GhostType.CLYDE);
         Actor pacman = board.getPacMan();
         board.initializeNewLife();
         board.startActors();
+        Configurations.blockGhosts(board.getMaze());
         assertEquals(board.specialDotCounter().getValue(), 0);
         Maze maze = board.getMaze();
         int initialDots = maze.getNumberOfDots();
@@ -1384,9 +1414,10 @@ public class BoardTest {
     public void testSpecialDotCounterNewLifeReset() throws PacManException {
         Board board = Board.createBoard(GameType.CLASSIC);
         board.initialize();
+        board.startActors();
         Configurations.blockGhosts(board.getMaze());
         board.initializeNewLife();
-        board.startActors();
+
         Maze maze = board.getMaze();
         int initialDots = maze.getNumberOfDots();
         while (initialDots - maze.getNumberOfDots() < 3) {

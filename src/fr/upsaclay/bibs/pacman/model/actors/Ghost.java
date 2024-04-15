@@ -121,4 +121,6 @@ public interface Ghost extends Actor {
 
     void setFrightenedCounter(int nb);
     int getFrightenedCounter();
+     void setStateCounter(int nb);
+     double getStateCounter();
 }

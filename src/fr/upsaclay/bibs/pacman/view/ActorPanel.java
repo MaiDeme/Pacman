@@ -148,10 +148,7 @@ public class ActorPanel extends JPanel {
             String[][] sprite = GhostSprites.get( "ghost_"+"dead");
             for (int y = 0; y < sprite.length; y++) {
                 for (int x = 0; x < sprite[y].length; x++) {
-                    if (sprite[y][x].equals("1")) {
-                        g.setColor(new Color(236,212,83));
-                        g.fillRect((x + i) * size, (y + j) * size, size, size);
-                    } else if (sprite[y][x].equals("2")) {
+                    if (sprite[y][x].equals("2")) {
                         g.setColor(Color.WHITE);
                         g.fillRect((x + i) * size, (y + j) * size, size, size);
                     } else if (sprite[y][x].equals("3")) {

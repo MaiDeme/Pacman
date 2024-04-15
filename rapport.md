@@ -45,7 +45,8 @@ Pacman : modification des tests pour prendre en compte le temps d'aret quand il 
 
 Board : modification des tests car StartActors ne sert qu'a initialiser la position des acteurs, board.start passe le jeu en état STARTED
         modification des tests sur le nombre de vie car on commence avec 3 vies
-
+        modification des tests sur l'etat effrayé des fantomes : au niveau 6 il dure 300 frames et pas 360
+        
 
 ## Organisation du travail
 
@@ -60,7 +61,7 @@ Maiwenn :
 Camille : 
 
 Anne : 
--Classe Maze : Tout
+-Classe Maze : tout
 -Pacman : Next Move et SetIntention
 -Ghost : Changement des etats des fantomes 
 -Board : Vie suplémentaire de Pacman, score, Gestion des changments d'état du plateau après chaque NextFrame
@@ -90,7 +91,7 @@ Maiwenn :
 
 Camille : 
 
-Anne : DE façon générale je suis plus efficace en javascript et quand il faut rajouter une fonctionnalite j'ai dejà une
+Anne : De façon générale je suis plus efficace en javascript et quand il faut rajouter une fonctionnalite j'ai dejà une
 idée de comment le faire.J'ai progressé dans l'organisation des classes et leur logique (pourquoi il faut une interface, poourquoi il y a 
 des héritages, ...). Je comprends aussi mieux l'interet des fonctions setValue et getValue. La ou j'ai le plus progresse
 c'est dans les interfaces graphiques et les controllers car j'ai beaucoup modifié les focntions de Maiwenn donc j'ai du

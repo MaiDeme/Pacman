@@ -8,17 +8,21 @@ import fr.upsaclay.bibs.pacman.model.maze.Maze;
 import fr.upsaclay.bibs.pacman.model.maze.Tile;
 import fr.upsaclay.bibs.pacman.model.maze.TilePosition;
 
+import static java.lang.Integer.MAX_VALUE;
+
 public abstract class AbstractGhost extends AbstractActor implements Ghost {
 
     protected GhostState currentState;
     protected GhostState previousState;
     protected  GhostPenState currentPenState;
     protected int FrightenedCounter;
+    protected double stateCounter;
 
 
     public AbstractGhost(Board board, ActorType type) {
         super(board, type);
         this.currentState = GhostState.SCATTER;
+        this.stateCounter = 0;
 
     }
 
@@ -39,11 +43,10 @@ public abstract class AbstractGhost extends AbstractActor implements Ghost {
     @Override
     public void nextMove() {
             if (!this.getGhostPenState().equals(GhostPenState.IN)) {
-                double x_depart = this.x;
-                double y_depart = this.y;
+
                 double x_arrivee = this.x + this.getDirection().getDx() * this.getSpeed();
                 double y_arrivee = this.y + this.getDirection().getDy() * this.getSpeed();
-                Tile arrivee_tuile = this.getBoard().getMaze().getTile(this.getCurrentTile());
+
 
 
                 // on vérifie s'il fait un mouvement circulaire
@@ -118,7 +121,7 @@ public abstract class AbstractGhost extends AbstractActor implements Ghost {
 
         //On parcoure la liste des directions
         for (fr.upsaclay.bibs.pacman.model.Direction dir : directions) {
-            if ((dir == this.Direction.reverse()) // le fantôme essaye de faire demi-tour
+            if ((dir.equals(this.Direction.reverse())) // le fantôme essaye de faire demi-tour
                 || (!this.getBoard().getMaze().getTile(next_tuile).ghostCanGoUp() && dir == Direction.UP) // il est sur une case où il ne peut pas aller vers le haut
                 || (this.getBoard().getMaze().getNeighbourTile(next_tuile, dir).isWall()) ) { // la prochaine case est un mur
                 dist[i] = Double.MAX_VALUE;
@@ -137,7 +140,6 @@ public abstract class AbstractGhost extends AbstractActor implements Ghost {
                 min = i;
             }
         }
-
             return directions[min];
 
     }
@@ -152,9 +154,9 @@ public abstract class AbstractGhost extends AbstractActor implements Ghost {
 
                 this.setFrightenedCounter(this.getFrightenedCounter() +1);
 
-                if (this.getFrightenedCounter() == this.getBoard().getFrightenedtime() * 60 - this.getBoard().getNbFlashes() * 10) {
+                if (this.getFrightenedCounter() == this.getBoard().getFrightenedtime() * 60 ) {
                         this.changeGhostState(GhostState.FRIGHTENED_END);
-                } else if (this.getFrightenedCounter() >= this.getBoard().getFrightenedtime() * 60) {
+                } else if (this.getFrightenedCounter() >= this.getBoard().getFrightenedtime() * 60 + this.getBoard().getNbFlashes() * 30) {
                     this.changeGhostState(this.getPreviousGhostState());
                     this.setFrightenedCounter(0);
                     this.getBoard().setEatGhost(0);
@@ -164,8 +166,8 @@ public abstract class AbstractGhost extends AbstractActor implements Ghost {
 
             case SCATTER:
             case CHASE:
-                this.getBoard().setStateCounter(this.getBoard().getStateCounter() +1);
-                double time = this.getBoard().getStateCounter() /(60*4);
+                this.setStateCounter((int) (this.getStateCounter() +1));
+                double time = this.getStateCounter()/60;
 
                 int level = this.getBoard().getLevel();
 
@@ -185,6 +187,7 @@ public abstract class AbstractGhost extends AbstractActor implements Ghost {
                         this.changeGhostState(GhostState.SCATTER);
                     } else if (time == 84) {
                         this.changeGhostState(GhostState.CHASE);
+                        this.setStateCounter(MAX_VALUE);
                     }
 
                 } else if (level > 1 && level < 5) {
@@ -200,12 +203,12 @@ public abstract class AbstractGhost extends AbstractActor implements Ghost {
                         this.changeGhostState(GhostState.CHASE);
                     } else if (time == 1092) {
                         this.changeGhostState(GhostState.SCATTER);
-                    } else if (time == (1092 + 1 / 60)) {
+                    } else if (time*60 == (1092*60 + 1)) {
                         this.changeGhostState(GhostState.CHASE);
-
+                        this.setStateCounter(MAX_VALUE);
                     }
 
-                } else {
+                } else if (level >= 5){
                     if (time == 5) {
                         this.changeGhostState(GhostState.CHASE);
                     } else if (time == 25) {
@@ -218,8 +221,9 @@ public abstract class AbstractGhost extends AbstractActor implements Ghost {
                         this.changeGhostState(GhostState.CHASE);
                     } else if (time == 1092) {
                         this.changeGhostState(GhostState.SCATTER);
-                    } else if (time == (1092 + 1 / 60)) {
+                    } else if (time*60 == (1092*60 + 1)) {
                         this.changeGhostState(GhostState.CHASE);
+                        this.setStateCounter(MAX_VALUE);
 
                     }
 
@@ -378,6 +382,12 @@ public abstract class AbstractGhost extends AbstractActor implements Ghost {
     }
     public int getFrightenedCounter(){
         return this.FrightenedCounter;
+    }
+    public void setStateCounter(int nb){
+        this.stateCounter = nb;
+    }
+    public double getStateCounter(){
+        return this.stateCounter;
     }
 
 }
