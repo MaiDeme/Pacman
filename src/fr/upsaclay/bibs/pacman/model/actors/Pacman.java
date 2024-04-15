@@ -19,8 +19,7 @@ public class Pacman extends AbstractActor {
     public Pacman(Board board) {
         super(board, ActorType.PACMAN);
         setDirection(Direction.LEFT);
-        
-
+    
     }
 
 
@@ -42,6 +41,8 @@ public class Pacman extends AbstractActor {
             this.x = 35;
             this.y = 75;
         }
+        setSpeed(board.getLevelPacManSpeed());
+
         this.setDirection(fr.upsaclay.bibs.pacman.model.Direction.LEFT);
     }
 

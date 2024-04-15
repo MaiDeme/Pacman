@@ -24,6 +24,7 @@ public class Pinky extends AbstractGhost{
         this.x = 112;
         this.y = 139;
         this.setGhostState(GhostState.SCATTER);
+        this.setGhostPenState(GhostPenState.IN);
         this.Direction = fr.upsaclay.bibs.pacman.model.Direction.LEFT;
         this.speed = this.DEFAULT_SPEED;
         TilePosition depart = this.getCurrentTile();
@@ -60,7 +61,7 @@ public class Pinky extends AbstractGhost{
             case FRIGHTENED_END:
                 return null;
             default:
-                return new TilePosition(14,13);
+                return this.getBoard().penEntry();
         }
 
 

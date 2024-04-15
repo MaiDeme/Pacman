@@ -21,8 +21,8 @@ public abstract class AbstractGhost extends AbstractActor implements Ghost {
 
     public AbstractGhost(Board board, ActorType type) {
         super(board, type);
+        super.setSpeed(board.getLevelGhostSpeed());
         this.currentState = GhostState.SCATTER;
-        this.stateCounter = 0;
 
     }
 
@@ -44,6 +44,17 @@ public abstract class AbstractGhost extends AbstractActor implements Ghost {
     public void nextMove() {
             if (!this.getGhostPenState().equals(GhostPenState.IN)) {
 
+            // S'il est mort et devant l'enclos il y entre
+            if(this.currentState.equals(GhostState.DEAD)) {
+                if (this.getX() == board.outPenXPosition() && this.getY() == board.outPenYPosition()) {
+                    this.setGhostPenState(GhostPenState.GET_IN);
+                    setSpeed(0.5);
+                }
+            }
+
+            if (this.currentPenState.equals(GhostPenState.OUT)) {
+                double x_depart = this.x;
+                double y_depart = this.y;
                 double x_arrivee = this.x + this.getDirection().getDx() * this.getSpeed();
                 double y_arrivee = this.y + this.getDirection().getDy() * this.getSpeed();
 
@@ -95,6 +106,49 @@ public abstract class AbstractGhost extends AbstractActor implements Ghost {
                         this.intention = getNextIntention(this.getCurrentTile());
                     }
                 }
+            } else if (this.currentPenState.equals(GhostPenState.GET_IN)) {
+                if (this.getY() == board.penGhostYPosition(this.getGhostType())) {
+                    if (this.getX() == board.penGhostXPosition(this.getGhostType())) {
+                        this.setGhostPenState(GhostPenState.IN);
+                        this.setGhostState(this.previousState);
+                    } else {
+                        if (this.getX() - board.penGhostXPosition(this.getGhostType()) > 0) {
+                            setDirection(fr.upsaclay.bibs.pacman.model.Direction.LEFT);
+                        } else {
+                            setDirection(fr.upsaclay.bibs.pacman.model.Direction.RIGHT);
+                        }
+                        double x_arrivee = this.x + this.getDirection().getDx() * this.getSpeed();
+                        double y_arrivee = this.y + this.getDirection().getDy() * this.getSpeed();
+                        setPosition(x_arrivee, y_arrivee);
+                    }
+                } else {
+                    setDirection(fr.upsaclay.bibs.pacman.model.Direction.DOWN);
+                    double x_arrivee = this.x + this.getDirection().getDx() * this.getSpeed();
+                    double y_arrivee = this.y + this.getDirection().getDy() * this.getSpeed();
+                    setPosition(x_arrivee, y_arrivee);
+                }
+            } else if (this.currentPenState.equals(GhostPenState.IN)) {
+                // version très simple, si on est dedans on sort
+                setGhostPenState(GhostPenState.GET_OUT);
+            } else { // penState GET_OUT
+                if (this.getX() == board.outPenXPosition()) {
+                    if (this.getY() == board.outPenYPosition()) {
+                        this.setGhostPenState(GhostPenState.OUT);
+                        setSpeed(getDefaultSpeed());
+                        setDirection(getOutOfPenDirection());
+                    } else {
+                        setDirection(fr.upsaclay.bibs.pacman.model.Direction.UP);
+                    }
+                } else {
+                    if (this.getX() - board.outPenXPosition() > 0) {
+                        setDirection(fr.upsaclay.bibs.pacman.model.Direction.LEFT);
+                    } else {
+                        setDirection(fr.upsaclay.bibs.pacman.model.Direction.RIGHT);
+                    }
+                }
+                double x_arrivee = this.x + this.getDirection().getDx() * this.getSpeed();
+                double y_arrivee = this.y + this.getDirection().getDy() * this.getSpeed();
+                setPosition(x_arrivee, y_arrivee);
             }
     }
 
@@ -230,9 +284,6 @@ public abstract class AbstractGhost extends AbstractActor implements Ghost {
                 }
                 break;
             default:
-                if (this.getCurrentTile().equals(this.getTarget())){
-                    changeGhostState(this.previousState);
-                }
                 break;
         }
     }
@@ -315,7 +366,7 @@ public abstract class AbstractGhost extends AbstractActor implements Ghost {
      */
     @Override
     public void setOutOfPenDirection(fr.upsaclay.bibs.pacman.model.Direction dir) {
-
+        this.setDirection(getOutOfPenDirection());
     }
 
     /**
@@ -325,7 +376,8 @@ public abstract class AbstractGhost extends AbstractActor implements Ghost {
      */
     @Override
     public fr.upsaclay.bibs.pacman.model.Direction getOutOfPenDirection() {
-        return null;
+        // je fais simple pour l'instant, en vrai il est possible qu'il aille à droite
+        return fr.upsaclay.bibs.pacman.model.Direction.LEFT;
     }
 
     /**
