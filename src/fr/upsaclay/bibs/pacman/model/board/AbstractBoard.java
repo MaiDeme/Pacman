@@ -408,7 +408,7 @@ public abstract class AbstractBoard implements Board {
      * @return a tile position
      */
     public TilePosition penEntry() {
-        return null;
+        return new TilePosition(14, 13);
     }
 
     /**
@@ -417,7 +417,7 @@ public abstract class AbstractBoard implements Board {
      * @return a positive integer
      */
     public int minYPen() {
-        return 0;
+        return 134;
     }
 
     /**
@@ -426,7 +426,7 @@ public abstract class AbstractBoard implements Board {
      * @return a positive integer
      */
     public int maxYPen() {
-        return 0;
+        return 144;
     }
 
     /**
@@ -436,6 +436,15 @@ public abstract class AbstractBoard implements Board {
      * @return a positive integer
      */
     public int penGhostXPosition(GhostType type) {
+        switch(type) {
+            case BLINKY :
+            case PINKY :
+                return 112;
+            case INKY:
+                return 96;
+            case CLYDE:
+                return 128;
+        }
         return 0;
     }
 
@@ -446,7 +455,7 @@ public abstract class AbstractBoard implements Board {
      * @return a positive integer
      */
     public int penGhostYPosition(GhostType type) {
-        return 0;
+        return 139;
     }
 
     /**
@@ -455,7 +464,7 @@ public abstract class AbstractBoard implements Board {
      * @return a positive integer
      */
     public int outPenXPosition() {
-        return 0;
+        return 112;
     }
 
     /**
@@ -464,7 +473,7 @@ public abstract class AbstractBoard implements Board {
      * @return a positive integer
      */
     public int outPenYPosition() {
-        return 0;
+        return 115;
     }
 
     /**

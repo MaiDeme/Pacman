@@ -20,6 +20,7 @@ public class Clyde extends AbstractGhost {
         this.x = 128;
         this.y = 139;
         this.setGhostState(GhostState.SCATTER);
+        this.setGhostPenState(GhostPenState.IN);
         this.Direction = fr.upsaclay.bibs.pacman.model.Direction.LEFT;
         this.speed = this.DEFAULT_SPEED;
         TilePosition depart = this.getCurrentTile();
@@ -67,7 +68,7 @@ public class Clyde extends AbstractGhost {
             case FRIGHTENED_END:
                 return null;
             default:
-                return new TilePosition(14,13);
+                return this.getBoard().penEntry();
         }
     }
 

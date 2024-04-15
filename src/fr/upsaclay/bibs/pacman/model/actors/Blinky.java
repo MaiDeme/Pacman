@@ -65,7 +65,7 @@ public class Blinky extends AbstractGhost {
             case FRIGHTENED_END:
                 return null;
             case DEAD:
-                return new TilePosition(14,13);
+                return this.getBoard().penEntry();
         }
 
     }
