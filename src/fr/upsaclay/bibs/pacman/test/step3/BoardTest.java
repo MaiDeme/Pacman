@@ -607,7 +607,7 @@ public class BoardTest {
         int[] frightEndTimes = {150, 150, 150, 150, 150, 150, 150, 150, 90, 150, 150, 90, 90, 150, 90, 90, -1, 90};
         Board board = Board.createBoard(GameType.CLASSIC);
         board.initialize();
-        for(int level = 6; level < 7; level++) {
+        for(int level = 1; level < 19; level++) {
             if(frightenStateTimes[level-1] > 0) {
                 board.initializeNewLevel(level);
                 Configurations.blockGhosts(board.getMaze());

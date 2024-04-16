@@ -44,113 +44,114 @@ public abstract class AbstractGhost extends AbstractActor implements Ghost {
     public void nextMove() {
             if (!this.getGhostPenState().equals(GhostPenState.IN)) {
 
-            // S'il est mort et devant l'enclos il y entre
-            if(this.currentState.equals(GhostState.DEAD)) {
-                if (this.getX() == board.outPenXPosition() && this.getY() == board.outPenYPosition()) {
-                    this.setGhostPenState(GhostPenState.GET_IN);
-                    setSpeed(0.5);
-                }
-            }
-
-            if (this.currentPenState.equals(GhostPenState.OUT)) {
-                double x_depart = this.x;
-                double y_depart = this.y;
-                double x_arrivee = this.x + this.getDirection().getDx() * this.getSpeed();
-                double y_arrivee = this.y + this.getDirection().getDy() * this.getSpeed();
-
-
-
-                // on vérifie s'il fait un mouvement circulaire
-                if (Direction == fr.upsaclay.bibs.pacman.model.Direction.LEFT && x_arrivee < 0) {
-                    //Il fait un mouvement circulaire par la gauche, sa nouvelle position x est la largeur du plateau moins la différence entre l'arrivée et -1
-                    this.setPosition(getBoard().getMaze().getPixelWidth() - 1 - (x_arrivee + 1), y_arrivee);
-                } else if (Direction == fr.upsaclay.bibs.pacman.model.Direction.RIGHT && x_arrivee > (getBoard().getMaze().getPixelWidth() - 1)) {
-                    //Il fait un mouvement circulaire par la droite, sa nouvelle position x est 0 + différence largeur du plateau et arrivée
-                    this.setPosition((x_arrivee - getBoard().getMaze().getPixelWidth()), y_arrivee);
-                } else {
-                    //Il ne fait pas de mouvement circulaire, on calcule sa position normalement en multipliant par la vitesse
-                    this.setPosition(x_arrivee, y_arrivee);
-                }
-
-
-                //S'il est sur une tuile à vitesse lente
-                if (this.getBoard().getMaze().getTile(this.getCurrentTile()) == Tile.SL) {
-                    if (getSpeed() == getDefaultSpeed()) {
-                        this.setSpeed(0.5);
-                    }
-                } else {
-                    if (getSpeed() == 0.5) {
-                        this.setSpeed(getDefaultSpeed());
+                // S'il est mort et devant l'enclos il y entre
+                if (this.currentState.equals(GhostState.DEAD)) {
+                    if (this.getX() == board.outPenXPosition() && this.getY() == board.outPenYPosition()) {
+                        this.setGhostPenState(GhostPenState.GET_IN);
+                        setSpeed(0.5);
                     }
                 }
 
-                // Quand il rejoint le centre d'une tuile :  il calcule sa nouvelle intention ou direction
-                if (this.getX() % Maze.TILE_WIDTH == Maze.TITLE_CENTER_X
-                        && this.getY() % Maze.TILE_HEIGHT == Maze.TITLE_CENTER_Y) {
-                    this.Direction = this.intention;
+                if (this.currentPenState.equals(GhostPenState.OUT)) {
+                    double x_depart = this.x;
+                    double y_depart = this.y;
+                    double x_arrivee = this.x + this.getDirection().getDx() * this.getSpeed();
+                    double y_arrivee = this.y + this.getDirection().getDy() * this.getSpeed();
 
-                    if (this.getGhostState().equals(GhostState.FRIGHTENED_END) || this.getGhostState().equals(GhostState.FRIGHTENED)) {
-                        if (this.getBoard().getMaze().IsIntersection(this.getCurrentTile(), this.getDirection())) {
-                            fr.upsaclay.bibs.pacman.model.Direction dir = this.getDirection().reverse();
 
-                            while (dir.reverse().equals(this.getDirection())
-                                    || this.getBoard().getMaze().getNeighbourTile(this.getCurrentTile(), dir).isWall()
-                                    || ( dir.equals(fr.upsaclay.bibs.pacman.model.Direction.UP) && !this.getBoard().getMaze().getTile(this.getCurrentTile()).ghostCanGoUp())) {
-                                dir = this.getBoard().getRandomDirection();
+                    // on vérifie s'il fait un mouvement circulaire
+                    if (Direction == fr.upsaclay.bibs.pacman.model.Direction.LEFT && x_arrivee < 0) {
+                        //Il fait un mouvement circulaire par la gauche, sa nouvelle position x est la largeur du plateau moins la différence entre l'arrivée et -1
+                        this.setPosition(getBoard().getMaze().getPixelWidth() - 1 - (x_arrivee + 1), y_arrivee);
+                    } else if (Direction == fr.upsaclay.bibs.pacman.model.Direction.RIGHT && x_arrivee > (getBoard().getMaze().getPixelWidth() - 1)) {
+                        //Il fait un mouvement circulaire par la droite, sa nouvelle position x est 0 + différence largeur du plateau et arrivée
+                        this.setPosition((x_arrivee - getBoard().getMaze().getPixelWidth()), y_arrivee);
+                    } else {
+                        //Il ne fait pas de mouvement circulaire, on calcule sa position normalement en multipliant par la vitesse
+                        this.setPosition(x_arrivee, y_arrivee);
+                    }
+
+
+                    //S'il est sur une tuile à vitesse lente
+                    if (this.getBoard().getMaze().getTile(this.getCurrentTile()) == Tile.SL) {
+                        if (getSpeed() == getDefaultSpeed()) {
+                            this.setSpeed(0.5);
+                        }
+                    } else {
+                        if (getSpeed() == 0.5) {
+                            this.setSpeed(getDefaultSpeed());
+                        }
+                    }
+
+                    // Quand il rejoint le centre d'une tuile :  il calcule sa nouvelle intention ou direction
+                    if (this.getX() % Maze.TILE_WIDTH == Maze.TITLE_CENTER_X
+                            && this.getY() % Maze.TILE_HEIGHT == Maze.TITLE_CENTER_Y) {
+                        this.Direction = this.intention;
+
+                        if (this.getGhostState().equals(GhostState.FRIGHTENED_END) || this.getGhostState().equals(GhostState.FRIGHTENED)) {
+                            if (this.getBoard().getMaze().IsIntersection(this.getCurrentTile(), this.getDirection())) {
+                                fr.upsaclay.bibs.pacman.model.Direction dir = this.getDirection().reverse();
+
+                                while (dir.reverse().equals(this.getDirection())
+                                        || this.getBoard().getMaze().getNeighbourTile(this.getCurrentTile(), dir).isWall()
+                                        || (dir.equals(fr.upsaclay.bibs.pacman.model.Direction.UP) && !this.getBoard().getMaze().getTile(this.getCurrentTile()).ghostCanGoUp())) {
+                                    dir = this.getBoard().getRandomDirection();
+                                }
+                                this.setIntention(dir);
+                                this.Direction = this.intention;
                             }
-                            this.setIntention(dir);
-                            this.Direction = this.intention;
-                        }
-                    } else {
-                        //il applique son intention et met donc à jour sa direction
-                        this.intention = getNextIntention(this.getCurrentTile());
-                    }
-                }
-            } else if (this.currentPenState.equals(GhostPenState.GET_IN)) {
-                if (this.getY() == board.penGhostYPosition(this.getGhostType())) {
-                    if (this.getX() == board.penGhostXPosition(this.getGhostType())) {
-                        this.setGhostPenState(GhostPenState.IN);
-                        this.setGhostState(this.previousState);
-                    } else {
-                        if (this.getX() - board.penGhostXPosition(this.getGhostType()) > 0) {
-                            setDirection(fr.upsaclay.bibs.pacman.model.Direction.LEFT);
                         } else {
-                            setDirection(fr.upsaclay.bibs.pacman.model.Direction.RIGHT);
+                            //il applique son intention et met donc à jour sa direction
+                            this.intention = getNextIntention(this.getCurrentTile());
                         }
+                    }
+                } else if (this.currentPenState.equals(GhostPenState.GET_IN)) {
+                    if (this.getY() == board.penGhostYPosition(this.getGhostType())) {
+                        if (this.getX() == board.penGhostXPosition(this.getGhostType())) {
+                            this.setGhostPenState(GhostPenState.IN);
+                            this.setGhostState(this.previousState);
+                        } else {
+                            if (this.getX() - board.penGhostXPosition(this.getGhostType()) > 0) {
+                                setDirection(fr.upsaclay.bibs.pacman.model.Direction.LEFT);
+                            } else {
+                                setDirection(fr.upsaclay.bibs.pacman.model.Direction.RIGHT);
+                            }
+                            double x_arrivee = this.x + this.getDirection().getDx() * this.getSpeed();
+                            double y_arrivee = this.y + this.getDirection().getDy() * this.getSpeed();
+                            setPosition(x_arrivee, y_arrivee);
+                        }
+                    } else {
+                        setDirection(fr.upsaclay.bibs.pacman.model.Direction.DOWN);
                         double x_arrivee = this.x + this.getDirection().getDx() * this.getSpeed();
                         double y_arrivee = this.y + this.getDirection().getDy() * this.getSpeed();
                         setPosition(x_arrivee, y_arrivee);
                     }
-                } else {
-                    setDirection(fr.upsaclay.bibs.pacman.model.Direction.DOWN);
+                } else if (this.currentPenState.equals(GhostPenState.IN)) {
+                    // version très simple, si on est dedans on sort
+                    setGhostPenState(GhostPenState.GET_OUT);
+                } else { // penState GET_OUT
+                    if (this.getX() == board.outPenXPosition()) {
+                        if (this.getY() == board.outPenYPosition()) {
+                            this.setGhostPenState(GhostPenState.OUT);
+                            setSpeed(getDefaultSpeed());
+                            setDirection(getOutOfPenDirection());
+                        } else {
+                            setDirection(fr.upsaclay.bibs.pacman.model.Direction.UP);
+                        }
+                    } else {
+                        if (this.getX() - board.outPenXPosition() > 0) {
+                            setDirection(fr.upsaclay.bibs.pacman.model.Direction.LEFT);
+                        } else {
+                            setDirection(fr.upsaclay.bibs.pacman.model.Direction.RIGHT);
+                        }
+                    }
                     double x_arrivee = this.x + this.getDirection().getDx() * this.getSpeed();
                     double y_arrivee = this.y + this.getDirection().getDy() * this.getSpeed();
                     setPosition(x_arrivee, y_arrivee);
                 }
-            } else if (this.currentPenState.equals(GhostPenState.IN)) {
-                // version très simple, si on est dedans on sort
-                setGhostPenState(GhostPenState.GET_OUT);
-            } else { // penState GET_OUT
-                if (this.getX() == board.outPenXPosition()) {
-                    if (this.getY() == board.outPenYPosition()) {
-                        this.setGhostPenState(GhostPenState.OUT);
-                        setSpeed(getDefaultSpeed());
-                        setDirection(getOutOfPenDirection());
-                    } else {
-                        setDirection(fr.upsaclay.bibs.pacman.model.Direction.UP);
-                    }
-                } else {
-                    if (this.getX() - board.outPenXPosition() > 0) {
-                        setDirection(fr.upsaclay.bibs.pacman.model.Direction.LEFT);
-                    } else {
-                        setDirection(fr.upsaclay.bibs.pacman.model.Direction.RIGHT);
-                    }
-                }
-                double x_arrivee = this.x + this.getDirection().getDx() * this.getSpeed();
-                double y_arrivee = this.y + this.getDirection().getDy() * this.getSpeed();
-                setPosition(x_arrivee, y_arrivee);
             }
     }
+
 
     public fr.upsaclay.bibs.pacman.model.Direction getNextIntention(TilePosition depart) {
 
