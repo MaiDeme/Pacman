@@ -207,6 +207,9 @@ public class ActorPanel extends JPanel {
             case 3:
                 spriteName = "pacman_bigmouth_" + Pacman.getDirection();
                 break;
+            case 4:
+                spriteName = "pacman_" + Pacman.getDirection();
+                break;
             default:
                 spriteName = "pacman_closedmouth";
         }
@@ -232,9 +235,9 @@ public class ActorPanel extends JPanel {
   
 
         frameCounter++;
-        if (frameCounter % 6 == 0) {
+        if (frameCounter % 8 == 0) {
             openMouth++;
-            if (openMouth > 3) {
+            if (openMouth > 4) {
                 openMouth = 1;
                 frameCounter = 0;
             }
@@ -246,10 +249,10 @@ public class ActorPanel extends JPanel {
                 TilePosition pos = maze.getTilePosition(j, i);
                 for (Ghost ghost : ghosts) {
                     if (pos.equals(ghost.getCurrentTile())) {
-                        paintGhost(g, j, i, ghost);
+                        paintGhost(g, j-5, i-5, ghost);
                     }
                     if (pos.equals(Pacpos)) {
-                        paintPacMan(g, j, i);
+                        paintPacMan(g, j-3, i-5);
                     }
                 }
             }
