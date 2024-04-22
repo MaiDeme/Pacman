@@ -12,7 +12,7 @@ public abstract class AbstractActor implements Actor{
     protected double x;
     protected double y;
     protected Board board;
-    protected Direction Direction;
+    protected Direction direction;
     protected Direction intention;
     protected boolean blocked;
     protected double speed;
@@ -68,12 +68,12 @@ public abstract class AbstractActor implements Actor{
 
     @Override
     public Direction getDirection() {
-        return this.Direction;
+        return this.direction;
     }
 
     @Override
     public void setDirection(Direction direction) {
-        this.Direction = direction;
+        this.direction = direction;
 
     }
 
