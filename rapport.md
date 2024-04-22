@@ -100,7 +100,7 @@ Antoine :
 
 Maïwen :
 
-- Première implémentation de l'interface et des controlleurs. Les différents Panel, l'affichage du maze, des fantomes, de pacman, des vies et l'écran de titre.
+- Première implémentation de l'interface et des controlleurs. Les différents Panel, l'affichage du maze, des fantomes, de pacman, des vies et l'écran de titre (toute la view).
 - Tentative de faire apparaitre l'animation quand Pacman meurt (visible sur une autre branche mais très peu fonctionnel).
 - Debut de mise en place d'une autre hiérachie de classe pour la View avec une classe abstraite pour dessiner les actors, fantomes... (autre branche).
 - High speed des actors et snapping
