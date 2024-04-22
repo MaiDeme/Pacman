@@ -37,7 +37,7 @@ public class SoundManager {
         loadSound("GHOST_FREAKED", "resources/sounds/pacman_intermission.wav");
         loadSound("GHOST_EATEN", "resources/sounds/8d82b5_Pacman_Eating_Ghost_Sound_Effect.wav");
 
-        // Load other sounds as needed
+    
     }
 
     public void play(String soundName) {
@@ -68,13 +68,13 @@ public class SoundManager {
         if (clip != null) {
             Thread soundThread = new Thread(() -> {
                 if (clip.isRunning()) {
-                    clip.stop();  // Stop the clip if it is already playing
+                    clip.stop();  
                 }
-                clip.setFramePosition(0);  // Rewind to the beginning
-                clip.start();  // Start playing
+                clip.setFramePosition(0);  
+                clip.start(); 
                 try {
                     while (clip.isActive()) {
-                        Thread.sleep(100);  // Wait a short while and check again
+                        Thread.sleep(100); 
                     }
                 } catch (InterruptedException e) {
                     Thread.currentThread().interrupt();
@@ -82,7 +82,7 @@ public class SoundManager {
             });
             soundThread.start();
             try {
-                soundThread.join();  // Wait for the sound thread to finish playing
+                soundThread.join();  
             } catch (InterruptedException e) {
                 Thread.currentThread().interrupt();
             }
@@ -91,6 +91,6 @@ public class SoundManager {
     
     
     
-    // Add other methods for pause, resume, etc., as needed
+    
 }
 
