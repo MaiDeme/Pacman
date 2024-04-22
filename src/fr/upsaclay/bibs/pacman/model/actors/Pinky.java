@@ -21,6 +21,8 @@ public class Pinky extends AbstractGhost{
 
     @Override
     public void start() {
+        this.elroy = 0;
+        this.currentPenState = GhostPenState.IN;
         this.x = 112;
         this.y = 139;
         this.setGhostState(GhostState.SCATTER);
@@ -95,7 +97,7 @@ public class Pinky extends AbstractGhost{
 
     @Override
     public void setElroy(int elroy) {
-
+        this.elroy = 0;
     }
 
 

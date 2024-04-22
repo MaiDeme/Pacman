@@ -787,8 +787,8 @@ public class PacManTest {
         Board testBoard = Board.createBoard(GameType.TEST);
         testBoard.initialize();
         Actor pacman = testBoard.getPacMan();
-        pacman.setSpeed(.5);
         testBoard.startActors();
+        pacman.setSpeed(.5);
         int x = pacman.getX();
         int y = pacman.getY();
         pacman.nextMove();

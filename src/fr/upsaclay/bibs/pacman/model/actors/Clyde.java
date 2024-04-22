@@ -17,6 +17,8 @@ public class Clyde extends AbstractGhost {
 
     @Override
     public void start() {
+        this.elroy = 0;
+        this.currentPenState = GhostPenState.IN;
         this.x = 128;
         this.y = 139;
         this.setGhostState(GhostState.SCATTER);
@@ -125,6 +127,7 @@ public class Clyde extends AbstractGhost {
      */
     @Override
     public void setElroy(int elroy) {
+        this.elroy = 0;
 
     }
 }

@@ -21,6 +21,8 @@ public class Blinky extends AbstractGhost {
 
     @Override
     public void start() {
+        this.elroy = 0;
+        this.currentPenState = GhostPenState.OUT;
         this.x = 112;
         this.y = 115;
         this.setGhostState(GhostState.SCATTER);
@@ -64,7 +66,11 @@ public class Blinky extends AbstractGhost {
             default:
                 return board.getMaze().getTilePosition(this.getBoard().getPacMan().getX(), this.getBoard().getPacMan().getY());
             case SCATTER:
-                return this.scattertarget;
+                if (this.elroy == 0) {
+                    return this.scattertarget;
+                }else{
+                    return board.getMaze().getTilePosition(this.getBoard().getPacMan().getX(), this.getBoard().getPacMan().getY());
+                }
             case FRIGHTENED:
             case FRIGHTENED_END:
                 return null;
@@ -124,6 +130,165 @@ public class Blinky extends AbstractGhost {
      */
     @Override
     public void setElroy(int elroy) {
+        this.elroy = elroy;
+
+        if (this.elroy == 1){
+            switch (this.getBoard().getLevel()){
+                case 1 :
+                    this.speed = 1;
+                    break;
+                case 2 :
+                case 3 :
+                case 4 :
+                    this.speed = 1.14;
+                    break;
+                default:
+                    this.speed = 1.26;
+                    break;
+            }
+
+
+        } else if (this.elroy == 2) {
+            switch (this.getBoard().getLevel()){
+                case 1 :
+                    this.speed = 1.14;
+                    break;
+                case 2 :
+                case 3 :
+                case 4 :
+                    this.speed = 1.2;
+                    break;
+                default:
+                    this.speed = 1.33;
+                    break;
+            }
+
+        }
+    }
+
+    @Override
+    public void nextMove() {
+        super.nextMove();
+
+        int dots = this.getBoard().getMaze().getNumberOfDots();
+        switch (elroy){
+            case 0 :
+                switch (this.getBoard().getLevel()){
+                    case 1 :
+                        if (dots == 20){
+                            this.setElroy(1);
+                        }
+                        break;
+                    case 2 :
+                        if (dots == 30){
+                            this.setElroy(1);
+                        }
+                        break;
+                    case 3 :
+                    case 4 :
+                    case 5 :
+                        if (dots == 40){
+                            this.setElroy(1);
+                        }
+                        break;
+                    case 6 :
+                    case 7 :;
+                    case 8 :
+                        if (dots == 50){
+                            this.setElroy(1);
+                        }
+                        break;
+                    case 9 :
+                    case 10:
+                    case 11 :
+                        if (dots == 60){
+                            this.setElroy(1);
+                        }
+                        break;
+                    case 12 :
+                    case 13:
+                    case 14:
+                        if (dots == 80){
+                            this.setElroy(1);
+                        }
+                        break;
+                    case 15:
+                    case 16:
+                    case 17:
+                    case 18:
+                        if (dots == 100){
+                            this.setElroy(1);
+                        }
+                        break;
+                    default:
+                        if (dots == 120){
+                            this.setElroy(1);
+                        }
+                        break;
+
+
+
+                }
+
+                break;
+            case 1 :
+                switch (this.getBoard().getLevel()) {
+                    case 1:
+                        if (dots == 10) {
+                            this.setElroy(2);
+                        }
+                        break;
+                    case 2:
+                        if (dots == 15) {
+                            this.setElroy(2);
+                        }
+                        break;
+                    case 3:
+                    case 4:
+                    case 5:
+                        if (dots == 20) {
+                            this.setElroy(2);
+                        }
+                        break;
+                    case 6:
+                    case 7:
+                    case 8:
+                        if (dots == 25) {
+                            this.setElroy(2);
+                        }
+                        break;
+                    case 9:
+                    case 10:
+                    case 11:
+                        if (dots == 30) {
+                            this.setElroy(2);
+                        }
+                        break;
+                    case 12:
+                    case 13:
+                    case 14:
+                        if (dots == 40) {
+                            this.setElroy(2);
+                        }
+                        break;
+                    case 15:
+                    case 16:
+                    case 17:
+                    case 18:
+                        if (dots == 50) {
+                            this.setElroy(2);
+                        }
+                        break;
+                    default:
+                        if (dots == 60) {
+                            this.setElroy(2);
+                        }
+                        break;
+                }
+            default:
+                break;
+        }
 
     }
+
 }
