@@ -103,6 +103,13 @@ public interface Ghost extends Actor {
      */
     Counter getDotCounter();
 
+
+    /**
+     * Return the speed of a slow tile
+     * @return a double
+     */
+    double getSlowSpeed();
+
     // Step 4
     // The methods below won't be used / tested before step 3
 

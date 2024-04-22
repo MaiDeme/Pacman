@@ -175,6 +175,7 @@ public class BlinkyTest {
         Ghost blinky = board.getGhost(GhostType.BLINKY);
         Actor pacman = board.getPacMan();
         board.startActors();
+        board.disableStateTime();
         pacman.setIntention(Direction.RIGHT);
         // We move as long as blinky goes left.
         // If this is an infinite loop, it means something is wrong

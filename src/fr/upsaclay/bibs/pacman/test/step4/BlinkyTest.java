@@ -125,12 +125,13 @@ public class BlinkyTest {
     @Test
     public void testBlinkyChaseTarget() throws PacManException {
         Board board = Board.createBoard(GameType.CLASSIC);
+        board.startActors();
         board.disableStateTime();
         board.initialize();
         Ghost blinky = board.getGhost(GhostType.BLINKY);
         blinky.setGhostState(GhostState.CHASE);
         Actor pacman = board.getPacMan();
-        board.startActors();
+
         // Initial target
         TilePosition pacmacPos = board.getMaze().getTilePosition(pacman.getX(), pacman.getY());
         assertEquals(blinky.getTarget(), pacmacPos);
@@ -151,13 +152,14 @@ public class BlinkyTest {
     @Test
     public void testBlinkyMoveToPacMan() throws PacManException {
         Board board = Board.createBoard(GameType.CLASSIC);
+        board.startActors();
         board.disableStateTime();
         board.initialize();
         Maze maze = board.getMaze();
         Ghost blinky = board.getGhost(GhostType.BLINKY);
         blinky.setGhostState(GhostState.CHASE);
         Actor pacman = board.getPacMan();
-        board.startActors();
+
         // We move as long as blinky goes left.
         // If this is an infinite loop, it means something is wrong
         while (blinky.getDirection() == Direction.LEFT) {
@@ -193,13 +195,14 @@ public class BlinkyTest {
     @Test
     public void testBlinkyMoveToPacMan2() throws PacManException {
         Board board = Board.createBoard(GameType.CLASSIC);
+        board.startActors();
         board.disableStateTime();
         board.initialize();
         Ghost blinky = board.getGhost(GhostType.BLINKY);
         blinky.setGhostState(GhostState.CHASE);
         Actor pacman = board.getPacMan();
         pacman.setIntention(Direction.RIGHT);
-        board.startActors();
+
         // We move as long as blinky goes left.
         // If this is an infinite loop, it means something is wrong
         while (blinky.getDirection() == Direction.LEFT) {
@@ -239,6 +242,7 @@ public class BlinkyTest {
     @Test
     public void testBlinkyNoTurnUp() throws PacManException {
         Board board = Board.createBoard(GameType.CLASSIC);
+        board.startActors();
         board.disableStateTime();
         board.initialize();
         Maze maze = board.getMaze();
@@ -246,7 +250,7 @@ public class BlinkyTest {
         blinky.setGhostState(GhostState.CHASE);
         Actor pacman = board.getPacMan();
         pacman.setPosition(208, 35); // (top right corner)
-        board.startActors();
+
         TilePosition nt = new TilePosition(14,12);
         while (!blinky.getCurrentTile().equals(nt)) {
             board.nextFrame();
@@ -269,6 +273,7 @@ public class BlinkyTest {
     @Test
     public void testBlinkyNoTurnUp2() throws PacManException {
         Board board = Board.createBoard(GameType.CLASSIC);
+        board.startActors();
         board.disableStateTime();
         board.initialize();
         Maze maze = board.getMaze();
@@ -277,7 +282,7 @@ public class BlinkyTest {
         blinky.setGhostState(GhostState.CHASE);
         Actor pacman = board.getPacMan();
         pacman.setPosition(208, 35); // (top right corner)
-        board.startActors();
+
         TilePosition nt = new TilePosition(14,12);
         while (!blinky.getCurrentTile().equals(nt)) {
             board.nextFrame();
@@ -296,12 +301,13 @@ public class BlinkyTest {
     @Test
     public void testBlinkyTurnUp() throws PacManException {
         Board board = Board.createBoard(GameType.CLASSIC);
+        board.startActors();
         board.initialize();
         Maze maze = board.getMaze();
         // We change the NT in front of blinky into an EE
         maze.setTile(14,12,Tile.EE);
         Ghost blinky = board.getGhost(GhostType.BLINKY);
-        board.startActors();
+
         TilePosition nt = new TilePosition(14,12);
         while (!blinky.getCurrentTile().equals(nt)) {
             board.nextFrame();

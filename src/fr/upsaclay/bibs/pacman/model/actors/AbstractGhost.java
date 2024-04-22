@@ -44,15 +44,6 @@ public abstract class AbstractGhost extends AbstractActor implements Ghost {
     @Override
     public void nextMove() {
 
-
-        // S'il est mort et devant l'enclos il y entre
-        if (this.currentState.equals(GhostState.DEAD)) {
-            if (this.getX() == board.outPenXPosition() && this.getY() == board.outPenYPosition()) {
-                this.setGhostPenState(GhostPenState.GET_IN);
-                setSpeed(0.5);
-            }
-        }
-
         if (this.currentPenState.equals(GhostPenState.OUT)) {
             double x_depart = this.x;
             double y_depart = this.y;
@@ -76,10 +67,10 @@ public abstract class AbstractGhost extends AbstractActor implements Ghost {
         //S'il est sur une tuile à vitesse lente
         if (this.getBoard().getMaze().getTile(this.getCurrentTile()) == Tile.SL) {
             if (getSpeed() == getDefaultSpeed()) {
-                this.setSpeed(0.5);
+                this.setSpeed(this.getSlowSpeed());
             }
         } else {
-            if (getSpeed() == 0.5) {
+            if (getSpeed() == this.getSlowSpeed()) {
                 this.setSpeed(getDefaultSpeed());
             }
         }
@@ -106,11 +97,22 @@ public abstract class AbstractGhost extends AbstractActor implements Ghost {
                     this.intention = getNextIntention(this.getCurrentTile());
                 }
             }
-        } else if (this.currentPenState.equals(GhostPenState.GET_IN)) {
+        }
+
+        // S'il est mort et devant l'enclos il y entre
+        if (this.currentState.equals(GhostState.DEAD)) {
+            if (this.getX() == board.outPenXPosition() && this.getY() == board.outPenYPosition()) {
+                this.setGhostPenState(GhostPenState.GET_IN);
+                this.setGhostState(this.previousState);
+            }
+        }
+
+         if (this.currentPenState.equals(GhostPenState.GET_IN)) {
+             this.setGhostState(this.previousState);
             if (this.getY() == board.penGhostYPosition(this.getGhostType())) {
                 if (this.getX() == board.penGhostXPosition(this.getGhostType())) {
                     this.setGhostPenState(GhostPenState.IN);
-                    this.setGhostState(this.previousState);
+
                 } else {
                     if (this.getX() - board.penGhostXPosition(this.getGhostType()) > 0) {
                         setDirection(Direction.LEFT);
@@ -127,14 +129,18 @@ public abstract class AbstractGhost extends AbstractActor implements Ghost {
                 double y_arrivee = this.y + this.getDirection().getDy() * this.getSpeed();
                 setPosition(x_arrivee, y_arrivee);
             }
-        } else if (this.currentPenState.equals(GhostPenState.IN)) {
+        }
+
+        if (this.currentPenState.equals(GhostPenState.IN)) {
             // version très simple, si on est dedans on sort
+
             setGhostPenState(GhostPenState.GET_OUT);
-        } else { // penState GET_OUT
+        }
+        if (this.currentPenState.equals(GhostPenState.GET_OUT)){
             if (this.getX() == board.outPenXPosition()) {
                 if (this.getY() == board.outPenYPosition()) {
                     this.setGhostPenState(GhostPenState.OUT);
-                    setSpeed(getDefaultSpeed());
+                    setSpeed(this.getDefaultSpeed());
                     setDirection(getOutOfPenDirection());
                 } else {
                     setDirection(Direction.UP);
@@ -312,7 +318,21 @@ public abstract class AbstractGhost extends AbstractActor implements Ghost {
     @Override
     public abstract TilePosition getTarget();
 
-    public abstract double getDefaultSpeed();
+    public double getDefaultSpeed () {
+        switch (this.getBoard().getLevel()) {
+
+            case 1 :
+                return 0.94;
+            case 2 :
+            case 3 :
+            case 4 :
+                return 1.07;
+            default:
+                return 1.2;
+
+        }
+
+    }
 
     /**
      * Sets the Ghost state, which defines in particular its target and moves
@@ -444,6 +464,22 @@ public abstract class AbstractGhost extends AbstractActor implements Ghost {
     }
     public double getStateCounter(){
         return this.stateCounter;
+    }
+
+    public double getSlowSpeed(){
+        switch (this.getBoard().getLevel()) {
+
+            case 1 :
+                return 0.5;
+            case 2 :
+            case 3 :
+            case 4 :
+                return 0.57;
+            default:
+                return 0.63;
+
+        }
+
     }
 
 }

@@ -206,6 +206,7 @@ public abstract class AbstractBoard implements Board {
                         case FRIGHTENED:
                             soundManager.play("GHOST_EATEN");
                             g.setGhostState(GhostState.DEAD);
+                            g.setSpeed(1.26);
                             eatGhost++;
                             this.setScore((int) (this.getScore() + 200 * Math.pow(2,this.eatGhost-1)));
 
