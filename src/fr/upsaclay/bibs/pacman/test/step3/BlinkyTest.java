@@ -434,9 +434,10 @@ public class BlinkyTest {
     public void testMovingFrighten() throws PacManException {
         Board board = Board.createBoard(GameType.CLASSIC);
         board.initialize();
+        board.startActors();
         Configurations.blockGhosts(board.getMaze());
         Ghost blinky = board.getGhost(GhostType.BLINKY);
-        board.startActors();
+
         blinky.setGhostState(GhostState.FRIGHTENED);
         // We have blocked the ghost, so it can only go in square
         while (blinky.getDirection() == Direction.LEFT) {

@@ -100,15 +100,15 @@ public abstract class AbstractGhost extends AbstractActor implements Ghost {
         }
 
         // S'il est mort et devant l'enclos il y entre
-        if (this.currentState.equals(GhostState.DEAD)) {
+        if (this.currentState.equals(GhostState.DEAD) && this.currentPenState.equals(GhostPenState.OUT)) {
             if (this.getX() == board.outPenXPosition() && this.getY() == board.outPenYPosition()) {
                 this.setGhostPenState(GhostPenState.GET_IN);
-                this.setGhostState(this.previousState);
+                this.setDirection(null);
             }
         }
 
          if (this.currentPenState.equals(GhostPenState.GET_IN)) {
-             this.setGhostState(this.previousState);
+             //this.setGhostState(this.previousState);
             if (this.getY() == board.penGhostYPosition(this.getGhostType())) {
                 if (this.getX() == board.penGhostXPosition(this.getGhostType())) {
                     this.setGhostPenState(GhostPenState.IN);
@@ -133,13 +133,15 @@ public abstract class AbstractGhost extends AbstractActor implements Ghost {
 
         if (this.currentPenState.equals(GhostPenState.IN)) {
             // version très simple, si on est dedans on sort
-
             setGhostPenState(GhostPenState.GET_OUT);
         }
+
+
         if (this.currentPenState.equals(GhostPenState.GET_OUT)){
             if (this.getX() == board.outPenXPosition()) {
-                if (this.getY() == board.outPenYPosition()) {
+                if (this.getY() >= board.outPenYPosition()) {
                     this.setGhostPenState(GhostPenState.OUT);
+                    this.setGhostState(GhostState.SCATTER);
                     setSpeed(this.getDefaultSpeed());
                     setDirection(getOutOfPenDirection());
                 } else {
@@ -212,6 +214,7 @@ public abstract class AbstractGhost extends AbstractActor implements Ghost {
     public void nextFrame() {
 
         this.nextMove();
+
         switch (this.getGhostState()){
             case FRIGHTENED:
             case FRIGHTENED_END:

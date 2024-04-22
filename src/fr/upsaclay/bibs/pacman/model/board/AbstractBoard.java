@@ -35,7 +35,6 @@ public abstract class AbstractBoard implements Board {
     protected int level;
     public List<Ghost> ghosts;
     protected int score;
-    protected int stateCounter;
     protected int eatGhost;
     protected int allfour;
     protected boolean extraLifeDone;

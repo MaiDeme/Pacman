@@ -58,8 +58,7 @@ public class Blinky extends AbstractGhost {
     @Override
     public TilePosition getTarget() {
         switch (this.getGhostState()) {
-            default:
-                return board.getMaze().getTilePosition(this.getBoard().getPacMan().getX(), this.getBoard().getPacMan().getY());
+
             case SCATTER:
                 if (this.elroy == 0) {
                     return this.scattertarget;
@@ -71,6 +70,8 @@ public class Blinky extends AbstractGhost {
                 return null;
             case DEAD:
                 return this.getBoard().penEntry();
+            default:
+                return board.getMaze().getTilePosition(this.getBoard().getPacMan().getX(), this.getBoard().getPacMan().getY());
         }
 
     }
