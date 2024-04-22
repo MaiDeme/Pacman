@@ -133,11 +133,8 @@ avons tous travaillé sur la fonction NextMove.
 
 *Décrivez là où vous pensez avoir progressé pendant ce projet*
 
-<<<<<<< HEAD
+
 Antoine : En premier temps il s'agit d'une meilleur maîtrise de l'utilisation de git. Ensuite je perçois avoir nettement progressé dans ma compréhension des relations entres les différentes classes et la logique d'utilisation des méthodes. C'est à travers ce projet que j'ai réellement compris l'intérêt de maîtriser un telle langage de programmation.
-=======
-Antoine :
->>>>>>> 7754dc22c4fc5f26b97cc1c358110fa641b8357e
 
 Maïwen : Pour ma part, j'ai surtout progressé sur les interfaces graphiques et les controllers. J'ai pu découvrir des éléments que nous n'avions pas vu en cours comme les HashMap et l'intégration d'image, la manipulation de police de caractères et de sprites pour les animations. Globalement je comprends mieux comment utiliser les classes et leurs méthodes et dans quels circonstances faire appel à des interfaces et hiérarchies de classes.
 
