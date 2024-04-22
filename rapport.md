@@ -24,8 +24,12 @@ Interface graphique logique (on peut avoir un menu pause, un menu de game over, 
 
 *Décrivez ce que vous avez implanté : quelles étapes, qu'est-ce qui fonctionne / ne fonctionne pas, etc*
 
-Nous avons implémenté toutes les étapes, jusqu'à step 2 inclus.
-Les dot counteurs pour rentrer et sortir de la maison des fantomes ne sont pas implementé.
+Nous avons implémenté toutes les étapes, jusqu'à step 2 inclus. Les comportements de fantomes ne fonctionnent pas parfaitement dans certaines situation (cf test).
+
+Concernant step 3, les dot counteurs pour rentrer et sortir de la maison des fantomes ne sont pas implementé.
+Les vitesses rapides sont implementés mais ne fonctionnent pas parfaitement bien (un test de pacman ne passe pas).
+
+Les bonus, sons et vie supplémentaire sont fonctionnels.
 
 
 ### Structure et hierarchie de classe
@@ -38,14 +42,18 @@ Les dot counteurs pour rentrer et sortir de la maison des fantomes ne sont pas i
    - SoundManager.java  : Cette classe nous sert de gestionnaire pour les effets sonores. Elle stocke et contrôle la lecutre des sons. Elle permet de charger et de joue le sons.
    - SoundName.java : Cette classe est un reférentiel des effets sonores.
 
-- 
+- View 
 
 ### Tests
 
 *Quels tests passent ? Ne passent pas ?*
 
-Certains test (step 3) des fantomes et de board  ne passent pas notamment ceux en rapport avec la maison des fantomes (pen ghost) et les Dot Counters.
-Tous les test du controller (step3) passent.
+Lorsque le projet était à l'était step 1 et 2 tous les test respectifs passaient.
+
+Tous les test du controller et du maze (step3 & 4) passent.
+
+A l'état actuel du projet, certains tests (step 3) des fantomes et de board  ne passent pas notamment ceux en rapport avec la maison des fantomes (pen ghost) et les Dot Counters.
+
 
 *Avez-vous modifié ou rajouté des tests ?*
 
@@ -75,7 +83,12 @@ Antoine :
 - Bonus : Faire apparaître bonus quand pacman mange un nombre suffisant de point, faire disparaitre le bonus lorsqu'il est mangé par PacMan et faire augmenter le score. Faire en sorte que les bonus apparaissant sont différents selon le niveaux.
  
 
-Maïwen : Première implémentation de l'interface et des controlleurs. Les différents Panel, l'affichage du maze, des fantomes, de pacman, des vies et l'écran de titre. Tentative de faire apparaitre l'animation quand Pacman meurt. 
+Maïwen :
+- Première implémentation de l'interface et des controlleurs. Les différents Panel, l'affichage du maze, des fantomes, de pacman, des vies et l'écran de titre.
+- Tentative de faire apparaitre l'animation quand Pacman meurt (visible sur une autre branche mais très peu fonctionnel).
+- Debut de mise en place d'une autre hiérachie de classe pour la View avec une classe abstraite pour dessiner les actors, fantomes... (autre branche).
+ - High speed des actors et snapping
+ - Cornering pour Pacman (pas fonctionnels)
 
 Camille : début de Pacman, début du board, fantômes, début de l'enclos des fantômes
 
@@ -106,15 +119,15 @@ avons tous travaillé sur la fonction NextMove.
 
 Antoine : 
 
-Maïwen : 
+Maïwen : Pour ma part, j'ai surtout progressé sur les interfaces graphiques et les controllers. J'ai pu découvrir des éléments que nous n'avions pas vu en cours comme les HashMap et l'intégration d'image, la manipulation de police de caractères et de sprites pour les animations. Globalement je comprends mieux comment utiliser les classes et leurs méthodes et dans quels circonstances faire appel à des interfaces et hiérarchies de classes.
 
 Camille : Je connais beaucoup mieux Pacman qu'avant. Je ne pense pas avoir particulièrement progressée en Java par contre.
 
 
-Anne : De façon générale je suis plus efficace en javascript et quand il faut rajouter une fonctionnalite j'ai dejà une
-idée de comment le faire.J'ai progressé dans l'organisation des classes et leur logique (pourquoi il faut une interface, poourquoi il y a 
+Anne : De façon générale je suis plus efficace en java et quand il faut rajouter une fonctionnalite j'ai dejà une
+idée de comment le faire. J'ai progressé dans l'organisation des classes et leur logique (pourquoi il faut une interface, poourquoi il y a 
 des héritages, ...). Je comprends aussi mieux l'interet des fonctions setValue et getValue. La ou j'ai le plus progresse
-c'est dans les interfaces graphiques et les controllers car j'ai beaucoup modifié les focntions de Maïwen donc j'ai du
+c'est dans les interfaces graphiques et les controllers car j'ai beaucoup modifié les fonctions de Maïwen donc j'ai du
 comprendre ce qu'elle avait fait afin de l'adapter à de nouvelles fonctionnalités.
 
 ### Quelles difficultés ?
@@ -125,11 +138,12 @@ La difficulté principale a été de faire correspondre notre logique pour impl�
 pour la fonction Next Move de Pacman nous avons mis du temps à comprendre qu'il fallait faire des tests sur la position
 après avoir bougé et non avant.
 
-Une autre difficulté a été celle des conflits de versions quand il fallait merge nos branches de travail. 
+De plus, plus on avançait dans les étapes du projet plus il était possible d'implementer une fonctionnallité de multiple manières ce qui a parfois posé problème pour merge nos branches de travail car cela posait des conflits où il fallait choisir une implémentation au risque de casser le jeu.
+
+Travailler et réutiliser le travail des autres a aussi été une difficulté, car il fallait d'abord comprendre ce que les autres avait fait alors que nous n'avions pas forcément les mêmes idées pour implémenter une fonctionnalité.
 
 ## Conclusion
 
 *Etes vous satisfaits ? Que feriez vous si vous deviez continuer ? Qu'est-ce que le projet vous a apporté ?*
 
-Le jeu est très joli et fonctionne bien. Nous somes satisfaits. Si nous avions eu plus de temps nous aurions implémenté 
-d'autres modes de jeu, (controles inverses, mode facile, mode difficile,... ).
+Le jeu est très joli et fonctionne bien. Nous somes satisfaits. Si nous avions eu plus de temps nous aurions implémenté d'autres modes de jeu, (controles inverses, mode facile, mode difficile,possiblité d'enregistrer des highscores,... ) et nous aurions amélioré l'interface graphique (animations, nouveau fantomes ? ...).
