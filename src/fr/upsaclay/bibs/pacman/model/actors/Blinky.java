@@ -32,6 +32,11 @@ public class Blinky extends AbstractGhost {
         this.stateCounter = 0;
     }
 
+     @Override
+    public double getDefaultSpeed() {
+        return board.getLevelGhostSpeed();
+    }
+    
 
     /**
      * Return the type of ghost it is

@@ -6,7 +6,6 @@ import fr.upsaclay.bibs.pacman.model.maze.TilePosition;
 import fr.upsaclay.bibs.pacman.model.Direction;
 
 public class Clyde extends AbstractGhost {
-    final double DEFAULT_SPEED = 0.94;
     final TilePosition scattertarget = new TilePosition(this.getBoard().getMaze().getHeight()-2, 0);
 
     public Clyde(Board board, ActorType type) {
@@ -25,7 +24,7 @@ public class Clyde extends AbstractGhost {
         this.setGhostState(GhostState.SCATTER);
         this.setGhostPenState(GhostPenState.IN);
         this.direction = Direction.LEFT;
-        this.speed = this.DEFAULT_SPEED;
+        this.speed=getDefaultSpeed();
         TilePosition depart = this.getCurrentTile();
         this.intention = getNextIntention(depart);
         this.stateCounter = 0;
@@ -78,7 +77,7 @@ public class Clyde extends AbstractGhost {
 
     @Override
     public double getDefaultSpeed() {
-        return this.DEFAULT_SPEED;
+        return board.getLevelGhostSpeed();
     }
 
     /**
@@ -97,7 +96,6 @@ public class Clyde extends AbstractGhost {
 
         //Ensuite on change leur état
         this.setGhostState(state);
-
     }
 
     /**
@@ -129,6 +127,5 @@ public class Clyde extends AbstractGhost {
     @Override
     public void setElroy(int elroy) {
         this.elroy = 0;
-
     }
 }

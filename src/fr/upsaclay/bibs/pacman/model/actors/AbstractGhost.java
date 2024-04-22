@@ -318,22 +318,6 @@ public abstract class AbstractGhost extends AbstractActor implements Ghost {
     @Override
     public abstract TilePosition getTarget();
 
-    public double getDefaultSpeed () {
-        switch (this.getBoard().getLevel()) {
-
-            case 1 :
-                return 0.94;
-            case 2 :
-            case 3 :
-            case 4 :
-                return 1.07;
-            default:
-                return 1.2;
-
-        }
-
-    }
-
     /**
      * Sets the Ghost state, which defines in particular its target and moves
      *
