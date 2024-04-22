@@ -34,7 +34,7 @@ public class SoundManager {
         loadSound("PACMAN_BEGINNING", "resources/sounds/pacman_beginning.wav");
         loadSound("PACMAN_EAT_FRUIT", "resources/sounds/pacman_eatfruit.wav");
         loadSound("PACMAN_DEATH", "resources/sounds/pacman_death.wav");
-        loadSound("GHOST_FREAKED", "resources/sounds/pacman_intermission.wav");
+        loadSound("GHOST_FREAKED", "resources/sounds/Pac-man-scared-ghost-sound.wav");
         loadSound("GHOST_EATEN", "resources/sounds/8d82b5_Pacman_Eating_Ghost_Sound_Effect.wav");
 
     
