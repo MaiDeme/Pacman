@@ -4,16 +4,19 @@ import fr.upsaclay.bibs.pacman.model.Direction;
 import fr.upsaclay.bibs.pacman.model.board.Board;
 import fr.upsaclay.bibs.pacman.model.board.Counter;
 import fr.upsaclay.bibs.pacman.model.maze.TilePosition;
+import fr.upsaclay.bibs.pacman.audio.SoundManager;
 
 public class Blinky extends AbstractGhost {
     TilePosition target;
-    final double DEFAULT_SPEED = 0.94;
+    final double DEFAULT_SPEED = 0.01;
     final TilePosition scattertarget = new TilePosition(0, this.getBoard().getMaze().getWidth()-3);
+    private SoundManager soundManager;
 
     public Blinky(Board board, ActorType type) {
         super(board, type);
         setGhostPenState(GhostPenState.OUT);
         setGhostState(GhostState.SCATTER);
+        soundManager = new SoundManager();
     }
 
     @Override
@@ -81,7 +84,9 @@ public class Blinky extends AbstractGhost {
     public void changeGhostState(GhostState state) {
 
         GhostState actualState = this.getGhostState();
-
+        if (state == GhostState.FRIGHTENED) {
+            soundManager.play("GHOST_FREAKED");
+        }
         //On s'occupe de changer leur intention, la target étant changée automatiquement en fonction de leur état dans la fonction get target
         if ((actualState == GhostState.CHASE || actualState == GhostState.SCATTER) && !actualState.equals(state)) {
             this.setIntention(this.Direction.reverse());

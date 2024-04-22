@@ -18,4 +18,6 @@ public interface Bonus extends Actor {
      * @return true if the bonus is active
      */
     boolean isActive();
+    
+    void deactivate();
 }

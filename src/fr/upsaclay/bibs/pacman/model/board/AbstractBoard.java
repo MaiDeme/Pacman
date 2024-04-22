@@ -8,6 +8,8 @@ import fr.upsaclay.bibs.pacman.model.actors.*;
 import fr.upsaclay.bibs.pacman.model.maze.Maze;
 import fr.upsaclay.bibs.pacman.model.maze.TilePosition;
 import fr.upsaclay.bibs.pacman.audio.SoundManager;
+import fr.upsaclay.bibs.pacman.model.actors.BonusImpl;
+import fr.upsaclay.bibs.pacman.model.actors.BonusType;
 
 
 import java.io.FileNotFoundException;
@@ -37,6 +39,9 @@ public abstract class AbstractBoard implements Board {
     protected int eatGhost;
     protected int allfour;
     protected boolean extraLifeDone;
+    public List<BonusImpl> activeBonuses = new ArrayList<BonusImpl>();
+    private Counter dotCounter = new Counter(0);
+
 
     public AbstractBoard(GameType gameType) {
 
@@ -55,6 +60,7 @@ public abstract class AbstractBoard implements Board {
         this.gameType = gameType;
         this.boardState = BoardState.INITIAL;
         soundManager = new SoundManager();
+        startGameSound();
         this.level = 1;
         try {
             initialize();
@@ -73,13 +79,12 @@ public abstract class AbstractBoard implements Board {
         this.extraLifeDone = false;
         this.score = 0;
         this.boardState = BoardState.INITIAL;
-        this.soundManager = new SoundManager();
         this.level = 1;
     }
 
 
-    public SoundManager getSoundManager() {
-        return soundManager;
+    public void startGameSound() {
+        soundManager.play("PACMAN_BEGINNING");
     }
 
    
@@ -177,9 +182,17 @@ public abstract class AbstractBoard implements Board {
      */
     @Override
     public void nextFrame() {
+
+
+
         this.pacman.nextFrame();
         for (Ghost g : this.ghosts) {
             g.nextFrame();
+        }
+
+        if (dotCounter.getValue() >= 7) {
+            setBonusOnBoard();
+            dotCounter.reset();  // Réinitialiser pour le prochain bonus
         }
 
         if (this.getMaze().getNumberOfDots() == 0) {
@@ -191,6 +204,7 @@ public abstract class AbstractBoard implements Board {
                     switch (g.getGhostState()){
                         case FRIGHTENED_END :
                         case FRIGHTENED:
+                            soundManager.play("GHOST_EATEN");
                             g.setGhostState(GhostState.DEAD);
                             eatGhost++;
                             this.setScore((int) (this.getScore() + 200 * Math.pow(2,this.eatGhost-1)));
@@ -208,12 +222,15 @@ public abstract class AbstractBoard implements Board {
                         case CHASE:
                             this.setNumberOfLives(this.getNumberOfLives() -1);
                             setBoardState(BoardState.LIFE_OVER);
+                            soundManager.playAndWait("PACMAN_DEATH");
+                            
                             break;
                         default:
                             break;
                     }
                 }
             }
+        
         }
 
         if (this.getNumberOfLives() == 0) {
@@ -617,16 +634,46 @@ public abstract class AbstractBoard implements Board {
      * @return the bonus type of this level
      */
     public BonusType getLevelBonusType(int level) {
-        return this.bonus.getBonusType();
+        
+        switch (level) {
+            case 1: return BonusType.APPLE;
+            case 2: return BonusType.STRAWBERRY;
+            default: return null;
+        }
     }
+    
 
     /**
      * Place the bonus associated with current level on board at its intended
      * position
      */
     public void setBonusOnBoard() {
-
+        BonusType bonusType = getLevelBonusType(this.level);
+        if (getCurrentBonus() == null || !getCurrentBonus().isActive()) {
+            this.bonus = new BonusImpl(this, bonusType);
+            this.bonus.start();  
+        }
     }
+
+    public void removeBonus() {
+        if (this.bonus != null) {
+            this.bonus.deactivate();
+            this.bonus = null; 
+        }
+    }
+
+
+    public void playFruitEatSound() {
+        soundManager.play("PACMAN_EAT_FRUIT");
+    }
+    @Override
+    public void playDotEatSound() {
+        if (!soundManager.isPlaying("PACMAN_CHOMP")) {
+            soundManager.play("PACMAN_CHOMP");
+        }
+    }
+    
+    
 
 
     public int getFrightenedtime(){

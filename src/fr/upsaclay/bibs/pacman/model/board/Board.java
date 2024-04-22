@@ -30,6 +30,7 @@ public interface Board {
     void resume();
 
     void initBoardState ();
+    
 
     //void setBoardState(BoardState state);
 
@@ -125,7 +126,7 @@ public interface Board {
 
     /**
      * Return the current state of the board
-     * used to detect end of level / end of game
+     * used to detect end of level / end of gaame
      *
      * @return the board state
      */
@@ -372,5 +373,9 @@ public interface Board {
 
     int getEatGhost();
     void setEatGhost(int nb);
+    void removeBonus();
+    void playDotEatSound();
+    void playFruitEatSound();
+
 
 }

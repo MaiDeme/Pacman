@@ -202,7 +202,7 @@ public abstract class AbstractGhost extends AbstractActor implements Ghost {
     @Override
     public void nextFrame() {
 
-        super.nextFrame();
+        this.nextMove();
         switch (this.getGhostState()){
             case FRIGHTENED:
             case FRIGHTENED_END:
