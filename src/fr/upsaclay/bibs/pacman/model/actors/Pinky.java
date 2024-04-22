@@ -3,6 +3,7 @@ package fr.upsaclay.bibs.pacman.model.actors;
 import fr.upsaclay.bibs.pacman.model.maze.TilePosition;
 import fr.upsaclay.bibs.pacman.model.board.Board;
 import fr.upsaclay.bibs.pacman.model.board.Counter;
+import fr.upsaclay.bibs.pacman.model.Direction;
 
 
 public class Pinky extends AbstractGhost{
@@ -27,7 +28,7 @@ public class Pinky extends AbstractGhost{
         this.y = 139;
         this.setGhostState(GhostState.SCATTER);
         this.setGhostPenState(GhostPenState.IN);
-        this.Direction = fr.upsaclay.bibs.pacman.model.Direction.LEFT;
+        this.direction = Direction.LEFT;
         this.speed = this.DEFAULT_SPEED;
         TilePosition depart = this.getCurrentTile();
         this.intention = getNextIntention(depart);
@@ -76,7 +77,7 @@ public class Pinky extends AbstractGhost{
 
        //On s'occupe de changer leur intention, la target étant changée automatiquement en fonction de leur état dans la fonction get target
        if ((actualState == GhostState.CHASE || actualState == GhostState.SCATTER) && !actualState.equals(state)) {
-           this.setIntention(this.Direction.reverse());
+           this.setIntention(this.direction.reverse());
        }
 
        //Ensuite on change leur état
