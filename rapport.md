@@ -9,9 +9,9 @@ Maïwen Demeulle
 
 ## Introduction
 
-*Décrivez les objetifs du projet*
+*Décrivez les objectifs du projet*
 
-L'objectif du projet est d'implémenter un jeu qui ressemble le plus a l'original:
+L'objectif du projet était d'implémenter un jeu qui ressemble le plus à l'original:
 
 Pacman qui se dirige bien dans le labyrinthe
 Fantomes qui changent d'etats, qui sortent en entrent de leur maison
@@ -23,6 +23,9 @@ Interface graphique logique (on peut avoir un menu pause, un menu de game over, 
 ### Avancement du projet
 
 *Décrivez ce que vous avez implanté : quelles étapes, qu'est-ce qui fonctionne / ne fonctionne pas, etc*
+Nous avons implémenté toutes les étapes, jusqu'à step 2 inclus. 
+Les dot counteurs pour rentrer et sortir de la maison des fantomes ne sont pas implementé.
+
 
 ### Structure et hierarchie de classe
 
