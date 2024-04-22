@@ -18,12 +18,14 @@ public abstract class AbstractGhost extends AbstractActor implements Ghost {
     protected int FrightenedCounter;
     protected double stateCounter;
     protected int elroy;
+    protected Direction OutOfPenDirection;
 
 
     public AbstractGhost(Board board, ActorType type) {
         super(board, type);
         super.setSpeed(board.getLevelGhostSpeed());
         this.currentState = GhostState.SCATTER;
+        this.OutOfPenDirection = Direction.LEFT;
 
     }
 
@@ -43,19 +45,29 @@ public abstract class AbstractGhost extends AbstractActor implements Ghost {
 
     @Override
     public void nextMove() {
+        // S'il est mort et devant l'enclos il y entre
+        if(this.currentState.equals(GhostState.DEAD)) {
+
+
+            if (this.getX() == board.outPenXPosition() && this.getY() == board.outPenYPosition()) {
+                this.setGhostPenState(GhostPenState.GET_IN);
+                setSpeed(this.getBoard().getDeadGhostSpeed());
+            }
+        }
 
         if (this.currentPenState.equals(GhostPenState.OUT)) {
             double x_depart = this.x;
             double y_depart = this.y;
             double x_arrivee = this.x + this.getDirection().getDx() * this.getSpeed();
             double y_arrivee = this.y + this.getDirection().getDy() * this.getSpeed();
+            Tile arrivee_tuile = this.getBoard().getMaze().getTile(this.getCurrentTile());
 
 
             // on vérifie s'il fait un mouvement circulaire
-            if (direction == Direction.LEFT && x_arrivee < 0) {
+            if (this.direction == fr.upsaclay.bibs.pacman.model.Direction.LEFT && x_arrivee < 0) {
                 //Il fait un mouvement circulaire par la gauche, sa nouvelle position x est la largeur du plateau moins la différence entre l'arrivée et -1
                 this.setPosition(getBoard().getMaze().getPixelWidth() - 1 - (x_arrivee + 1), y_arrivee);
-            } else if (direction == Direction.RIGHT && x_arrivee > (getBoard().getMaze().getPixelWidth() - 1)) {
+            } else if (this.direction == fr.upsaclay.bibs.pacman.model.Direction.RIGHT && x_arrivee > (getBoard().getMaze().getPixelWidth() - 1)) {
                 //Il fait un mouvement circulaire par la droite, sa nouvelle position x est 0 + différence largeur du plateau et arrivée
                 this.setPosition((x_arrivee - getBoard().getMaze().getPixelWidth()), y_arrivee);
             } else {
@@ -64,16 +76,16 @@ public abstract class AbstractGhost extends AbstractActor implements Ghost {
             }
 
 
-        //S'il est sur une tuile à vitesse lente
-        if (this.getBoard().getMaze().getTile(this.getCurrentTile()) == Tile.SL) {
-            if (getSpeed() == getDefaultSpeed()) {
-                this.setSpeed(this.getSlowSpeed());
+            //S'il est sur une tuile à vitesse lente
+            if (this.getBoard().getMaze().getTile(this.getCurrentTile()) == Tile.SL) {
+                if (getSpeed() == getDefaultSpeed()) {
+                    this.setSpeed(this.getSlowSpeed());
+                }
+            } else {
+                if (getSpeed() == this.getSlowSpeed()) {
+                    this.setSpeed(getDefaultSpeed());
+                }
             }
-        } else {
-            if (getSpeed() == this.getSlowSpeed()) {
-                this.setSpeed(getDefaultSpeed());
-            }
-        }
 
             // Quand il rejoint le centre d'une tuile :  il calcule sa nouvelle intention ou direction
             if (this.getX() % Maze.TILE_WIDTH == Maze.TITLE_CENTER_X
@@ -82,11 +94,11 @@ public abstract class AbstractGhost extends AbstractActor implements Ghost {
 
                 if (this.getGhostState().equals(GhostState.FRIGHTENED_END) || this.getGhostState().equals(GhostState.FRIGHTENED)) {
                     if (this.getBoard().getMaze().IsIntersection(this.getCurrentTile(), this.getDirection())) {
-                        Direction dir = this.getDirection().reverse();
+                        fr.upsaclay.bibs.pacman.model.Direction dir = this.getDirection().reverse();
 
                         while (dir.reverse().equals(this.getDirection())
                                 || this.getBoard().getMaze().getNeighbourTile(this.getCurrentTile(), dir).isWall()
-                                || (dir.equals(Direction.UP) && !this.getBoard().getMaze().getTile(this.getCurrentTile()).ghostCanGoUp())) {
+                                || (dir.equals(fr.upsaclay.bibs.pacman.model.Direction.UP) && !this.getBoard().getMaze().getTile(this.getCurrentTile()).ghostCanGoUp())) {
                             dir = this.getBoard().getRandomDirection();
                         }
                         this.setIntention(dir);
@@ -97,71 +109,72 @@ public abstract class AbstractGhost extends AbstractActor implements Ghost {
                     this.intention = getNextIntention(this.getCurrentTile());
                 }
             }
+        } else
+
+
+            if (this.currentPenState.equals(GhostPenState.OUT)) {
+            double x_depart = this.x;
+            double y_depart = this.y;
+            double x_arrivee = this.x + this.getDirection().getDx() * this.getSpeed();
+            this.intention = getNextIntention(this.getCurrentTile());
         }
-
-        // S'il est mort et devant l'enclos il y entre
-        if (this.currentState.equals(GhostState.DEAD) && this.currentPenState.equals(GhostPenState.OUT)) {
-            if (this.getX() == board.outPenXPosition() && this.getY() == board.outPenYPosition()) {
-                this.setGhostPenState(GhostPenState.GET_IN);
-                this.setDirection(null);
-            }
-        }
-
-         if (this.currentPenState.equals(GhostPenState.GET_IN)) {
-             //this.setGhostState(this.previousState);
-            if (this.getY() == board.penGhostYPosition(this.getGhostType())) {
-                if (this.getX() == board.penGhostXPosition(this.getGhostType())) {
-                    this.setGhostPenState(GhostPenState.IN);
-
-                } else {
-                    if (this.getX() - board.penGhostXPosition(this.getGhostType()) > 0) {
-                        setDirection(Direction.LEFT);
-                    } else {
-                        setDirection(Direction.RIGHT);
-                    }
-                    double x_arrivee = this.x + this.getDirection().getDx() * this.getSpeed();
-                    double y_arrivee = this.y + this.getDirection().getDy() * this.getSpeed();
-                    setPosition(x_arrivee, y_arrivee);
-                }
+    else if (this.currentPenState.equals(GhostPenState.GET_IN)) {
+        if (this.getY() == board.penGhostYPosition(this.getGhostType())) {
+            if (this.getX() == board.penGhostXPosition(this.getGhostType())) {
+                this.setGhostPenState(GhostPenState.IN);
+                this.setGhostState(GhostState.SCATTER);
             } else {
-                setDirection(Direction.DOWN);
+                if (this.getX() - board.penGhostXPosition(this.getGhostType()) > 0) {
+                    setDirection(fr.upsaclay.bibs.pacman.model.Direction.LEFT);
+                } else {
+                    setDirection(fr.upsaclay.bibs.pacman.model.Direction.RIGHT);
+                }
                 double x_arrivee = this.x + this.getDirection().getDx() * this.getSpeed();
                 double y_arrivee = this.y + this.getDirection().getDy() * this.getSpeed();
                 setPosition(x_arrivee, y_arrivee);
             }
-        }
-
-        if (this.currentPenState.equals(GhostPenState.IN)) {
-            // version très simple, si on est dedans on sort
-            setGhostPenState(GhostPenState.GET_OUT);
-        }
-
-
-        if (this.currentPenState.equals(GhostPenState.GET_OUT)){
-            if (this.getX() == board.outPenXPosition()) {
-                if (this.getY() >= board.outPenYPosition()) {
-                    this.setGhostPenState(GhostPenState.OUT);
-                    this.setGhostState(GhostState.SCATTER);
-                    setSpeed(this.getDefaultSpeed());
-                    setDirection(getOutOfPenDirection());
-                } else {
-                    setDirection(Direction.UP);
-                }
-            } else {
-                if (this.getX() - board.outPenXPosition() > 0) {
-                    setDirection(Direction.LEFT);
-                } else {
-                    setDirection(Direction.RIGHT);
-                }
-            }
+        } else {
+            setDirection(fr.upsaclay.bibs.pacman.model.Direction.DOWN);
             double x_arrivee = this.x + this.getDirection().getDx() * this.getSpeed();
             double y_arrivee = this.y + this.getDirection().getDy() * this.getSpeed();
             setPosition(x_arrivee, y_arrivee);
         }
+    } else if (this.currentPenState.equals(GhostPenState.IN)) {
+        // version très simple, si on est dedans on sort
+        setGhostPenState(GhostPenState.GET_OUT);
+    } else { // penState GET_OUT
+        Direction dir;
+        if (this.getX() == board.outPenXPosition()) {
+            if (this.getY() <= board.outPenYPosition()) {
+                this.setGhostPenState(GhostPenState.OUT);
+                setSpeed(getDefaultSpeed());
+                setDirection(this.getOutOfPenDirection());
+                this.setOutOfPenDirection(Direction.LEFT);
+                return;
+            } else {
+                dir = Direction.UP;
+            }
+        } else {
+            if (this.getX() - board.outPenXPosition() > 0) {
+                dir = Direction.LEFT;
+            } else {
+                dir = Direction.RIGHT;
+            }
+        }
+
+        double x_arrivee = this.x + dir.getDx() * this.getSpeed();
+        double y_arrivee = this.y + dir.getDy() * this.getSpeed();
+        setPosition(x_arrivee, y_arrivee);
     }
-    
-        
-    
+
+
+
+}
+
+
+
+
+
 
 
     public Direction getNextIntention(TilePosition depart) {
@@ -224,6 +237,7 @@ public abstract class AbstractGhost extends AbstractActor implements Ghost {
                 if (this.getFrightenedCounter() == this.getBoard().getFrightenedtime() * 60 ) {
                         this.changeGhostState(GhostState.FRIGHTENED_END);
                 } else if (this.getFrightenedCounter() >= this.getBoard().getFrightenedtime() * 60 + this.getBoard().getNbFlashes() * 30) {
+                    this.getBoard().getPacMan().setSpeed(this.getBoard().getLevelPacManSpeed());
                     this.changeGhostState(this.getPreviousGhostState());
                     this.setFrightenedCounter(0);
                     this.getBoard().setEatGhost(0);
@@ -377,7 +391,7 @@ public abstract class AbstractGhost extends AbstractActor implements Ghost {
      */
     @Override
     public void setOutOfPenDirection(Direction dir) {
-        this.setDirection(dir);
+        this.OutOfPenDirection = dir;
     }
 
     /**
@@ -387,7 +401,7 @@ public abstract class AbstractGhost extends AbstractActor implements Ghost {
      */
     @Override
     public Direction getOutOfPenDirection() {
-        return this.direction;
+        return this.OutOfPenDirection;
     }
 
     /**

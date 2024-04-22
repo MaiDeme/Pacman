@@ -466,9 +466,10 @@ public class BlinkyTest {
     public void testMovingFrightenEnd() throws PacManException {
         Board board = Board.createBoard(GameType.CLASSIC);
         board.initialize();
+        board.startActors();
+        board.start();
         Configurations.blockGhosts(board.getMaze());
         Ghost blinky = board.getGhost(GhostType.BLINKY);
-        board.startActors();
         blinky.setGhostState(GhostState.FRIGHTENED_END);
         // We have blocked the ghost, so it can only go in square
         while (blinky.getDirection() == Direction.LEFT) {
@@ -744,6 +745,10 @@ public class BlinkyTest {
         blinky.setGhostState(GhostState.DEAD);
 
         // Blinky goes go the pen and is put in GET_OUT mode
+        while (blinky.getGhostPenState() != GhostPenState.GET_IN) {
+            board.nextFrame();
+        }
+
         while (blinky.getGhostPenState() != GhostPenState.GET_OUT) {
             board.nextFrame();
         }

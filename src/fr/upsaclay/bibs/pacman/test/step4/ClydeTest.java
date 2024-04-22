@@ -104,12 +104,13 @@ public class ClydeTest {
 
     @Test void testClydeChaseTarget() throws PacManException {
         Board board = Board.createBoard(GameType.CLASSIC);
+        board.startActors();
         board.disableStateTime();
         board.initialize();
         Ghost clyde = board.getGhost(GhostType.CLYDE);
         Configurations.setGhostOut(clyde);
         clyde.setGhostState(GhostState.CHASE);
-        board.startActors();
+
         // Pacman is in 26 14
         // Clyde is in 14 14
         // distance is 12 >= 8
@@ -135,12 +136,13 @@ public class ClydeTest {
     public void testReverseDirectionIntentionOut() throws PacManException {
         Board board = Board.createBoard(GameType.CLASSIC);
         board.initialize();
+        board.startActors();
         Ghost clyde = board.getGhost(GhostType.CLYDE);
         // We put Clyde outsite the pen
         clyde.setPosition(112,115);
         clyde.setGhostPenState(GhostPenState.OUT);
         clyde.setDirection(Direction.LEFT);
-        board.startActors();
+
         clyde.reverseDirectionIntention();
         assertEquals(clyde.getDirection(), Direction.LEFT);
         assertEquals(clyde.getIntention(), Direction.RIGHT);
@@ -178,9 +180,10 @@ public class ClydeTest {
     public void testChangeStateScatterFrightenOut() throws PacManException {
         Board board = Board.createBoard(GameType.CLASSIC);
         board.initialize();
+        board.startActors();
         Ghost clyde = board.getGhost(GhostType.CLYDE);
         Configurations.setGhostOut(clyde);
-        board.startActors();
+
         clyde.changeGhostState(GhostState.FRIGHTENED);
         assertEquals(clyde.getGhostState(), GhostState.FRIGHTENED);
         assertEquals(clyde.getIntention(), Direction.RIGHT);
@@ -199,12 +202,13 @@ public class ClydeTest {
     @Test
     public void testChangeStateChaseFrightenOut() throws PacManException {
         Board board = Board.createBoard(GameType.CLASSIC);
+        board.startActors();
         board.disableStateTime();
         board.initialize();
         Ghost clyde = board.getGhost(GhostType.CLYDE);
         Configurations.setGhostOut(clyde);
         clyde.setGhostState(GhostState.CHASE);
-        board.startActors();
+
         clyde.changeGhostState(GhostState.FRIGHTENED);
         assertEquals(clyde.getGhostState(), GhostState.FRIGHTENED);
         assertEquals(clyde.getIntention(), Direction.RIGHT);
@@ -224,11 +228,12 @@ public class ClydeTest {
     public void testMovingFrighten() throws PacManException {
         Board board = Board.createBoard(GameType.CLASSIC);
         board.initialize();
+        board.startActors();
         Maze maze = board.getMaze();
         Configurations.blockGhosts(board.getMaze());
         Ghost clyde = board.getGhost(GhostType.CLYDE);
         Configurations.setGhostOut(clyde);
-        board.startActors();
+
         clyde.setGhostState(GhostState.FRIGHTENED);
         // We have blocked the ghost, so it can only go in square
         while (clyde.getDirection() == Direction.LEFT) {
@@ -260,7 +265,7 @@ public class ClydeTest {
         Configurations.blockGhosts(board.getMaze());
         Ghost clyde = board.getGhost(GhostType.CLYDE);
         Configurations.setGhostOut(clyde);
-        board.startActors();
+
         clyde.setGhostState(GhostState.FRIGHTENED_END);
         // We have blocked the ghost, so it can only go in square
         while (clyde.getDirection() == Direction.LEFT) {

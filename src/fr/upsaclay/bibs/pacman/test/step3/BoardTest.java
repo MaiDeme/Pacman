@@ -355,7 +355,7 @@ public class BoardTest {
     public void testSetGetNumberOfLives() throws PacManException {
         Board board = Board.createBoard(GameType.CLASSIC);
         board.initialize();
-        assertEquals(board.getNumberOfLives(), 3);  //On commence avec 3 vies poar défaut dans notre code
+        assertEquals(board.getNumberOfLives(), 3);  //On commence avec 3 vies par défaut dans notre code
         board.setNumberOfLives(5);
         assertEquals(board.getNumberOfLives(), 5);
     }
@@ -671,6 +671,8 @@ public class BoardTest {
         assertEquals(blinky.getIntention(), Direction.RIGHT);
     }
 
+
+
     @Test
     public void testRandomDirection() throws PacManException {
         Board board = Board.createBoard(GameType.CLASSIC);
@@ -874,11 +876,11 @@ public class BoardTest {
     @Test
     public void testScoreEat1GhostTwice() throws PacManException {
         Board board = Board.createBoard(GameType.CLASSIC);
+        board.initialize();
+        board.startActors();
         board.disableGhost(GhostType.PINKY);
         board.disableGhost(GhostType.INKY);
         board.disableGhost(GhostType.CLYDE);
-        board.initialize();
-        board.startActors();
         Configurations.smallSquareEatingGhost(board);
         Actor pacman = board.getPacMan();
         Ghost ghost = board.getGhost(GhostType.BLINKY);
@@ -895,10 +897,12 @@ public class BoardTest {
             board.nextFrame();
         }
         assertEquals(ghost.getGhostState(), GhostState.DEAD);
+
         assertEquals(board.getScore(), 250);
         while(ghost.getGhostState() == GhostState.DEAD) {
             board.nextFrame();
         }
+
         while (ghost.getGhostPenState() != GhostPenState.OUT) {
             board.nextFrame();
         }
@@ -908,6 +912,8 @@ public class BoardTest {
         }
         // PacMan has re-eaten the ghost on a different frighten session
         assertEquals(board.getScore(), 500);
+
+
     }
 
     @Test
@@ -1564,10 +1570,11 @@ public class BoardTest {
     public void testDeadGhostSpeed() throws PacManException {
         Board board = Board.createBoard(GameType.CLASSIC);
         board.initialize();
+        board.startActors();
         Configurations.smallSquareEatingGhost(board);
         Actor pacman = board.getPacMan();
         Ghost blinky = board.getGhost(GhostType.BLINKY);
-        board.startActors();
+
         for(int i = 0; i < 20; i++) {
             board.nextFrame();
         }
