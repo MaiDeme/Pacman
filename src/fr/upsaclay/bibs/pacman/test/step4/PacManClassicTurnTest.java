@@ -197,10 +197,11 @@ public class PacManClassicTurnTest {
     public void testSetIntentionTurnLeft() throws PacManException {
         Board testBoard = Board.createBoard(GameType.TEST);
         testBoard.initialize();
+        testBoard.startActors();
         Actor pacman = testBoard.getPacMan();
         pacman.setDirection(Direction.UP); // We set the direction up before starting the actor
         pacman.setSpeed(1);
-        testBoard.startActors();
+
 
         Maze maze = testBoard.getMaze();
         int x = pacman.getX(); // x position at start
@@ -286,10 +287,11 @@ public class PacManClassicTurnTest {
     public void testSetIntentionTurnRight() throws PacManException {
         Board testBoard = Board.createBoard(GameType.TEST);
         testBoard.initialize();
+        testBoard.startActors();
         Actor pacman = testBoard.getPacMan();
         pacman.setSpeed(1);
         pacman.setDirection(Direction.UP); // We set the direction up before starting the actor
-        testBoard.startActors();
+
 
         Maze maze = testBoard.getMaze();
         int x = pacman.getX(); // x position at start
