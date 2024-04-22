@@ -30,6 +30,12 @@ Interface graphique logique (on peut avoir un menu pause, un menu de game over, 
 
 *Si vous avez modifié la structure proposée (les classes / interfaces), expliquez le et justifiez vos choix*
 
+- Audio
+   - SoundManager.java  : Cette classe nous sert de gestionnaire pour les effets sonores. Elle stocke et contrôle la lecutre des sons. Elle permet de charger et de joue le sons.
+   - SoundName.java : Cette classe est un reférentiel des effets sonores.
+
+- 
+
 ### Tests
 
 *Quels tests passent ? Ne passent pas ?*
@@ -57,6 +63,9 @@ Blinky : Modification de l'ordre de startActors car cette fonction réinitialise
 Le travail a majoritairement était réparti suivant ce qu'il restait à faire et ce qui nous plaisait de faire.
 
 Antoine : 
+- Mise en place du son (MangerDot, MangerBonus, Evènement_FRIGHTENED, Pacman_Death et autres) via la création d'une classe "SoundManager" spécifique à cela.
+- Bonus : Faire apparaître bonus quand pacman mange un nombre suffisant de point, faire disparaitre le bonus lorsqu'il est mangé par PacMan et faire augmenter le score. Faire en sorte que les bonus apparaissant sont différents selon le niveaux.
+ 
 
 Maiwenn : 
 
@@ -87,7 +96,7 @@ avons tous travaillé sur la fonction NextMove.
 
 *Décrivez là où vous pensez avoir progressé pendant ce projet*
 
-Antoine
+Antoine : 
 
 Maiwenn : 
 
