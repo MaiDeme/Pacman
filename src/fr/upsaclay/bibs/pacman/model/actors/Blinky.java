@@ -8,7 +8,6 @@ import fr.upsaclay.bibs.pacman.audio.SoundManager;
 
 public class Blinky extends AbstractGhost {
     TilePosition target;
-    final double DEFAULT_SPEED = 0.01;
     final TilePosition scattertarget = new TilePosition(0, this.getBoard().getMaze().getWidth()-3);
     private SoundManager soundManager;
 
@@ -27,21 +26,12 @@ public class Blinky extends AbstractGhost {
         this.y = 115;
         this.setGhostState(GhostState.SCATTER);
         this.direction = Direction.LEFT;
-        this.speed = this.DEFAULT_SPEED;
+        this.speed = this.getDefaultSpeed();
         TilePosition depart = this.getCurrentTile();
         this.intention = getNextIntention(depart);
         this.stateCounter = 0;
     }
 
-    /**
-     * Return the default speed of this type of ghost
-     *
-     * @return a double
-     */
-
-    public double getDefaultSpeed() {
-        return this.DEFAULT_SPEED;
-    }
 
     /**
      * Return the type of ghost it is
