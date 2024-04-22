@@ -100,15 +100,15 @@ public abstract class AbstractGhost extends AbstractActor implements Ghost {
         }
 
         // S'il est mort et devant l'enclos il y entre
-        if (this.currentState.equals(GhostState.DEAD)) {
+        if (this.currentState.equals(GhostState.DEAD) && this.currentPenState.equals(GhostPenState.OUT)) {
             if (this.getX() == board.outPenXPosition() && this.getY() == board.outPenYPosition()) {
                 this.setGhostPenState(GhostPenState.GET_IN);
-                this.setGhostState(this.previousState);
+                this.setDirection(null);
             }
         }
 
          if (this.currentPenState.equals(GhostPenState.GET_IN)) {
-             this.setGhostState(this.previousState);
+             //this.setGhostState(this.previousState);
             if (this.getY() == board.penGhostYPosition(this.getGhostType())) {
                 if (this.getX() == board.penGhostXPosition(this.getGhostType())) {
                     this.setGhostPenState(GhostPenState.IN);
@@ -133,13 +133,15 @@ public abstract class AbstractGhost extends AbstractActor implements Ghost {
 
         if (this.currentPenState.equals(GhostPenState.IN)) {
             // version très simple, si on est dedans on sort
-
             setGhostPenState(GhostPenState.GET_OUT);
         }
+
+
         if (this.currentPenState.equals(GhostPenState.GET_OUT)){
             if (this.getX() == board.outPenXPosition()) {
-                if (this.getY() == board.outPenYPosition()) {
+                if (this.getY() >= board.outPenYPosition()) {
                     this.setGhostPenState(GhostPenState.OUT);
+                    this.setGhostState(GhostState.SCATTER);
                     setSpeed(this.getDefaultSpeed());
                     setDirection(getOutOfPenDirection());
                 } else {
@@ -212,6 +214,7 @@ public abstract class AbstractGhost extends AbstractActor implements Ghost {
     public void nextFrame() {
 
         this.nextMove();
+
         switch (this.getGhostState()){
             case FRIGHTENED:
             case FRIGHTENED_END:
@@ -318,22 +321,6 @@ public abstract class AbstractGhost extends AbstractActor implements Ghost {
     @Override
     public abstract TilePosition getTarget();
 
-    public double getDefaultSpeed () {
-        switch (this.getBoard().getLevel()) {
-
-            case 1 :
-                return 0.94;
-            case 2 :
-            case 3 :
-            case 4 :
-                return 1.07;
-            default:
-                return 1.2;
-
-        }
-
-    }
-
     /**
      * Sets the Ghost state, which defines in particular its target and moves
      *
@@ -390,7 +377,7 @@ public abstract class AbstractGhost extends AbstractActor implements Ghost {
      */
     @Override
     public void setOutOfPenDirection(Direction dir) {
-        this.setDirection(getOutOfPenDirection());
+        this.setDirection(dir);
     }
 
     /**
@@ -400,8 +387,7 @@ public abstract class AbstractGhost extends AbstractActor implements Ghost {
      */
     @Override
     public Direction getOutOfPenDirection() {
-        // je fais simple pour l'instant, en vrai il est possible qu'il aille à droite
-        return Direction.LEFT;
+        return this.direction;
     }
 
     /**
@@ -413,9 +399,11 @@ public abstract class AbstractGhost extends AbstractActor implements Ghost {
         if (this.getGhostPenState().equals(GhostPenState.OUT)){
             this.setIntention(this.direction.reverse());
         }else{
-            this.setIntention(fr.upsaclay.bibs.pacman.model.Direction.RIGHT);
+            this.setOutOfPenDirection(Direction.RIGHT);
         }
     }
+
+
 
     /**
      * Return whether the ghost has a "dot counter" to decide when it gets out of the ghost pen

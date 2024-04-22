@@ -35,7 +35,6 @@ public abstract class AbstractBoard implements Board {
     protected int level;
     public List<Ghost> ghosts;
     protected int score;
-    protected int stateCounter;
     protected int eatGhost;
     protected int allfour;
     protected boolean extraLifeDone;
@@ -175,6 +174,9 @@ public abstract class AbstractBoard implements Board {
         return maze;
     }
 
+
+
+
     /**
      * Perform all necessary actions for the next game frame
      * This might require to move the actors,
@@ -182,8 +184,6 @@ public abstract class AbstractBoard implements Board {
      */
     @Override
     public void nextFrame() {
-
-
 
         this.pacman.nextFrame();
         for (Ghost g : this.ghosts) {

@@ -295,7 +295,7 @@ public class PacManTest {
         // The intention should be kept until we reach the next tile center
         // (the original x position)
         pacman.setIntention(Direction.UP);
-        pacman.nextMove();;
+        pacman.nextMove();
         assertEquals(pacman.getIntention(), Direction.UP);
         // PacMan direction is to the Right
         assertEquals(pacman.getDirection(), Direction.RIGHT);

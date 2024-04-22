@@ -79,7 +79,6 @@ public abstract class AbstractActor implements Actor{
 
     @Override
     public void setIntention(Direction direction) {
-
         this.intention = direction;
     }
 

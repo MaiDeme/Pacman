@@ -14,7 +14,7 @@ public class SoundManager {
     public SoundManager() {
         soundClips = new HashMap<>();
         soundPlayCounts = new HashMap<>();
-        loadSounds();
+        //loadSounds();
     }
 
     private void loadSound(String name, String filePath) {

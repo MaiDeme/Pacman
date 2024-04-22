@@ -9,11 +9,11 @@ Maïwen Demeulle
 
 ## Introduction
 
-*Décrivez les objetifs du projet*
+*Décrivez les objectifs du projet*
 
-L'objectif du projet est d'implémenter un jeu qui ressemble le plus a l'original:
+L'objectif du projet était d'implémenter un jeu qui ressemble le plus à l'original:
 
-Pacman qui e dirige bien dans le labyrinthe
+Pacman qui se dirige bien dans le labyrinthe
 Fantomes qui changent d'etats, qui sortent en entrent de leur maison
 Elements de jeu respectés : dots, energizer, bonus, niveaux,...
 Interface graphique logique (on peut avoir un menu pause, un menu de game over, ...) et dans l'esprit de Pacman
@@ -23,6 +23,9 @@ Interface graphique logique (on peut avoir un menu pause, un menu de game over, 
 ### Avancement du projet
 
 *Décrivez ce que vous avez implanté : quelles étapes, qu'est-ce qui fonctionne / ne fonctionne pas, etc*
+Nous avons implémenté toutes les étapes, jusqu'à step 2 inclus. 
+Les dot counteurs pour rentrer et sortir de la maison des fantomes ne sont pas implementé.
+
 
 ### Structure et hierarchie de classe
 
@@ -67,14 +70,14 @@ Antoine :
 - Bonus : Faire apparaître bonus quand pacman mange un nombre suffisant de point, faire disparaitre le bonus lorsqu'il est mangé par PacMan et faire augmenter le score. Faire en sorte que les bonus apparaissant sont différents selon le niveaux.
  
 
-Maiwenn : 
+Maïwen : Première implémentation de l'interface et des controlleurs. Les différents Panel, l'affichage du maze, des fantomes, de pacman, des vies et l'écran de titre. Tentative de faire apparaitre l'animation quand Pacman meurt. 
 
 Camille : 
 
 Anne : 
 -Classe Maze : tout
 -Pacman : Next Move et SetIntention
--Ghost : Changement des etats des fantomes, Elroy, une partie des vitesses 
+-Ghost : Changement des etats des fantomes, Elroy
 -Board : Vie suplémentaire de Pacman, score, Gestion des changments d'état du plateau après chaque NextFrame
 -Interface : Amélioration de l'aspect graphique et KEyListener des Panels de GameOver et de NextLevel
 _Controller : ReceiveAction
@@ -82,10 +85,10 @@ _Controller : ReceiveAction
 
 *Comment avez-vous organisé le travail commun ?*
 
-Nous avons suivi point par point les étapes du fichier read.me. Pour la création du maze et de Pacman nous avons travaillé en groupe. 
+Nous avons suivi point par point les étapes du fichier read.me. Pour la création du maze et de Pacman nous avons travaillé en groupe.
 Ensuite nous avons pu nous répartir le travail.
 Quand nous travaillions sur une grosse partie qui impacte le lancement de l'application nous avons travaillé sur des 
-branches à part (Création de l'interface par Maiwenn, Sons de Antoine, Etats de fantomes de Anne, ...).
+branches à part (Création de l'interface par Maïwen, Sons de Antoine, Etats de fantomes de Anne, ...).
 Quand des fonctions et ou des tests ne passaient pas, nous travallions à plusieurs pour corriger le code. Par exemple, nous
 avons tous travaillé sur la fonction NextMove.
 
@@ -98,14 +101,14 @@ avons tous travaillé sur la fonction NextMove.
 
 Antoine : 
 
-Maiwenn : 
+Maïwen : 
 
 Camille : 
 
 Anne : De façon générale je suis plus efficace en javascript et quand il faut rajouter une fonctionnalite j'ai dejà une
 idée de comment le faire.J'ai progressé dans l'organisation des classes et leur logique (pourquoi il faut une interface, poourquoi il y a 
 des héritages, ...). Je comprends aussi mieux l'interet des fonctions setValue et getValue. La ou j'ai le plus progresse
-c'est dans les interfaces graphiques et les controllers car j'ai beaucoup modifié les focntions de Maiwenn donc j'ai du
+c'est dans les interfaces graphiques et les controllers car j'ai beaucoup modifié les focntions de Maïwen donc j'ai du
 comprendre ce qu'elle avait fait afin de l'adapter à de nouvelles fonctionnalités.
 
 ### Quelles difficultés ?
