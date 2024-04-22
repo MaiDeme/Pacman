@@ -183,8 +183,6 @@ public abstract class AbstractBoard implements Board {
     @Override
     public void nextFrame() {
 
-
-
         this.pacman.nextFrame();
         for (Ghost g : this.ghosts) {
             g.nextFrame();
