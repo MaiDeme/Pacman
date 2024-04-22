@@ -44,12 +44,11 @@ public abstract class AbstractGhost extends AbstractActor implements Ghost {
     @Override
     public void nextMove() {
 
-
         // S'il est mort et devant l'enclos il y entre
         if (this.currentState.equals(GhostState.DEAD)) {
             if (this.getX() == board.outPenXPosition() && this.getY() == board.outPenYPosition()) {
                 this.setGhostPenState(GhostPenState.GET_IN);
-                setSpeed(0.5);
+                setSpeed(board.getTunnelGhostSpeed());
             }
         }
 
@@ -75,13 +74,11 @@ public abstract class AbstractGhost extends AbstractActor implements Ghost {
 
         //S'il est sur une tuile à vitesse lente
         if (this.getBoard().getMaze().getTile(this.getCurrentTile()) == Tile.SL) {
-            if (getSpeed() == getDefaultSpeed()) {
-                this.setSpeed(0.5);
-            }
+            this.setSpeed(board.getTunnelGhostSpeed());
         } else {
-            if (getSpeed() == 0.5) {
-                this.setSpeed(getDefaultSpeed());
-            }
+            
+            this.setSpeed(board.getLevelGhostSpeed());
+            
         }
 
             // Quand il rejoint le centre d'une tuile :  il calcule sa nouvelle intention ou direction
@@ -134,7 +131,7 @@ public abstract class AbstractGhost extends AbstractActor implements Ghost {
             if (this.getX() == board.outPenXPosition()) {
                 if (this.getY() == board.outPenYPosition()) {
                     this.setGhostPenState(GhostPenState.OUT);
-                    setSpeed(getDefaultSpeed());
+                    setSpeed(board.getLevelGhostSpeed());
                     setDirection(getOutOfPenDirection());
                 } else {
                     setDirection(Direction.UP);
@@ -311,8 +308,6 @@ public abstract class AbstractGhost extends AbstractActor implements Ghost {
      */
     @Override
     public abstract TilePosition getTarget();
-
-    public abstract double getDefaultSpeed();
 
     /**
      * Sets the Ghost state, which defines in particular its target and moves

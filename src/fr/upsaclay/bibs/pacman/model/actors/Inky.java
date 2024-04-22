@@ -7,7 +7,6 @@ import fr.upsaclay.bibs.pacman.model.maze.TilePosition;
 import fr.upsaclay.bibs.pacman.model.Direction;
 
 public class Inky extends AbstractGhost {
-    final double DEFAULT_SPEED = 0.94;
     final TilePosition scattertarget = new TilePosition(this.getBoard().getMaze().getHeight()-2, this.getBoard().getMaze().getWidth()-1);
 
     public Inky(Board board, ActorType type) {
@@ -26,7 +25,7 @@ public class Inky extends AbstractGhost {
         this.setGhostState(GhostState.SCATTER);
         this.setGhostPenState(GhostPenState.IN);
         this.direction = Direction.LEFT;
-        this.speed = this.DEFAULT_SPEED;
+        this.speed=getDefaultSpeed();
         TilePosition depart = this.getCurrentTile();
         this.intention = getNextIntention(depart);
         this.stateCounter = 0;
@@ -103,7 +102,7 @@ public class Inky extends AbstractGhost {
 
     @Override
     public double getDefaultSpeed() {
-        return 0;
+        return board.getLevelGhostSpeed();
     }
 
     /**

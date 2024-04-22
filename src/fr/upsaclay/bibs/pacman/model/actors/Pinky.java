@@ -9,7 +9,6 @@ import fr.upsaclay.bibs.pacman.model.Direction;
 public class Pinky extends AbstractGhost{
 
     TilePosition target;
-    final double DEFAULT_SPEED = 0.94;
     final TilePosition scattertarget = new TilePosition(0, 3);
     public Counter dotCounter=new Counter(0);
 
@@ -29,7 +28,7 @@ public class Pinky extends AbstractGhost{
         this.setGhostState(GhostState.SCATTER);
         this.setGhostPenState(GhostPenState.IN);
         this.direction = Direction.LEFT;
-        this.speed = this.DEFAULT_SPEED;
+        this.speed = getDefaultSpeed();
         TilePosition depart = this.getCurrentTile();
         this.intention = getNextIntention(depart);
         this.stateCounter = 0;
@@ -38,7 +37,7 @@ public class Pinky extends AbstractGhost{
 
     @Override
     public double getDefaultSpeed() {
-        return this.DEFAULT_SPEED;
+        return board.getLevelGhostSpeed();
     }
 
 
