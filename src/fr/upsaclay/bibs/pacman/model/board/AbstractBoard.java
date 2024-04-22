@@ -212,6 +212,7 @@ public abstract class AbstractBoard implements Board {
 
                             if (eatGhost == 4) {
                                 allfour++;
+                                this.getPacMan().setSpeed(this.getLevelPacManSpeed());
                             }
 
                             if (allfour == 4) {
@@ -543,7 +544,7 @@ public abstract class AbstractBoard implements Board {
      */
     public double getFrightPacManSpeed() {
         if (level==1){
-            return 1;
+            return 1.14;
         }else if (2 <= level && level <= 4){
             return 1.2;
         }else return 1.26;

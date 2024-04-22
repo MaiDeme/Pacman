@@ -83,9 +83,9 @@ public class Pacman extends AbstractActor {
     public boolean isMidTile() {
         // on verifie si pacman est a proximité du milieu d'une tuile
         // met en place le cornering si on a 3 pixel d'ecart
-        double ecart = getSpeed() / 2 + 3.0;
-        boolean iscenteredx = Math.abs(getRealX() % Maze.TILE_WIDTH - Maze.TITLE_CENTER_X) < ecart;
-        boolean iscenteredy = Math.abs(getRealY() % Maze.TILE_WIDTH - Maze.TITLE_CENTER_Y) < ecart;
+        double ecart = 0;
+        boolean iscenteredx = Math.abs(getRealX() % Maze.TILE_WIDTH - Maze.TITLE_CENTER_X) <= ecart;
+        boolean iscenteredy = Math.abs(getRealY() % Maze.TILE_WIDTH - Maze.TITLE_CENTER_Y) <= ecart;
         return iscenteredx && iscenteredy;
     }
 
@@ -157,12 +157,14 @@ public class Pacman extends AbstractActor {
 
             if (tile.hasDot()) {
                 this.dotsEaten++;
+
                 getBoard().playDotEatSound();
                 switch (tile) {
                     case BD:
                         this.getBoard().setScore(score + 50);
                         setStopTime(3);
                         this.getBoard().getMaze().setTile(pos.getLine(), pos.getCol(), Tile.EE);
+                        this.setSpeed(this.getBoard().getFrightPacManSpeed());
 
                         for (Ghost g : this.getBoard().getGhosts()) {
 
