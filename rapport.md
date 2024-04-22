@@ -23,7 +23,8 @@ Interface graphique logique (on peut avoir un menu pause, un menu de game over, 
 ### Avancement du projet
 
 *Décrivez ce que vous avez implanté : quelles étapes, qu'est-ce qui fonctionne / ne fonctionne pas, etc*
-Nous avons implémenté toutes les étapes, jusqu'à step 2 inclus. 
+
+Nous avons implémenté toutes les étapes, jusqu'à step 2 inclus.
 Les dot counteurs pour rentrer et sortir de la maison des fantomes ne sont pas implementé.
 
 
@@ -43,6 +44,8 @@ Les dot counteurs pour rentrer et sortir de la maison des fantomes ne sont pas i
 
 *Quels tests passent ? Ne passent pas ?*
 
+Certains test (step 3) des fantomes et de board  ne passent pas notamment ceux en rapport avec la maison des fantomes (pen ghost) et les Dot Counters.
+Tous les test du controller (step3) passent.
 
 *Avez-vous modifié ou rajouté des tests ?*
 
