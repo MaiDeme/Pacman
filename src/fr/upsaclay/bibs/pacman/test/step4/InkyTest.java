@@ -653,6 +653,7 @@ public class InkyTest {
     @Test
     public void testInkyOutThenSlowLevel4() throws PacManException {
         Board board = Board.createBoard(GameType.CLASSIC);
+        board.startActors();
         board.disableStateTime();
         board.initialize();
         board.initializeNewLevel(4);
@@ -662,7 +663,6 @@ public class InkyTest {
         inky.setGhostState(GhostState.SCATTER);
         // We change the NT just left outside of the pen into an SL
         maze.setTile(14,12, Tile.SL);
-        board.startActors();
         TilePosition nt = new TilePosition(14,12);
         while (inky.getGhostPenState() != GhostPenState.OUT) {
             board.nextFrame();
@@ -678,6 +678,7 @@ public class InkyTest {
     @Test
     public void testHighSpeed() throws PacManException {
         Board board = Board.createBoard(GameType.CLASSIC);
+        board.startActors();
         board.disableStateTime();
         board.initialize();
         Maze maze = board.getMaze();
@@ -686,7 +687,6 @@ public class InkyTest {
         Configurations.setGhostOut(inky);
         inky.setGhostState(GhostState.SCATTER);
         inky.setSpeed(1.5);
-        board.startActors();
         while (inky.getDirection() == Direction.LEFT) {
             board.nextFrame();
         }
