@@ -8,7 +8,8 @@ import fr.upsaclay.bibs.pacman.model.Direction;
 
 public class Inky extends AbstractGhost {
     final TilePosition scattertarget = new TilePosition(this.getBoard().getMaze().getHeight()-2, this.getBoard().getMaze().getWidth()-1);
-
+    private Counter dotCounter = new Counter(30);
+    
     public Inky(Board board, ActorType type) {
         super(board, type);
         setGhostPenState(GhostPenState.IN);

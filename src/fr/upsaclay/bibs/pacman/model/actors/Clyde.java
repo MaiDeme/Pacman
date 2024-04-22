@@ -7,6 +7,7 @@ import fr.upsaclay.bibs.pacman.model.Direction;
 
 public class Clyde extends AbstractGhost {
     final TilePosition scattertarget = new TilePosition(this.getBoard().getMaze().getHeight()-2, 0);
+    private Counter dotCounter = new Counter(60);
 
     public Clyde(Board board, ActorType type) {
         super(board, type);
@@ -28,6 +29,7 @@ public class Clyde extends AbstractGhost {
         TilePosition depart = this.getCurrentTile();
         this.intention = getNextIntention(depart);
         this.stateCounter = 0;
+        
     }
 
     /**
