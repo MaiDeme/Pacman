@@ -101,7 +101,11 @@ public abstract class AbstractActor implements Actor{
     }
     @Override
     public void nextFrame() {
-        this.nextMove();
+        if (stopTime==0){
+            nextMove();
+        }else{
+            setStopTime(stopTime-1);
+        }
 
     }
 
