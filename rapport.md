@@ -65,7 +65,7 @@ Camille :
 Anne : 
 -Classe Maze : tout
 -Pacman : Next Move et SetIntention
--Ghost : Changement des etats des fantomes, Elroy, une partie des vitesses 
+-Ghost : Changement des etats des fantomes, Elroy
 -Board : Vie suplémentaire de Pacman, score, Gestion des changments d'état du plateau après chaque NextFrame
 -Interface : Amélioration de l'aspect graphique et KEyListener des Panels de GameOver et de NextLevel
 _Controller : ReceiveAction

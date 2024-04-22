@@ -390,7 +390,7 @@ public abstract class AbstractGhost extends AbstractActor implements Ghost {
      */
     @Override
     public void setOutOfPenDirection(Direction dir) {
-        this.setDirection(getOutOfPenDirection());
+        this.setDirection(dir);
     }
 
     /**
@@ -400,8 +400,7 @@ public abstract class AbstractGhost extends AbstractActor implements Ghost {
      */
     @Override
     public Direction getOutOfPenDirection() {
-        // je fais simple pour l'instant, en vrai il est possible qu'il aille à droite
-        return Direction.LEFT;
+        return this.direction;
     }
 
     /**
@@ -413,9 +412,11 @@ public abstract class AbstractGhost extends AbstractActor implements Ghost {
         if (this.getGhostPenState().equals(GhostPenState.OUT)){
             this.setIntention(this.direction.reverse());
         }else{
-            this.setIntention(fr.upsaclay.bibs.pacman.model.Direction.RIGHT);
+            this.setOutOfPenDirection(Direction.RIGHT);
         }
     }
+
+
 
     /**
      * Return whether the ghost has a "dot counter" to decide when it gets out of the ghost pen

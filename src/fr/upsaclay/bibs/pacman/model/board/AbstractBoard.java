@@ -175,6 +175,9 @@ public abstract class AbstractBoard implements Board {
         return maze;
     }
 
+
+
+
     /**
      * Perform all necessary actions for the next game frame
      * This might require to move the actors,
