@@ -635,11 +635,34 @@ public abstract class AbstractBoard implements Board {
      * @return the bonus type of this level
      */
     public BonusType getLevelBonusType(int level) {
-        
-        switch (level) {
-            case 1: return BonusType.APPLE;
-            case 2: return BonusType.STRAWBERRY;
-            default: return null;
+        if (level == 1) {
+            return BonusType.APPLE;
+        } else if (level == 2) {
+            return BonusType.STRAWBERRY;
+        } else if (level == 3) {
+            return BonusType.PEACH;
+        } else if (level == 4) {
+            return BonusType.PEACH;
+        } else if (level == 5) {
+            return BonusType.APPLE;
+        } else if (level == 6) {
+            return BonusType.APPLE;
+        } else if (level == 7) {
+            return BonusType.GRAPES;
+        } else if (level == 8) {
+            return BonusType.GRAPES;
+        } else if (level == 9) {
+            return BonusType.GALAXIAN;
+        } else if (level == 10) {
+            return BonusType.GALAXIAN;
+        } else if (level == 11) {
+            return BonusType.BELL;
+        } else if (level == 12) {
+            return BonusType.BELL;
+        } else if (level >= 13) {
+            return BonusType.KEY; // Add a default return statement
+        } else {
+            return null;
         }
     }
     
