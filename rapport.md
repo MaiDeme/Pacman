@@ -17,7 +17,7 @@ Pacman qui se dirige bien dans le labyrinthe
 Fantomes qui changent d'etats, qui sortent en entrent de leur maison  
 Elements de jeu respectés : dots, energizer, bonus, niveaux,...  
 Interface graphique logique (on peut avoir un menu pause, un menu de game over, ...) et dans l'esprit de Pacman
-
+Ajouter le son
 ## Réalisation
 
 ### Avancement du projet
@@ -117,7 +117,7 @@ avons tous travaillé sur la fonction NextMove.
 
 *Décrivez là où vous pensez avoir progressé pendant ce projet*
 
-Antoine : 
+Antoine : En premier temps il s'agit d'une meilleur maîtrise de l'utilisation de git. Ensuite je perçois avoir nettement progressé dans ma compréhension des relations entres les différentes classes et la logique d'utilisation des méthodes. C'est à travers ce projet que j'ai réellement compris l'intérêt de maîtriser un telle langage de programmation.
 
 Maïwen : Pour ma part, j'ai surtout progressé sur les interfaces graphiques et les controllers. J'ai pu découvrir des éléments que nous n'avions pas vu en cours comme les HashMap et l'intégration d'image, la manipulation de police de caractères et de sprites pour les animations. Globalement je comprends mieux comment utiliser les classes et leurs méthodes et dans quels circonstances faire appel à des interfaces et hiérarchies de classes.
 
