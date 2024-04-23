@@ -193,7 +193,7 @@ public class Pacman extends AbstractActor {
 
                 this.getBoard().getMaze().setHigh_score(this.getBoard().getScore());
                 // On vérifie si on a mangé assez de dots pour activer le bonus
-                if (this.dotsEaten >= 7) {
+                if (this.dotsEaten >= 70) {
                     // On active le bonus
                     this.board.setBonusOnBoard();
                     // On réinitialise le compteur de dots mangés
