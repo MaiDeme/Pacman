@@ -29,6 +29,8 @@ Nous avons implémenté toutes les étapes, jusqu'à step 2 inclus. Les comporte
 Concernant step 3, les dot counteurs pour rentrer et sortir de la maison des fantomes ne sont pas implementé.
 Les vitesses rapides sont implementés mais ne fonctionnent pas parfaitement bien (un test de pacman ne passe pas).
 
+Le mode Elroy de Blinky est fonctionels et les test passent.
+
 Les bonus, sons et vie supplémentaire sont fonctionnels.
 
 ### Structure et hierarchie de classe
