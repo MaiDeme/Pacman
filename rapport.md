@@ -43,13 +43,13 @@ Les bonus, sons et vie supplémentaire sont fonctionnels.
 
 - View
   - ActorPanel : Herite de Jpanel, affiche les acteurs du jeu (pacman, fantomes, bonus, dots, energizers).
-  - BoardView hérite de Jpanel,implemente PacmanView, affiche le plateau de jeu.
+  - BoardView : Hérite de Jpanel, implemente PacmanView, affiche le plateau de jeu.
   - ButtonListener : Implemente ActionListener, permet de gérer les actions des boutons.
   - DrawPanel : Herite de Jpanel, permet de dessiner les éléments du jeu.
   - GameOver : Herite de Jpanel, affiche l'écran de fin de jeu.
   - KeyLevel, KeyMove, KeyGameOver, KeyStart : Héritent de KeyListener et permettent de gérer les touches du clavier pour les différentes fonctionnalités selon les états du jeu.
-  - PacmanLayout: enum pour les interfaces
-  - PacmanView : Interface pour la vue du jeu
+  - PacmanLayout: enum pour les interfaces.
+  - PacmanView : Interface pour la vue du jeu.
   - SpriteLoader : Permet de charger les images pour les sprites des différents éléments du jeu.
   - TitleScreen : Herite de Jpanel, affiche l'écran de titre du jeu.
   
