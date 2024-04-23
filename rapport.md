@@ -55,10 +55,48 @@ Les bonus, sons et vie supplémentaire sont fonctionnels.
   
 - Model
   - Actors
+    - AbstractActor : Classe abstraite qui définit les acteurs du jeu.
+    - AbstractGhost : Classe abstraite qui définit les fantômes.
+    - Actor : Interface pour les acteurs du jeu.
+    - ActorType : Enum pour les types d'acteurs.
+    - Blinky : Hérite de AbstractGhost, définit le fantôme Blinky.
+    - Bonus : Interface, hérite de Actor.
+    - BonusImpl : Implémente Bonus, définit les bonus du jeu.
+    - BonusType : Enum pour les types de bonus.
+    - Clyde : Hérite de AbstractGhost, définit le fantôme Clyde.
+    - Ghost : Interface pour les fantômes, hérite de Actor.
+    - GhostPenState : Enum pour les états de la maison des fantômes.
+    - GhostState : Enum pour les états des fantômes.
+    - GhosType : Enum pour les types de fantômes.
+    - Inky : Hérite de AbstractGhost, définit le fantôme Inky.
+    - Pacman : Hérite de AbstractActor, définit Pacman.
+    - Pinky : Hérite de AbstractGhost, définit le fantôme Pinky.
   - Board
+    - AbstractBoard : Classe abstraite qui définit le plateau de jeu.
+    - Board : Interface pour le plateau de jeu.
+    - BoardEvent : Classe pour les événements du plateau de jeu.
+    - BoardEventType : Enum pour les types d'événements du plateau de jeu.
+    - BoardInitialisationException : Exception pour l'initialisation du plateau de jeu.
+    - BoardState : Enum pour les états du plateau de jeu.
+    - ClassicBoard : Hérite de AbstractBoard, définit le plateau de jeu classique.
+    - Counter : Classe pour les compteurs du plateau de jeu.
+    - TestBoard : Hérite de AbstractBoard, définit le plateau de jeu de test.
   - Maze
+    - Grid : Classe pour la grille du labyrinthe.
+    - Maze : Interface pour le labyrinthe.
+    - Tile : Classe pour les tuiles du labyrinthe.
+    - TilePosition : Classe pour les positions des tuiles du labyrinthe.
+  - Direction : Enum pour les directions.
 - Control
-  
+  - Controller : Interface pour le contrôleur.
+  - ForbiddeMoveException : Exception pour les actions interdits.
+  - GameAction : Enum pour les actions du jeu.
+  - InterfaceMode : Enum pour les modes d'interface.
+  - SimpleController : Implémente Controller, définit le contrôleur simple (sans la view).
+  - VisualController : Implémente Controller, définit le contrôleur visuel.
+- GameType : Enum pour les types de jeu.
+- PacmanGame : Classe principale du jeu, permet de lancer le jeu.
+- PacManException : Exception pour le jeu Pacman.
 ### Tests
 
 *Quels tests passent ? Ne passent pas ?*
